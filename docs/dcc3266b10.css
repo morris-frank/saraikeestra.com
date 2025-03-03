@@ -51,3 +51,51 @@ h1 {
   font-weight: 600;
   margin: 0;
 }
+
+section {
+  margin-bottom: var(--gap-lg);
+}
+
+.intro {
+  margin: var(--gap-lg) 0;
+}
+
+.intro .subtitle {
+  font-size: 1.2rem;
+  color: var(--grey-dark);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: var(--gap-sm);
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--gap-xs);
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul li {
+  margin-bottom: var(--gap-xs);
+}
+
+blockquote {
+  border-left: 4px solid var(--grey-light);
+  padding-left: var(--gap-sm);
+  margin: var(--gap-md) 0;
+  font-style: italic;
+}
+
+.contact a {
+  color: var(--black);
+  text-decoration: underline;
+}
+
+.contact a:hover {
+  opacity: 0.8;
+}
