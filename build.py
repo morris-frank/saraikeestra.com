@@ -49,6 +49,7 @@ for content_file in itertools.chain(DOCS_DIR.rglob("content.html"), DOCS_DIR.rgl
     output = LAYOUT
     output = output.replace("{{PAGETITLE}}", pagetitle)
     output = output.replace("{{CONTENT}}", content)
+    output = output.replace("{{ROOT}}", URL_ROOT + "/")
     output = output.replace("{{HEAD}}", head)
     output = output.replace(f'href="/{slug}"', f'href="/{slug}" class="active" ')
     index_file.write_text(output)
