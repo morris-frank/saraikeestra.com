@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="oklch(40% 42% 29deg)">
+    <meta name="description" name="The personal website of Sarai Keestra.">
+
+    <style>
+        @font-face {
+            font-family: "Finlandica";
+            src: url("BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf");
+            font-display: swap;
+        }
+
+        :root {
+            --canvas-color: oklch(94% 13% 94deg);
+            --canvas-var1: oklch(from var(--canvas-color) calc(l - 0.2) calc(c + 0.06) h);
+            --canvas-var2: oklch(from var(--canvas-color) calc(l - 0.2) c h);
+
+            --text-color: oklch(0% 0 0);
+            --dye-one: oklch(40% 42% 29deg);
+            --dye-two: oklch(47% 48% 29deg);
+            --dye-three: oklch(69% 38% 67deg);
+
+            --linewidth: 50rem;
+            --gap-xs: 0.5rem;
+            --gap-sm: 1rem;
+            --gap-md: 2rem;
+            --gap-lg: 4rem;
+
+            --footer-height: 200px;
+
+            --breakpoint: 100px;
+        }
+
+        * {
+            box-sizing: border-box;
+            color: var(--text-color);
+            font-family: "Finlandica", sans-serif;
+            font-size: 1rem;
+            hyphens: auto;
+            line-height: 1.5;
+            font-variation-settings: "wdth" 86.7334, "wght" 264.883;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            -webkit-font-smoothing: subpixel-antialiased;
+        }
+
+        ::selection {
+            background-color: var(--dye-one);
+            text-shadow: 0 0 1px var(--dye-three);
+            color: var(--dye-three);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap-md);
+            margin: 0;
+            contain: paint;
+
+            background: var(--canvas-color);
+            background-image: linear-gradient(to bottom right, var(--canvas-color) 4%, var(--canvas-var2) 100%);
+
+        }
+
+        header,
+        main,
+        footer {
+            padding: 0 var(--gap-sm);
+            /* contain: layout; */
+        }
+
+        @media screen and (min-width: 55rem) {
+
+            header,
+            main,
+            footer {
+                padding: 0 0 0 var(--gap-lg);
+            }
+        }
+
+        main {
+            flex: 1;
+            max-width: var(--linewidth);
+        }
+
+        footer {
+            height: var(--footer-height);
+            background: var(--canvas-var1);
+
+            animation: footer linear;
+            animation-timeline: scroll();
+            animation-range: calc(100% - 2 * var(--footer-height)) 100%;
+        }
+
+        h1,
+        h2,
+        h3 {
+            background-image:
+                url(grain.svg),
+                radial-gradient(circle at top left, var(--dye-three) 0%, var(--dye-two) 50%, var(--dye-three) 100%);
+            background-clip: text;
+            color: transparent;
+            filter: blur(0.1px);
+            font-variation-settings: "wdth" 105, "wght" 500;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            transform: rotate(-1deg);
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            margin-bottom: var(--gap-sm);
+            transform: rotate(1deg);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            transform: rotate(-2deg);
+            margin-bottom: var(--gap-xs);
+        }
+
+        @media screen and (min-width: 55rem) {
+            h1 {
+                font-size: 5rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 2rem;
+            }
+        }
+
+
+
+        section {
+            margin-bottom: var(--gap-md);
+        }
+
+        .sarai {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            object-fit: cover;
+            width: calc(var(--linewidth) * 0.5);
+            float: right;
+            margin: var(--gap-md);
+
+            animation-name: scroll-rotate;
+            animation-duration: 1ms;
+            animation-timeline: scroll();
+        }
+
+        .sarai-wrap {
+            filter: drop-shadow(0 0 5px oklch(73% 29% 92deg)) drop-shadow(0 0 10px oklch(73% 29% 92deg)) drop-shadow(0 0 30px oklch(73% 29% 92deg));
+            /* filter: drop-shadow(-4px 6px 2px var(--canvas-var2)) drop-shadow(-6px 7px 1px var(--canvas-color)) drop-shadow(-4px 6px 2px var(--canvas-var1)); */
+        }
+
+        .deer {
+            position: absolute;
+            top: 100vh;
+            left: min(var(--linewidth), calc(100vw - var(--gap-sm)));
+            height: calc(0.5 * var(--linewidth));
+            filter: blur(1px) drop-shadow(-4px 6px 2px var(--canvas-var2)) drop-shadow(-6px 7px 1px var(--canvas-color)) drop-shadow(-4px 6px 2px var(--canvas-var1));
+        }
+
+        h2:not(footer h2),
+        h3:not(footer h3),
+        p:not(footer p),
+        li:not(footer li),
+        blockquote:not(footer blockquote),
+        img:not(footer img) {
+            animation: scroll-reveal 1ms both;
+            animation-timeline: view(block 90% 0%);
+        }
+
+        @keyframes scroll-rotate {
+            from {
+                transform: rotate(-4deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes scroll-reveal {
+            0% {
+                filter: blur(20px) opacity(0) grayscale(1);
+            }
+
+            50% {
+                filter: blur(10px) opacity(0.5) grayscale(1);
+            }
+
+            100% {
+                filter: blur(0px) opacity(1) grayscale(0);
+            }
+        }
+
+        @keyframes footer {
+            0% {
+                opacity: 1;
+                clip-path: polygon(0% 100%, 0% 100%, 25% 100%, 55% 100%, 100% 100%, 100% 100%);
+            }
+
+            100% {
+                opacity: 1;
+                clip-path: polygon(0% 100%,
+                        0% calc(100% - var(--footer-height) - 20px),
+                        25% calc(100% - var(--footer-height) - 40px),
+                        55% calc(100% - var(--footer-height) - 10px),
+                        100% calc(100% - var(--footer-height) - 40px),
+                        100% 100%);
+            }
+        }
+    </style>
+
+    <title>Docs - Sarai Keestra</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            Sarai Keestra
+        </h1>
+    </header>
+
+    <main>
+
+        <div class="sarai-wrap">
+            <img src="/sarai.jpg" alt="Deer" class="sarai">
+        </div>
+
+        <h2>This page is under construction</h2>
+    </main>
+
+
+    <footer>
+        <h2>Get in Touch</h2>
+        <p>📧 Email: <a href="mailto:s.m.keestra@amsterdamumc.nl">s.m.keestra@amsterdamumc.nl</a></p>
+        <p>🔗 Find me on <a href="https://linkedin.com/in/sarai-keestra">LinkedIn</a></p>
+    </footer>
+</body>
+
+</html>
