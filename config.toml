@@ -1,0 +1,5 @@
+layout-file = "__layout.html"
+style-file = "style.css"
+reference-file = "references.bib"
+output-file = "index.html"
+author = "Keestra"
