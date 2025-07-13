@@ -148,9 +148,9 @@ class BibEntry:
             </div>"""
 
     def as_html(self, match_author: Optional[str] = None, topic: Optional[str] = None) -> str:
+        has_score = self.doi and self.doi.startswith("10.")
         return f"""
-            <div class="reference" data-topic="{topic or 'None'}">
-            <section>
+            <div class="reference {'with-score' if has_score else 'no-score'}" style="order: 200;" data-topic="{topic or 'None'}">
                 <aside>
                     {self._altmetric_html}
                 </aside>
@@ -165,7 +165,6 @@ class BibEntry:
                     {self._authors_html(match_author)}
                     {self._abstract_html}
                 </div>
-            </section>
             </div>
 """
 
@@ -334,7 +333,7 @@ class BibliographyParser:
         topics = set([e.topic for e in self.entries if e.topic])
         filter_html = '<section class="topic-filters">\n'
         for topic in sorted(list(topics)):
-            desc = topic_descriptions.get(topic.lower(), f"Publications related to {topic}")
+            desc = topic_descriptions.get(topic, f"Publications related to {topic}")
             filter_html += f'<div class="topic-filter active" data-topic="{html.escape(topic)}">\n'
             filter_html += f"<h4>{html.escape(topic)}</h4>\n"
             filter_html += f"<p>{html.escape(desc)}</p>\n"
@@ -355,22 +354,19 @@ class StaticSiteGenerator:
         self.bib_parser = BibliographyParser(self.config["reference-file"])
 
     def _generate_bibliography_html(self) -> str:
-        """Generate HTML for bibliography entries."""
-        # Topic descriptions
-
         # Generate segmented topic filter
         filter_html = "<h2>Publications</h2>\n"
         filter_html += self.bib_parser.topics_html
 
         # Generate bibliography entries with topic data attributes
-        html_parts = []
+        html_parts = ["<section>"]
         for entry in self.bib_parser.entries:
             html_parts.append(entry.as_html(match_author=self.config["author"], topic=entry.topic))
+        html_parts.append("</section>")
 
         return filter_html + "".join(html_parts)
 
     def build_site(self) -> None:
-        """Build the complete static site."""
         print("Building static site...")
         # Generate bibliography HTML
         bibliography_html = self._generate_bibliography_html()

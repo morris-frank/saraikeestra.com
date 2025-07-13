@@ -63,6 +63,29 @@
                 }
             });
 
+            // Function to reorder references by dimensions score
+            function reorderReferences() {
+                const references = document.querySelectorAll('.reference.with-score')
+                let allScoresFound = true;
+                references.forEach(ref => {
+                    const scoreElement = ref.querySelector('.__dimensions_badge_embed__ .__db_score');
+                    if (!scoreElement) {
+                        allScoresFound = false;
+                        return;
+                    }
+                    const score = 200 - parseFloat(scoreElement.textContent);
+                    ref.style.order = score;
+                });
+
+                // If not all scores were found, try again in 500ms
+                if (!allScoresFound) {
+                    setTimeout(reorderReferences, 500);
+                }
+            }
+
+            // Start trying to reorder once initial page load is done
+            reorderReferences();
+
             // Topic filtering functionality
             const topicFilters = document.querySelectorAll('.topic-filter');
             const references = document.querySelectorAll('.reference');
@@ -84,7 +107,7 @@
                     // Show/hide references based on active filters
                     references.forEach(ref => {
                         const refTopic = ref.getAttribute('data-topic');
-                        if (activeFilters.length === 0 || activeFilters.includes(refTopic)) {
+                        if (topics.length === 0 || topics.includes(refTopic)) {
                             ref.classList.remove('hidden');
                         } else {
                             ref.classList.add('hidden');

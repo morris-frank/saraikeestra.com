@@ -4,6 +4,12 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Playfair Display";
+  src: url("PlayfairDisplay-VariableFont_wght.ttf");
+  font-display: swap;
+}
+
 :root {
   --radius-lg: 1rem;
   --radius-md: 0.5rem;
@@ -83,6 +89,9 @@ body {
   flex-direction: column;
   gap: var(--gap-lg);
   background: var(--surface);
+  background-image: url("grain.svg");
+  background-size: 64px;
+  background-repeat: repeat;
 
   > header {
     margin-bottom: var(--gap-lg);
@@ -106,19 +115,27 @@ body {
 section {
   max-width: var(--line-width);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
 }
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: #2c3e50;
-  margin-bottom: var(--gap-sm);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px oklch(97% 1% var(--hue) / 0.15);
 }
 
+h1,
 h2 {
-  font-size: 2.55rem;
-  margin: 0rem;
-  color: var(--onSurfaceDim);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 8px oklch(97% 1% var(--hue) / 0.18);
+  position: relative;
 }
 
 a {
@@ -127,22 +144,6 @@ a {
 
   &:hover {
     text-decoration: underline;
-  }
-}
-
-button {
-  background: var(--accentContainer);
-  border: none;
-  color: var(--onAccentContainer);
-  cursor: pointer;
-  margin-top: 1rem;
-  padding: 0.3rem 1rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: var(--accent);
-    color: var(--onAccent);
-    box-shadow: 0 0 3px 1px oklch(0.4 0.5 var(--hue) / 0.1);
   }
 }
 
@@ -161,20 +162,31 @@ button {
 }
 
 .topic-filters {
-  display: flex;
   border-radius: var(--radius-lg);
+  flex-direction: row;
 
   .topic-filter {
-    background: oklch(98% 6% var(--hue));
+    background: linear-gradient(oklch(90% 5% var(--hue)), oklch(90% 13% var(--hue)));
     padding: var(--gap-sm) var(--gap-md);
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 0.9rem;
-    color: var(--onSurface);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px oklch(0.8 0.1 var(--hue) / 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
 
     h4 {
       text-align: center;
       font-weight: bold;
+      color: var(--onSurface);
+    }
+
+    p {
+      font-size: 0.8rem;
+      color: var(--onSurfaceDim);
+      text-align: end;
     }
 
     &:hover {
@@ -182,29 +194,27 @@ button {
     }
 
     &.active {
-      background: oklch(95% 14% var(--hue));
+      background: linear-gradient(oklch(90% 20% var(--hue)), oklch(90% 30% var(--hue)));
     }
     &.selected {
-      background: oklch(97% 20% var(--hue));
+      background: linear-gradient(oklch(90% 10% var(--hue)), oklch(90% 35% var(--hue)));
     }
   }
 }
 
 .reference {
   transition: opacity 0.3s ease;
-  margin-bottom: var(--gap-md);
-  border-bottom: 2px solid var(--onSurface);
+  display: flex;
+  flex-direction: row;
+  gap: var(--aside-gap);
+  padding: var(--gap-md);
+  border: 1px solid var(--onSurfaceDim);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px oklch(0.8 0.1 var(--hue) / 0.08), 0 1.5px 6px oklch(0.8 0.1 var(--hue) / 0.04);
+  background: oklch(99% 0.5% var(--hue) / 0.95);
 
   &.hidden {
     display: none;
-  }
-
-  section {
-    display: flex;
-    gap: var(--aside-gap);
-    padding: var(--gap-md);
-    border: 1px solid var(--onSurfaceDim);
-    border-bottom: none;
   }
 
   aside {
@@ -214,9 +224,10 @@ button {
     gap: var(--gap-sm);
     padding-top: var(--gap-sm);
     min-width: 64px;
+    justify-content: space-evenly;
   }
 
-  section > div {
+  > div {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -225,7 +236,6 @@ button {
 
   .authors {
     color: var(--onSurfaceDim);
-    /* font-style: italic; */
     font-size: 0.9rem;
 
     .author {
