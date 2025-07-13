@@ -1,5 +1,5 @@
-layout-file = "__layout.html"
+layout-file = "theme/layout.html"
 reference-file = "references.bib"
-output-file = "index.html"
+output-file = "public/index.html"
 author = "Keestra"
-style-folder = "css"
+style-folder = "theme"

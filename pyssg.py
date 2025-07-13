@@ -1,4 +1,6 @@
 #! /usr/bin/env python3
+import glob
+import hashlib
 import html
 import re
 import tomllib
@@ -97,11 +99,112 @@ class BibEntry:
         return ""
 
     def _authors_html(self, match_author: Optional[str] = None) -> str:
-        authors = " and ".join([author.as_html(match_author) for author in self.authors])
-        start_index = authors.find("<span class='author'>")
-        end_index = authors.find("</span>") + 7
-        position = (start_index + end_index) // 2
-        return f"<div class='authors'>{authors}</div>"
+        if not self.authors:
+            return "<div class='authors'></div>"
+
+        # Find the index of the matched author
+        matched_index = None
+        if match_author:
+            for i, author in enumerate(self.authors):
+                author_str = f"{author.last_name}, {author.first_name}" if author.first_name else author.last_name
+                if match_author.lower() in author_str.lower():
+                    matched_index = i
+                    break
+
+        if matched_index is None:
+            # No matched author, use simple fading
+            author_elements = []
+            for i, author in enumerate(self.authors):
+                if i == 0 or i == len(self.authors) - 1:
+                    visibility_class = "author-visible"
+                elif i == 1 and len(self.authors) > 2:
+                    visibility_class = "author-fade-near"
+                else:
+                    visibility_class = "author-fade-far"
+
+                author_html = author.as_html(match_author)
+                if visibility_class != "author-visible":
+                    if "<span class='author'>" in author_html:
+                        author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
+                    else:
+                        author_html = f"<span class='{visibility_class}'>{author_html}</span>"
+
+                author_elements.append(author_html)
+
+            authors_html = " and ".join(author_elements)
+            return f"<div class='authors single-line'>{authors_html}</div>"
+
+        # Build left and right author lists
+        left_authors = []
+        right_authors = []
+
+        for i, author in enumerate(self.authors):
+            if i < matched_index:
+                left_authors.append(author)
+            elif i > matched_index:
+                right_authors.append(author)
+
+        # Create left fading text
+        left_html = ""
+        if left_authors:
+            left_elements = []
+            for i, author in enumerate(left_authors):
+                # Fade from left to right (towards matched author)
+                fade_level = (i + 1) / len(left_authors) if len(left_authors) > 0 else 1
+                if fade_level > 0.7:
+                    visibility_class = "author-fade-near"
+                else:
+                    visibility_class = "author-fade-far"
+
+                author_html = author.as_html(match_author)
+                if "<span class='author'>" in author_html:
+                    author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
+                else:
+                    author_html = f"<span class='{visibility_class}'>{author_html}</span>"
+
+                left_elements.append(author_html)
+
+            left_html = " and ".join(left_elements)
+            if left_html:
+                left_html += " and "
+
+        # Create right fading text
+        right_html = ""
+        if right_authors:
+            right_elements = []
+            for i, author in enumerate(right_authors):
+                # Fade from right to left (towards matched author)
+                fade_level = (len(right_authors) - i) / len(right_authors) if len(right_authors) > 0 else 1
+                if fade_level > 0.7:
+                    visibility_class = "author-fade-near"
+                else:
+                    visibility_class = "author-fade-far"
+
+                author_html = author.as_html(match_author)
+                if "<span class='author'>" in author_html:
+                    author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
+                else:
+                    author_html = f"<span class='{visibility_class}'>{author_html}</span>"
+
+                right_elements.append(author_html)
+
+            right_html = " and ".join(right_elements)
+            if right_html:
+                right_html = " and " + right_html
+
+        # Get matched author HTML
+        matched_author = self.authors[matched_index]
+        matched_html = matched_author.as_html(match_author)
+
+        # Calculate position percentage for matched author
+        position_percentage = (matched_index / (len(self.authors) - 1)) * 100 if len(self.authors) > 1 else 50
+
+        return f"""
+            <div class='authors single-line'>
+                <div class='authors-left'>{left_html}</div>
+                <div class='authors-matched' style='left: {position_percentage}%'>{matched_html}</div>
+                <div class='authors-right'>{right_html}</div>
+            </div>"""
 
     @property
     def _altmetric_html(self) -> str:
@@ -158,17 +261,18 @@ class BibEntry:
                     {self._altmetric_html}
                     <div></div>
                 </aside>
-                <div>
+                <main>
                     <div class="source">
                         {self._source_html}
                         {self._doi_html}
                     </div>
+                    <div class="test"></div>
                     {self._authors_html(match_author)}
                     <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
                         {html.escape(self.title)}
                     </a>
                     {self._abstract_html}
-                </div>
+                </main>
             </div>
 """
 
@@ -351,11 +455,44 @@ class StaticSiteGenerator:
 
     def __init__(self, config_path: str = "config.toml"):
         self.config = tomllib.loads(Path(config_path).read_text())
-
-        self.layout = Path(self.config["layout-file"]).read_text()
-        self.style = Path(self.config["style-file"]).read_text()
-
         self.bib_parser = BibliographyParser(self.config["reference-file"])
+
+    @property
+    def layout(self) -> str:
+        return Path(self.config["layout-file"]).read_text()
+
+    @property
+    def style(self) -> str:
+        """Concatenate all CSS files in the ./css folder and create a hash-based filename."""
+        css_folder = Path(self.config["style-folder"])
+
+        # Find all CSS files in the css folder
+        css_files = list(css_folder.glob("*.css"))
+        if not css_files:
+            raise RuntimeWarning(f"Warning: No CSS files found in {css_folder} folder")
+
+        # Sort files for consistent ordering
+        css_files.sort()
+        print(css_files)
+
+        # Concatenate all CSS content
+        concatenated_css = ""
+        for css_file in css_files:
+            concatenated_css += f"""/* {css_file.name} */
+{css_file.read_text(encoding="utf-8")}
+
+"""
+
+        css_hash = hashlib.md5(concatenated_css.encode("utf-8")).hexdigest()[:8]
+        hash_filename = Path(f"style-{css_hash}.css")
+
+        for existing_file in Path(".").glob("style-*.css"):
+            existing_file.unlink()
+            print(f"Deleted existing CSS file: {existing_file}")
+
+        hash_filename.write_text(concatenated_css)
+
+        return concatenated_css
 
     def _generate_bibliography_html(self) -> str:
         # Generate segmented topic filter
