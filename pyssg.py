@@ -266,7 +266,6 @@ class BibEntry:
                         {self._source_html}
                         {self._doi_html}
                     </div>
-                    <div class="test"></div>
                     {self._authors_html(match_author)}
                     <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
                         {html.escape(self.title)}
@@ -495,6 +494,37 @@ class StaticSiteGenerator:
         return concatenated_css
 
     def _generate_bibliography_html(self) -> str:
+        # Generate header section with image and research description
+        header_html = """
+        <section class="research-header">
+            <div class="header-content">
+                <div class="header-image">
+                    <img src="sarai.jpg" alt="Sarai Keestra" class="profile-image">
+                </div>
+                <div class="header-text">
+                    <h1>Sarai Keestra</h1>
+                    <p class="research-description">
+                        I am a researcher focused on human biology, global health, and research ethics. My work spans three main areas:
+                    </p>
+                    <div class="research-areas">
+                        <div class="research-area">
+                            <h3>Human Biology & Development</h3>
+                            <p>Investigating neurodevelopmental outcomes, thyroid function, and developmental processes across different populations and environmental contexts.</p>
+                        </div>
+                        <div class="research-area">
+                            <h3>Global Health & Health Technology Access</h3>
+                            <p>Examining barriers to equitable access to health technologies, including vaccines and treatments, particularly in low-resource settings.</p>
+                        </div>
+                        <div class="research-area">
+                            <h3>Clinical Trial Transparency & Research Ethics</h3>
+                            <p>Advocating for improved transparency in clinical trials and ensuring research practices prioritize public health and ethical standards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        """
+
         # Generate segmented topic filter
         filter_html = "<h2>Publications</h2>\n"
         filter_html += self.bib_parser.topics_html
@@ -505,7 +535,7 @@ class StaticSiteGenerator:
             html_parts.append(entry.as_html(match_author=self.config["author"], topic=entry.topic))
         html_parts.append("</section>")
 
-        return filter_html + "".join(html_parts)
+        return header_html + filter_html + "".join(html_parts)
 
     def build_site(self) -> None:
         print("Building static site...")
