@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import html
 import re
 import tomllib
@@ -45,6 +46,7 @@ class BibEntry:
     doi: Optional[str] = None
     publisher: Optional[str] = None
     abstract: Optional[str] = None
+    topic: Optional[str] = None
 
     @property
     def _entry_type(self) -> str:
@@ -72,6 +74,7 @@ class BibEntry:
             doi=data.get("doi"),
             publisher=data.get("publisher"),
             abstract=data.get("abstract"),
+            topic=data.get("topic"),
         )
 
     @property
@@ -144,9 +147,9 @@ class BibEntry:
                 {toggle_button}
             </div>"""
 
-    def as_html(self, match_author: Optional[str] = None) -> str:
+    def as_html(self, match_author: Optional[str] = None, topic: Optional[str] = None) -> str:
         return f"""
-            <div class="reference">
+            <div class="reference" data-topic="{topic or 'None'}">
             <section>
                 <aside>
                     {self._altmetric_html}
@@ -194,6 +197,7 @@ class BibArticle(BibEntry):
             doi=base.doi,
             publisher=base.publisher,
             abstract=base.abstract,
+            topic=base.topic,
             journal=data.get("journal"),
             volume=data.get("volume"),
             number=data.get("number"),
@@ -227,6 +231,7 @@ class BibInProceedings(BibEntry):
             doi=base.doi,
             publisher=base.publisher,
             abstract=base.abstract,
+            topic=base.topic,
             booktitle=data.get("booktitle"),
             pages=data.get("pages"),
             editor=data.get("editor"),
@@ -239,6 +244,28 @@ class BibTechReport(BibEntry):
 
     institution: Optional[str] = None
     type: Optional[str] = None
+
+    def _entry_type(self) -> str:
+        return "TechReport"
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "BibTechReport":
+        """Create TechReport from dictionary data."""
+        base = BibEntry.from_dict(data)
+        return cls(
+            key=base.key,
+            title=base.title,
+            authors=base.authors,
+            year=base.year,
+            month=base.month,
+            url=base.url,
+            doi=base.doi,
+            publisher=base.publisher,
+            abstract=base.abstract,
+            topic=base.topic,
+            institution=data.get("institution"),
+            type=data.get("type"),
+        )
 
 
 class BibliographyParser:
@@ -296,6 +323,25 @@ class BibliographyParser:
 
         return fields
 
+    @property
+    def topics_html(self) -> List[str]:
+        topic_descriptions = {
+            "Human Biology & Development": "Research on human biology and development, including health, nutrition, and disease prevention.",
+            "Global Health & Health Technology Access": "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments.",
+            "Clinical Trial Transparency & Research Ethics": "Research on clinical trial transparency and research ethics, including trial registration and reporting.",
+        }
+
+        topics = set([e.topic for e in self.entries if e.topic])
+        filter_html = '<section class="topic-filters">\n'
+        for topic in sorted(list(topics)):
+            desc = topic_descriptions.get(topic.lower(), f"Publications related to {topic}")
+            filter_html += f'<div class="topic-filter active" data-topic="{html.escape(topic)}">\n'
+            filter_html += f"<h4>{html.escape(topic)}</h4>\n"
+            filter_html += f"<p>{html.escape(desc)}</p>\n"
+            filter_html += "</div>\n"
+        filter_html += "</section>\n"
+        return filter_html
+
 
 class StaticSiteGenerator:
     """Generates static HTML site from bibliography data."""
@@ -310,11 +356,18 @@ class StaticSiteGenerator:
 
     def _generate_bibliography_html(self) -> str:
         """Generate HTML for bibliography entries."""
+        # Topic descriptions
+
+        # Generate segmented topic filter
+        filter_html = "<h2>Publications</h2>\n"
+        filter_html += self.bib_parser.topics_html
+
+        # Generate bibliography entries with topic data attributes
         html_parts = []
         for entry in self.bib_parser.entries:
-            html_parts.append(entry.as_html(match_author=self.config["author"]))
+            html_parts.append(entry.as_html(match_author=self.config["author"], topic=entry.topic))
 
-        return "".join(html_parts)
+        return filter_html + "".join(html_parts)
 
     def build_site(self) -> None:
         """Build the complete static site."""

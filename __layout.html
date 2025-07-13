@@ -62,6 +62,36 @@
                     }
                 }
             });
+
+            // Topic filtering functionality
+            const topicFilters = document.querySelectorAll('.topic-filter');
+            const references = document.querySelectorAll('.reference');
+            topicFilters.forEach(filter => {
+                filter.addEventListener('click', function () {
+                    const filtersAllActive = Array.from(topicFilters).every(f => f.classList.contains('active'));
+
+                    let topics = [];
+                    if (filtersAllActive || !this.classList.contains('selected')) {
+                        topicFilters.forEach(f => f.classList.remove('active', 'selected'));
+                        this.classList.add('selected');
+                        topics = [this.getAttribute('data-topic')];
+                    } else {
+                        topicFilters.forEach(f => f.classList.remove('selected'));
+                        topicFilters.forEach(f => f.classList.add('active'));
+                        topics = Array.from(topicFilters).map(f => f.getAttribute('data-topic'));
+                    }
+
+                    // Show/hide references based on active filters
+                    references.forEach(ref => {
+                        const refTopic = ref.getAttribute('data-topic');
+                        if (activeFilters.length === 0 || activeFilters.includes(refTopic)) {
+                            ref.classList.remove('hidden');
+                        } else {
+                            ref.classList.add('hidden');
+                        }
+                    });
+                });
+            });
         });
     </script>
 </body>

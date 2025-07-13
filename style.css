@@ -62,7 +62,6 @@
   font-size: 1rem;
   hyphens: auto;
   line-height: 1.5;
-  font-variation-settings: "wdth" 86.7334, "wght" 264.883;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -119,7 +118,6 @@ h1 {
 h2 {
   font-size: 2.55rem;
   margin: 0rem;
-  font-variation-settings: "wdth" 100, "wght" 200;
   color: var(--onSurfaceDim);
 }
 
@@ -136,7 +134,6 @@ button {
   background: var(--accentContainer);
   border: none;
   color: var(--onAccentContainer);
-  font-variation-settings: "wdth" 75, "wght" 500;
   cursor: pointer;
   margin-top: 1rem;
   padding: 0.3rem 1rem;
@@ -163,15 +160,51 @@ button {
   border-radius: var(--radius-md);
 }
 
+.topic-filters {
+  display: flex;
+  border-radius: var(--radius-lg);
+
+  .topic-filter {
+    background: oklch(98% 6% var(--hue));
+    padding: var(--gap-sm) var(--gap-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: var(--onSurface);
+
+    h4 {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    &:hover {
+      filter: saturate(0.6);
+    }
+
+    &.active {
+      background: oklch(95% 14% var(--hue));
+    }
+    &.selected {
+      background: oklch(97% 20% var(--hue));
+    }
+  }
+}
+
 .reference {
+  transition: opacity 0.3s ease;
   margin-bottom: var(--gap-md);
   border-bottom: 2px solid var(--onSurface);
+
+  &.hidden {
+    display: none;
+  }
 
   section {
     display: flex;
     gap: var(--aside-gap);
     padding: var(--gap-md);
-    border-top: 1px solid var(--onSurfaceDim);
+    border: 1px solid var(--onSurfaceDim);
+    border-bottom: none;
   }
 
   aside {
@@ -197,7 +230,6 @@ button {
 
     .author {
       color: var(--accentBright);
-      font-variation-settings: "wdth" 75, "wght" 900;
     }
   }
 
@@ -290,6 +322,21 @@ button {
 }
 
 @media (max-width: 768px) {
+  .topic-filters {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+
+    .topic-filter {
+      border-right: none;
+      border-bottom: 1px solid var(--outline);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
   .reference {
     flex-direction: column;
     gap: var(--gap-md);
