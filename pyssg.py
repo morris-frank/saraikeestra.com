@@ -105,14 +105,10 @@ class BibEntry:
     @property
     def _altmetric_html(self) -> str:
         return (
-            f"""
-        <aside>
-            <span class="__dimensions_badge_embed__" data-doi="{self.doi}"
+            f"""<span class="__dimensions_badge_embed__" data-doi="{self.doi}"
                 data-legend="hover-right" data-style="small_circle"></span>
             <div data-badge-type='donut' class='altmetric-embed' data-badge-popover='right'
-                data-doi='{html.escape(self.doi)}'></div>
-        </aside>
-    """
+                data-doi='{html.escape(self.doi)}'></div>"""
             if self.doi
             else ""
         )
@@ -123,23 +119,50 @@ class BibEntry:
 
     @property
     def _abstract_html(self) -> str:
-        return f'<div class="abstract">{self.abstract}</div>' if self.abstract else ""
+        if not self.abstract:
+            return ""
+
+        # Truncate abstract for preview
+        preview_length = 200
+        is_truncated = len(self.abstract) > preview_length
+        preview_text = self.abstract[:preview_length] + "..." if is_truncated else self.abstract
+
+        truncated_class = " truncated" if is_truncated else ""
+        toggle_button = ""
+
+        if is_truncated:
+            toggle_button = f"""
+                <span class="abstract-toggle" onclick="toggleAbstract(this)">
+                    Show more
+                </span>"""
+
+        return f"""
+            <div class="abstract-container">
+                <div class="abstract{truncated_class}" data-full-text="{html.escape(self.abstract)}">
+                    {html.escape(preview_text)}
+                </div>
+                {toggle_button}
+            </div>"""
 
     def as_html(self, match_author: Optional[str] = None) -> str:
         return f"""
             <div class="reference">
-                {self._altmetric_html}
+            <section>
+                <aside>
+                    {self._altmetric_html}
+                </aside>
                 <div>
-                    {self._authors_html(match_author)}
-                    <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
-                        {html.escape(self.title)}
-                    </a>
                     <div class="source">
                         {self._source_html}
                         {self._doi_html}
                     </div>
+                    <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
+                        {html.escape(self.title)}
+                    </a>
+                    {self._authors_html(match_author)}
                     {self._abstract_html}
                 </div>
+            </section>
             </div>
 """
 
@@ -287,26 +310,11 @@ class StaticSiteGenerator:
 
     def _generate_bibliography_html(self) -> str:
         """Generate HTML for bibliography entries."""
-        entries_by_year = {}
-        for entry in self.bib_parser.entries:
-            year = entry.year
-            if year not in entries_by_year:
-                entries_by_year[year] = []
-            entries_by_year[year].append(entry)
-
-        # Generate HTML for each year
         html_parts = []
-        for year in sorted(entries_by_year.keys(), reverse=True):
-            year_entries = entries_by_year[year]
-            html_parts.append(f"<section>")
-            html_parts.append(f"<h2>{year}</h2>")
+        for entry in self.bib_parser.entries:
+            html_parts.append(entry.as_html(match_author=self.config["author"]))
 
-            for entry in year_entries:
-                html_parts.append(entry.as_html(match_author=self.config["author"]))
-
-            html_parts.append("</section>")
-
-        return "\n".join(html_parts)
+        return "".join(html_parts)
 
     def build_site(self) -> None:
         """Build the complete static site."""

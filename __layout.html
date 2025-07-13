@@ -16,8 +16,7 @@
             src="https://badge.dimensions.ai/badge.js"
             charset="utf-8"></script>
 
-
-    <title></title>
+    <title>Sarai Keestra - Publications</title>
 </head>
 
 <body>
@@ -29,6 +28,42 @@
             &copy; 2025 Sarai Keestra
         </p>
     </footer>
+
+    <script>
+        function toggleAbstract(button) {
+            const abstractContainer = button.parentElement;
+            const abstract = abstractContainer.querySelector('.abstract');
+            const fullText = abstract.getAttribute('data-full-text');
+
+            if (abstract.classList.contains('expanded')) {
+                // Collapse
+                abstract.textContent = fullText.substring(0, 200) + '...';
+                abstract.classList.remove('expanded');
+                abstract.classList.add('truncated');
+                button.textContent = 'Show more';
+            } else {
+                // Expand
+                abstract.textContent = fullText;
+                abstract.classList.add('expanded');
+                abstract.classList.remove('truncated');
+                button.textContent = 'Show less';
+            }
+        }
+
+        // Auto-detect if abstracts need truncation on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const abstracts = document.querySelectorAll('.abstract');
+            abstracts.forEach(abstract => {
+                const fullText = abstract.getAttribute('data-full-text');
+                if (fullText && fullText.length > 200) {
+                    const button = abstract.parentElement.querySelector('.abstract-toggle');
+                    if (button) {
+                        button.style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
