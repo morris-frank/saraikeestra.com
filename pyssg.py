@@ -79,30 +79,28 @@ class BibEntry:
 
     @property
     def _source_html(self) -> str:
-        tags = []
-        if self.year:
-            tags.append(f"{self.year}")
-
+        source = None
         if hasattr(self, "journal") and self.journal:
-            tags.append(self.journal)
+            source = self.journal
         elif hasattr(self, "booktitle") and self.booktitle:
-            tags.append(self.booktitle)
+            source = self.booktitle
 
-        if hasattr(self, "volume") and self.volume:
-            if hasattr(self, "number") and self.number:
-                tags.append(f"Vol. {self.volume} No. {self.number}")
-            else:
-                tags.append(f"Vol. {self.volume}")
+        if source:
+            if hasattr(self, "volume") and self.volume:
+                if hasattr(self, "number") and self.number:
+                    source = f"{source} | Vol. {self.volume} No. {self.number}"
+                else:
+                    source = f"{source} | Vol. {self.volume}"
 
-        if tags:
-            tags_html = "".join([f"<span class='tag'>{x}</span>" for x in tags])
-            return f"<span class='tags'>{tags_html}</span>"
+        if source:
+            return f"<span class='source'>{source}</span>"
         return ""
 
     def _authors_html(self, match_author: Optional[str] = None) -> str:
-        if not self.authors:
-            return ""
         authors = " and ".join([author.as_html(match_author) for author in self.authors])
+        start_index = authors.find("<span class='author'>")
+        end_index = authors.find("</span>") + 7
+        position = (start_index + end_index) // 2
         return f"<div class='authors'>{authors}</div>"
 
     @property
@@ -147,22 +145,28 @@ class BibEntry:
                 {toggle_button}
             </div>"""
 
+    @property
+    def _year_html(self) -> str:
+        return f"<span class='year'>{self.year}</span>" if self.year else ""
+
     def as_html(self, match_author: Optional[str] = None, topic: Optional[str] = None) -> str:
         has_score = self.doi and self.doi.startswith("10.")
         return f"""
             <div class="reference {'with-score' if has_score else 'no-score'}" style="order: 200;" data-topic="{topic or 'None'}">
                 <aside>
+                    {self._year_html}
                     {self._altmetric_html}
+                    <div></div>
                 </aside>
                 <div>
                     <div class="source">
                         {self._source_html}
                         {self._doi_html}
                     </div>
+                    {self._authors_html(match_author)}
                     <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
                         {html.escape(self.title)}
                     </a>
-                    {self._authors_html(match_author)}
                     {self._abstract_html}
                 </div>
             </div>
