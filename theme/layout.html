@@ -2,73 +2,124 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+          content="width=device-width, initial-scale=1" />
     <meta name="theme-color"
-          content="oklch(40% 42% 29deg)">
+          content="oklch(40% 42% 29deg)" />
     <meta name="description"
-          name="The personal website of Sarai Keestra.">
+          name="The personal website of Sarai Keestra." />
+    <link rel="icon"
+          type="image/jpeg"
+          href="sarai.jpg" />
 
-    <script type='text/javascript'
-            src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+    <script type="text/javascript"
+            src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
     <script async
             src="https://badge.dimensions.ai/badge.js"
             charset="utf-8"></script>
+    <script type="text/javascript"
+            src="//cdn.plu.mx/widget-popup.js"></script>
 
     <title>Sarai Keestra - Publications</title>
+
+    {{head}}
 </head>
 
 <body>
-    <main>
-    </main>
+    <header>
+        <img src="sarai.jpg"
+             alt="Sarai Keestra" />
+        <main>
+            <h1>Sarai Keestra</h1>
+
+            <nav>
+                <a href="https://www.linkedin.com/in/sarai-keestra-1a8751134/">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="icon"
+                         viewBox="0 0 24 24"
+                         stroke-width="2"
+                         stroke="currentColor"
+                         fill="none"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none" />
+                        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
+                        <path d="M8 11l0 5" />
+                        <path d="M8 8l0 .01" />
+                        <path d="M12 16l0 -5" />
+                        <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+                    </svg>
+                </a>
+                <a href="https://orcid.org/0000-0002-6368-0977">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="icon"
+                         viewBox="0 0 256 256">
+                        <path fill="#A6CE39"
+                              d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z" />
+                        <g>
+                            <path fill="#FFFFFF"
+                                  d="M86.3,186.2H70.9V79.1h15.4v48.4V186.2z" />
+                            <path fill="#FFFFFF"
+                                  d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5
+		c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z" />
+                            <path fill="#FFFFFF"
+                                  d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1
+		C84.2,46.7,88.7,51.3,88.7,56.8z" />
+                        </g>
+                    </svg>
+                </a>
+            </nav>
+        </main>
+    </header>
+
+    <header class="sticky">
+        <img src="sarai.jpg"
+             alt="Sarai Keestra" />
+        <main>
+            <h1>Sarai Keestra</h1>
+        </main>
+    </header>
+
+    <section>
+        <p>
+            I am a medical researcher and medical student at <a
+               href="https://pure.amsterdamumc.nl/en/persons/sarai-keestra">Amsterdam UMC</a>,
+            in the departments of epidemiology and pediatrics. My PhD research focuses on the first 1000 days of life—a
+            crucial period in which
+            health is formed. From an evolutionary perspective, I primarily study the role of the thyroid gland, a key
+            organ in our energy
+            metabolism. From an evolutionary perspective, I primarily study the role of the thyroid gland, a key organ
+            in our energy metabolism.
+        </p>
+
+        <p>
+            With a background in Human Sciences (<a href="https://www.ucl.ac.uk/">UCL</a>) and Medical Anthropology (<a
+               href="https://www.dur.ac.uk/">Durham University</a>), I am fascinated by the interaction between genes
+            and environment. The thyroid gland serves as a unique window into this:
+            evolutionarily ancient, hormonally active, and often dysregulated in women during vulnerable stages of life.
+            As a female scientist,
+            I am particularly eager to contribute to knowledge about understudied conditions that affect women.
+        </p>
+    </section>
+
+    <main>{{main}}</main>
 
     <footer>
-        <p>
-            &copy; 2025 Sarai Keestra
-        </p>
+        <p>&copy; 2025 Sarai Keestra</p>
     </footer>
 
     <script>
-        function toggleAbstract(button) {
-            const abstractContainer = button.parentElement;
-            const abstract = abstractContainer.querySelector('.abstract');
-            const fullText = abstract.getAttribute('data-full-text');
-
-            if (abstract.classList.contains('expanded')) {
-                // Collapse
-                abstract.textContent = fullText.substring(0, 200) + '...';
-                abstract.classList.remove('expanded');
-                abstract.classList.add('truncated');
-                button.textContent = 'Show more';
-            } else {
-                // Expand
-                abstract.textContent = fullText;
-                abstract.classList.add('expanded');
-                abstract.classList.remove('truncated');
-                button.textContent = 'Show less';
-            }
-        }
-
         // Auto-detect if abstracts need truncation on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            const abstracts = document.querySelectorAll('.abstract');
-            abstracts.forEach(abstract => {
-                const fullText = abstract.getAttribute('data-full-text');
-                if (fullText && fullText.length > 200) {
-                    const button = abstract.parentElement.querySelector('.abstract-toggle');
-                    if (button) {
-                        button.style.display = 'block';
-                    }
-                }
-            });
-
+        document.addEventListener("DOMContentLoaded", function () {
             // Function to reorder references by dimensions score
             function reorderReferences() {
-                const references = document.querySelectorAll('.reference.with-score')
+                const references = document.querySelectorAll(".reference.with-score");
                 let allScoresFound = true;
-                references.forEach(ref => {
-                    const scoreElement = ref.querySelector('.__dimensions_badge_embed__ .__db_score');
+                references.forEach((ref) => {
+                    const scoreElement = ref.querySelector(".__dimensions_badge_embed__ .__db_score");
                     if (!scoreElement) {
                         allScoresFound = false;
                         return;
@@ -87,32 +138,36 @@
             reorderReferences();
 
             // Topic filtering functionality
-            const topicFilters = document.querySelectorAll('.topic-filter');
-            const references = document.querySelectorAll('.reference');
-            topicFilters.forEach(filter => {
-                filter.addEventListener('click', function () {
-                    const filtersAllActive = Array.from(topicFilters).every(f => f.classList.contains('active'));
-
-                    let topics = [];
-                    if (filtersAllActive || !this.classList.contains('selected')) {
-                        topicFilters.forEach(f => f.classList.remove('active', 'selected'));
-                        this.classList.add('selected');
-                        topics = [this.getAttribute('data-topic')];
+            const topicTags = document.querySelectorAll(".topic-tags span");
+            const topicDescs = document.querySelectorAll(".topic-desc");
+            const references = document.querySelectorAll(".reference");
+            topicTags.forEach((filter) => {
+                filter.addEventListener("click", function () {
+                    if (this.classList.contains("selected")) {
+                        topicTags.forEach((f) => {
+                            f.classList.remove("selected");
+                            f.classList.add("active");
+                        });
+                        topicDescs.forEach((d) => d.classList.add("hidden"));
+                        references.forEach((r) => r.classList.remove("hidden"));
                     } else {
-                        topicFilters.forEach(f => f.classList.remove('selected'));
-                        topicFilters.forEach(f => f.classList.add('active'));
-                        topics = Array.from(topicFilters).map(f => f.getAttribute('data-topic'));
+                        topicTags.forEach((f) => {
+                            f.classList.remove("selected");
+                            f.classList.remove("active");
+                        });
+                        this.classList.add("selected");
+                        topicDescs.forEach((d) => d.classList.add("hidden"));
+                        const topic = this.dataset.topic;
+                        console.log(topic);
+                        document.querySelector(`.topic-desc.${topic}`).classList.remove("hidden");
+                        references.forEach((r) => {
+                            if (r.classList.contains(topic)) {
+                                r.classList.remove("hidden");
+                            } else {
+                                r.classList.add("hidden");
+                            }
+                        });
                     }
-
-                    // Show/hide references based on active filters
-                    references.forEach(ref => {
-                        const refTopic = ref.getAttribute('data-topic');
-                        if (topics.length === 0 || topics.includes(refTopic)) {
-                            ref.classList.remove('hidden');
-                        } else {
-                            ref.classList.add('hidden');
-                        }
-                    });
                 });
             });
         });

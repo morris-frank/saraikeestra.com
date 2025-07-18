@@ -1,4 +1,6 @@
 #! /usr/bin/env python3
+from __future__ import annotations
+
 import glob
 import hashlib
 import html
@@ -9,15 +11,115 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
+class HTMLElement:
+    def __init__(self, tag: str, children: Children, **kwargs):
+        self.tag = tag
+        self.children = children
+        self.kwargs = kwargs
+
+    @classmethod
+    def _format_arg_key(cls, key: str) -> str:
+        if key == "cls":
+            return "class"
+        return f"{key}" if key.startswith("_") else f"{key.replace('_', '-')}"
+
+    @classmethod
+    def _format_kwargs(cls, kwargs: Dict[str, Any]) -> str:
+        return " ".join([f'{cls._format_arg_key(k)}="{v}"' for k, v in kwargs.items()])
+
+    @classmethod
+    def _format_children(cls, children: Children) -> str:
+        if isinstance(children, list):
+            return "".join([cls._format_children(child) for child in children])
+        else:
+            return str(children) if children is not None else ""
+
+    def __str__(self):
+        return f"<{self.tag} {HTMLElement._format_kwargs(kwargs=self.kwargs)}>{HTMLElement._format_children(children=self.children)}</{self.tag}>"
+
+
+Children = HTMLElement | List[HTMLElement] | str | None
+
+
+class Div(HTMLElement):
+    def __init__(self, children: Children, **kwargs):
+        super().__init__("div", children, **kwargs)
+
+
+class A(HTMLElement):
+    def __init__(self, text: str, *, href: str, **kwargs):
+        super().__init__("a", [text], href=href, **{"target": "_blank", **kwargs})
+
+
+class Span(HTMLElement):
+    def __init__(self, text: Any, **kwargs):
+        super().__init__("span", [text], **kwargs)
+
+
+class P(HTMLElement):
+    def __init__(self, text: Any, **kwargs):
+        super().__init__("p", [text], **kwargs)
+
+
+class H2(HTMLElement):
+    def __init__(self, text: Any, **kwargs):
+        super().__init__("h2", [text], **kwargs)
+
+
+class H4(HTMLElement):
+    def __init__(self, text: Any, **kwargs):
+        super().__init__("h4", [text], **kwargs)
+
+
+class Section(HTMLElement):
+    def __init__(self, children: Children, **kwargs):
+        super().__init__("section", children, **kwargs)
+
+
+@dataclass(frozen=True)
+class LayoutConfig:
+    folder: str
+    skeleton: str
+    output: str
+
+
+@dataclass(frozen=True)
+class ReferencesConfig:
+    author: str
+    file: str
+    topics: Dict[str, str]
+
+    @classmethod
+    def topics_class_name(cls, topic: str) -> str:
+        return topic.split("&")[0].strip().replace(" ", "-").lower()
+
+
+@dataclass(frozen=True)
+class Config:
+    """Configuration for the static site generator."""
+
+    layout: LayoutConfig
+    references: ReferencesConfig
+
+    @classmethod
+    def from_toml(cls, config_path: str) -> "Config":
+        """Create Config from TOML file."""
+        config_data = tomllib.loads(Path(config_path).read_text())
+        return cls(
+            layout=LayoutConfig(**config_data["layout"]),
+            references=ReferencesConfig(**config_data["references"]),
+        )
+
+
 @dataclass(frozen=True)
 class BibAuthor:
     """Represents a single author with first and last name."""
 
-    first_name: str
+    first_name: Optional[str]
     last_name: str
 
     @classmethod
-    def from_string(cls, author_str: str) -> "BibAuthor":
+    def from_string(cls, author_str: str) -> BibAuthor:
         """Parse author string like 'Keestra, Sarai M.' into Author object."""
         # Handle cases with multiple initials
         parts = author_str.strip().split(", ")
@@ -28,11 +130,8 @@ class BibAuthor:
         last_name, first_name = parts
         return cls(first_name=first_name.strip(), last_name=last_name.strip())
 
-    def as_html(self, match_author: Optional[str] = None) -> str:
-        author_str = f"{self.last_name}, {self.first_name}" if self.first_name else self.last_name
-        if match_author and match_author.lower() in author_str.lower():
-            return f"<span class='author'>{html.escape(author_str)}</span>"
-        return html.escape(author_str)
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}" if self.first_name else self.last_name
 
 
 @dataclass(frozen=True)
@@ -79,201 +178,99 @@ class BibEntry:
             topic=data.get("topic"),
         )
 
-    @property
-    def _source_html(self) -> str:
-        source = None
+    def _source_html(self) -> Children:
+        source = ""
         if hasattr(self, "journal") and self.journal:
             source = self.journal
         elif hasattr(self, "booktitle") and self.booktitle:
             source = self.booktitle
+        if hasattr(self, "volume") and self.volume:
+            source += f" | Vol. {self.volume}"
+        if hasattr(self, "number") and self.number:
+            source += f" | No. {self.number}"
+        return [
+            Span(source),
+        ]
 
-        if source:
-            if hasattr(self, "volume") and self.volume:
-                if hasattr(self, "number") and self.number:
-                    source = f"{source} | Vol. {self.volume} No. {self.number}"
-                else:
-                    source = f"{source} | Vol. {self.volume}"
+    def _title_html(self) -> Children:
+        return [A(self.title, href=self.url or f"https://doi.org/{self.doi}"), Span(self.doi)]
 
-        if source:
-            return f"<span class='source'>{source}</span>"
-        return ""
-
-    def _authors_html(self, match_author: Optional[str] = None) -> str:
+    def _authors_html(self, match_author: str) -> Children:
         if not self.authors:
-            return "<div class='authors'></div>"
+            return None
 
         # Find the index of the matched author
         matched_index = None
-        if match_author:
-            for i, author in enumerate(self.authors):
-                author_str = f"{author.last_name}, {author.first_name}" if author.first_name else author.last_name
-                if match_author.lower() in author_str.lower():
-                    matched_index = i
-                    break
-
-        if matched_index is None:
-            # No matched author, use simple fading
-            author_elements = []
-            for i, author in enumerate(self.authors):
-                if i == 0 or i == len(self.authors) - 1:
-                    visibility_class = "author-visible"
-                elif i == 1 and len(self.authors) > 2:
-                    visibility_class = "author-fade-near"
-                else:
-                    visibility_class = "author-fade-far"
-
-                author_html = author.as_html(match_author)
-                if visibility_class != "author-visible":
-                    if "<span class='author'>" in author_html:
-                        author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
-                    else:
-                        author_html = f"<span class='{visibility_class}'>{author_html}</span>"
-
-                author_elements.append(author_html)
-
-            authors_html = " and ".join(author_elements)
-            return f"<div class='authors single-line'>{authors_html}</div>"
-
-        # Build left and right author lists
-        left_authors = []
-        right_authors = []
-
         for i, author in enumerate(self.authors):
-            if i < matched_index:
-                left_authors.append(author)
-            elif i > matched_index:
-                right_authors.append(author)
+            if match_author.lower() in str(author).lower():
+                matched_index = i
+                break
 
-        # Create left fading text
-        left_html = ""
-        if left_authors:
-            left_elements = []
-            for i, author in enumerate(left_authors):
-                # Fade from left to right (towards matched author)
-                fade_level = (i + 1) / len(left_authors) if len(left_authors) > 0 else 1
-                if fade_level > 0.7:
-                    visibility_class = "author-fade-near"
-                else:
-                    visibility_class = "author-fade-far"
+        expands = len(self.authors) > 3
 
-                author_html = author.as_html(match_author)
-                if "<span class='author'>" in author_html:
-                    author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
-                else:
-                    author_html = f"<span class='{visibility_class}'>{author_html}</span>"
+        authors = []
+        for i, author in enumerate(self.authors):
+            is_match = i == matched_index
+            is_first = i == 0
+            is_last = i == len(self.authors) - 1
+            if is_match:
+                visibility_class = "author-match"
+            elif not expands or is_first or is_last:
+                visibility_class = "author-visible"
+            else:
+                visibility_class = "author-toggle"
 
-                left_elements.append(author_html)
+            author_html = str(author)
+            if not is_last:
+                author_html += ","
 
-            left_html = " and ".join(left_elements)
-            if left_html:
-                left_html += " and "
+            if is_last and expands and not is_match:
+                authors.append(Span("...", cls="author-ellipsis"))
+            authors.append(Span(author_html, cls=visibility_class))
+            if is_first and expands and not is_match:
+                authors.append(Span("...", cls="author-ellipsis"))
 
-        # Create right fading text
-        right_html = ""
-        if right_authors:
-            right_elements = []
-            for i, author in enumerate(right_authors):
-                # Fade from right to left (towards matched author)
-                fade_level = (len(right_authors) - i) / len(right_authors) if len(right_authors) > 0 else 1
-                if fade_level > 0.7:
-                    visibility_class = "author-fade-near"
-                else:
-                    visibility_class = "author-fade-far"
+        return authors
 
-                author_html = author.as_html(match_author)
-                if "<span class='author'>" in author_html:
-                    author_html = author_html.replace("<span class='author'>", f"<span class='author {visibility_class}'>")
-                else:
-                    author_html = f"<span class='{visibility_class}'>{author_html}</span>"
-
-                right_elements.append(author_html)
-
-            right_html = " and ".join(right_elements)
-            if right_html:
-                right_html = " and " + right_html
-
-        # Get matched author HTML
-        matched_author = self.authors[matched_index]
-        matched_html = matched_author.as_html(match_author)
-
-        # Calculate position percentage for matched author
-        position_percentage = (matched_index / (len(self.authors) - 1)) * 100 if len(self.authors) > 1 else 50
-
-        return f"""
-            <div class='authors single-line'>
-                <div class='authors-left'>{left_html}</div>
-                <div class='authors-matched' style='left: {position_percentage}%'>{matched_html}</div>
-                <div class='authors-right'>{right_html}</div>
-            </div>"""
-
-    @property
-    def _altmetric_html(self) -> str:
+    def _badges_html(self) -> Children:
         return (
-            f"""<span class="__dimensions_badge_embed__" data-doi="{self.doi}"
-                data-legend="hover-right" data-style="small_circle"></span>
-            <div data-badge-type='donut' class='altmetric-embed' data-badge-popover='right'
-                data-doi='{html.escape(self.doi)}'></div>"""
+            [
+                Span(None, cls="__dimensions_badge_embed__", data_doi=self.doi, data_legend="hover-right", data_style="small_circle"),
+                Div(None, cls="altmetric-embed", data_badge_type="donut", data_badge_popover="right", data_doi=self.doi),
+                A(
+                    None,
+                    href=f"https://plu.mx/plum/a/?doi={self.doi}",
+                    cls="plumx-plum-print-popup",
+                    data_popup="right",
+                    data_size="medium",
+                    data_site="plum",
+                    data_hide_when_empty="true",
+                ),
+            ]
             if self.doi
-            else ""
+            else None
         )
 
-    @property
-    def _doi_html(self) -> str:
-        return f'<a href="https://doi.org/{self.doi}" class="doi" target="_blank">{html.escape(self.doi)}</a>' if self.doi else ""
-
-    @property
-    def _abstract_html(self) -> str:
-        if not self.abstract:
-            return ""
-
-        # Truncate abstract for preview
-        preview_length = 200
-        is_truncated = len(self.abstract) > preview_length
-        preview_text = self.abstract[:preview_length] + "..." if is_truncated else self.abstract
-
-        truncated_class = " truncated" if is_truncated else ""
-        toggle_button = ""
-
-        if is_truncated:
-            toggle_button = f"""
-                <span class="abstract-toggle" onclick="toggleAbstract(this)">
-                    Show more
-                </span>"""
-
-        return f"""
-            <div class="abstract-container">
-                <div class="abstract{truncated_class}" data-full-text="{html.escape(self.abstract)}">
-                    {html.escape(preview_text)}
-                </div>
-                {toggle_button}
-            </div>"""
-
-    @property
-    def _year_html(self) -> str:
-        return f"<span class='year'>{self.year}</span>" if self.year else ""
-
-    def as_html(self, match_author: Optional[str] = None, topic: Optional[str] = None) -> str:
+    def as_html(self, match_author: Optional[str] = None) -> Children:
         has_score = self.doi and self.doi.startswith("10.")
-        return f"""
-            <div class="reference {'with-score' if has_score else 'no-score'}" style="order: 200;" data-topic="{topic or 'None'}">
-                <aside>
-                    {self._year_html}
-                    {self._altmetric_html}
-                    <div></div>
-                </aside>
-                <main>
-                    <div class="source">
-                        {self._source_html}
-                        {self._doi_html}
-                    </div>
-                    {self._authors_html(match_author)}
-                    <a href="{self.url or f'https://doi.org/{self.doi}' if self.doi else '#'}" class="title" target="_blank">
-                        {html.escape(self.title)}
-                    </a>
-                    {self._abstract_html}
-                </main>
-            </div>
-"""
+        score_class = "with-score" if has_score else "no-score"
+
+        authors_html = self._authors_html(match_author)
+        authors_expandable = len(self.authors) > 3
+
+        return Div(
+            [
+                Div(self.year, cls=f"year"),
+                Div(self._source_html(), cls=f"source"),
+                Span(self.topic, cls="topic"),
+                Div(self._title_html(), cls="title"),
+                Div(self._badges_html(), cls="badges"),
+                Div(authors_html, cls=f"authors {'' if authors_expandable else 'expanded'}", onClick="this.classList.add('expanded')"),
+                Div(Div(self.abstract), cls="abstract"),
+            ],
+            cls=f"reference {score_class} {ReferencesConfig.topics_class_name(self.topic)}",
+            style=f"order: 200;",
+        )
 
 
 @dataclass(frozen=True)
@@ -377,8 +374,9 @@ class BibTechReport(BibEntry):
 class BibliographyParser:
     """Parser for .bib files."""
 
-    def __init__(self, file_path: str):
-        content = Path(file_path).read_text()
+    def __init__(self, config: ReferencesConfig):
+        self.config = config
+        content = Path(config.file).read_text()
         self.entries: List[BibEntry] = []
 
         entry_pattern = r"@(\w+)\{([^,]+),\s*(.*?)\n\}"
@@ -429,131 +427,108 @@ class BibliographyParser:
 
         return fields
 
-    @property
-    def topics_html(self) -> List[str]:
-        topic_descriptions = {
-            "Human Biology & Development": "Research on human biology and development, including health, nutrition, and disease prevention.",
-            "Global Health & Health Technology Access": "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments.",
-            "Clinical Trial Transparency & Research Ethics": "Research on clinical trial transparency and research ethics, including trial registration and reporting.",
-        }
+    def _topics_html(self) -> Children:
+        return [
+            Div(
+                [
+                    Span(
+                        topic,
+                        cls=f"active {ReferencesConfig.topics_class_name(topic)}",
+                        data_topic=ReferencesConfig.topics_class_name(topic),
+                    )
+                    for topic in self.config.topics.keys()
+                ],
+                cls="topic-tags",
+            ),
+        ] + [
+            P(
+                desc,
+                cls=f"topic-desc hidden {ReferencesConfig.topics_class_name(topic)}",
+            )
+            for topic, desc in self.config.topics.items()
+        ]
 
-        topics = set([e.topic for e in self.entries if e.topic])
-        filter_html = '<section class="topic-filters">\n'
-        for topic in sorted(list(topics)):
-            desc = topic_descriptions.get(topic, f"Publications related to {topic}")
-            filter_html += f'<div class="topic-filter active" data-topic="{html.escape(topic)}">\n'
-            filter_html += f"<h4>{html.escape(topic)}</h4>\n"
-            filter_html += f"<p>{html.escape(desc)}</p>\n"
-            filter_html += "</div>\n"
-        filter_html += "</section>\n"
-        return filter_html
+    def as_html(self) -> Children:
+        return Div(
+            [
+                Section(
+                    [
+                        H2("Publications"),
+                        self._topics_html(),
+                    ],
+                    style="margin-bottom: var(--gap-md);",
+                    cls="tight",
+                ),
+                Section([entry.as_html(match_author=self.config.author) for entry in self.entries]),
+            ]
+        )
 
 
 class StaticSiteGenerator:
     """Generates static HTML site from bibliography data."""
 
     def __init__(self, config_path: str = "config.toml"):
-        self.config = tomllib.loads(Path(config_path).read_text())
-        self.bib_parser = BibliographyParser(self.config["reference-file"])
+        self.config = Config.from_toml(config_path)
+        print(self.config)
+        self.bib_parser = BibliographyParser(self.config.references)
 
     @property
     def layout(self) -> str:
-        return Path(self.config["layout-file"]).read_text()
+        return Path(self.config.layout.skeleton).read_text()
 
     @property
-    def style(self) -> str:
-        """Concatenate all CSS files in the ./css folder and create a hash-based filename."""
-        css_folder = Path(self.config["style-folder"])
+    def css_link(self) -> str:
+        """Concatenate all CSS files and save to output folder with hash-based filename."""
+        output = Path(self.config.layout.output)
 
         # Find all CSS files in the css folder
-        css_files = list(css_folder.glob("*.css"))
+        css_files = list(Path(self.config.layout.folder).glob("*.css"))
         if not css_files:
-            raise RuntimeWarning(f"Warning: No CSS files found in {css_folder} folder")
+            raise RuntimeWarning(f"Warning: No CSS files found in {self.config.layout.folder} folder")
 
         # Sort files for consistent ordering
         css_files.sort()
-        print(css_files)
 
         # Concatenate all CSS content
         concatenated_css = ""
         for css_file in css_files:
-            concatenated_css += f"""/* {css_file.name} */
-{css_file.read_text(encoding="utf-8")}
-
-"""
+            concatenated_css += f"/* {css_file.name} */\n{css_file.read_text(encoding='utf-8')}\n"
 
         css_hash = hashlib.md5(concatenated_css.encode("utf-8")).hexdigest()[:8]
-        hash_filename = Path(f"style-{css_hash}.css")
+        css_filename = f"style-{css_hash}.css"
 
-        for existing_file in Path(".").glob("style-*.css"):
+        # Clean up old CSS files in output folder
+        for existing_file in output.glob("style-*.css"):
             existing_file.unlink()
             print(f"Deleted existing CSS file: {existing_file}")
 
-        hash_filename.write_text(concatenated_css)
+        (output / css_filename).write_text(concatenated_css)
 
-        return concatenated_css
-
-    def _generate_bibliography_html(self) -> str:
-        # Generate header section with image and research description
-        header_html = """
-        <section class="research-header">
-            <div class="header-content">
-                <div class="header-image">
-                    <img src="sarai.jpg" alt="Sarai Keestra" class="profile-image">
-                </div>
-                <div class="header-text">
-                    <h1>Sarai Keestra</h1>
-                    <p class="research-description">
-                        I am a researcher focused on human biology, global health, and research ethics. My work spans three main areas:
-                    </p>
-                    <div class="research-areas">
-                        <div class="research-area">
-                            <h3>Human Biology & Development</h3>
-                            <p>Investigating neurodevelopmental outcomes, thyroid function, and developmental processes across different populations and environmental contexts.</p>
-                        </div>
-                        <div class="research-area">
-                            <h3>Global Health & Health Technology Access</h3>
-                            <p>Examining barriers to equitable access to health technologies, including vaccines and treatments, particularly in low-resource settings.</p>
-                        </div>
-                        <div class="research-area">
-                            <h3>Clinical Trial Transparency & Research Ethics</h3>
-                            <p>Advocating for improved transparency in clinical trials and ensuring research practices prioritize public health and ethical standards.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        """
-
-        # Generate segmented topic filter
-        filter_html = "<h2>Publications</h2>\n"
-        filter_html += self.bib_parser.topics_html
-
-        # Generate bibliography entries with topic data attributes
-        html_parts = ["<section>"]
-        for entry in self.bib_parser.entries:
-            html_parts.append(entry.as_html(match_author=self.config["author"], topic=entry.topic))
-        html_parts.append("</section>")
-
-        return header_html + filter_html + "".join(html_parts)
+        # return f'<link rel="stylesheet" href="{css_filename}">'
+        return f"<style>{concatenated_css}</style>"
 
     def build_site(self) -> None:
         print("Building static site...")
-        # Generate bibliography HTML
-        bibliography_html = self._generate_bibliography_html()
 
-        # Insert CSS into head
-        css_tag = f"<style>\n{self.style}\n</style>"
-        layout_html = self.layout.replace("</head>", f"{css_tag}\n</head>")
+        # Generate bibliography HTML
+        bibliography_html = self.bib_parser.as_html()
+
+        # Insert CSS link into head
+        layout_html = self.layout.replace("{{head}}", f"{self.css_link}")
 
         # Insert bibliography into main
-        layout_html = layout_html.replace("<main>", f"<main>\n{bibliography_html}")
+        layout_html = layout_html.replace("{{main}}", f"{bibliography_html}")
 
-        # Write output file
-        with open(self.config["output-file"], "w", encoding="utf-8") as f:
+        # Ensure output folder exists
+        output_folder = Path(self.config.layout.output)
+        output_folder.mkdir(exist_ok=True)
+
+        # Write output file as index.html
+        output_file = output_folder / "index.html"
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(layout_html)
 
-        print(f"Site built successfully: {self.config['output-file']}")
+        print(f"Site built successfully: {output_file}")
 
 
 def main():
