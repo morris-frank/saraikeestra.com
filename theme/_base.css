@@ -81,8 +81,10 @@ body {
     display: flex;
     gap: var(--gap-md);
     align-items: flex-end;
-    z-index: 101;
-    position: absolute;
+    z-index: 100;
+    position: fixed;
+    top: var(--gap-lg);
+    left: var(--gap-lg);
     border-radius: 0;
     background-color: var(--surface);
     
@@ -94,10 +96,20 @@ body {
     &.sticky {
       background-color: oklch(from var(--surface) l c h / 0.6);
       backdrop-filter: blur(5px);
-      position: sticky;
+      position: fixed;
       top: 0;
-      margin-top: 128px;
-      z-index: 100;
+      left: 0;
+      right: 0;
+      margin-top: 0;
+      z-index: 101;
+      align-items: center;
+      height: 72px;
+      width: 100%;
+      max-width: 100%;
+
+      h1 {
+        font-size: calc((var(--line-width) - var(--gap-md) - 72px) / 6.5);
+      }
 
       img {
         width: 72px;
