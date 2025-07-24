@@ -8,6 +8,6 @@ author = "Keestra"
 file = "references.bib"
 
 [references.topics]
-"Human Biology & Development" = "Research on human biology and development, including health, nutrition, and disease prevention."
-"Global Health & Health Technology Access" = "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments."
+"Endocrinology & Early development" = "Research on human biology and development, including health, nutrition, and disease prevention."
+"Access to Medicine & Global Health" = "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments."
 "Clinical Trial Transparency & Research Ethics" = "Research on clinical trial transparency and research ethics, including trial registration and reporting."
