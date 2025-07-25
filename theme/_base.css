@@ -102,6 +102,7 @@ body {
       margin-left: calc(-1 * var(--gap-lg));
       z-index: 99;
       margin-top: -130px;
+      margin-bottom: 0;
       padding: 0;
       
       img {
