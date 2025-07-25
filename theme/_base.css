@@ -147,11 +147,7 @@ section {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--gap-lg);
-
-  &.tight {
-    gap: var(--gap-md);
-  }
+  gap: var(--gap-md);
 }
 
 .hidden {
