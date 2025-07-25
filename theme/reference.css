@@ -82,6 +82,8 @@
     justify-self: end;
     align-self: center;
     white-space: nowrap;
+    overflow-x: scroll;
+    max-width: calc(100% - var(--gap-xs));
   }
 
   .title {
@@ -169,6 +171,7 @@
     border: 1px solid var(--outlineDim);
     background-color: var(--surface);
     border-radius: var(--radius-sm);
+    max-width: calc(100% - var(--gap-md));
 
     div {
       overflow: scroll;
