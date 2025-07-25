@@ -11,8 +11,7 @@
   a {
     img {
       height: 3rem;
-      max-width: 
-      max(8rem, calc(var(--line-width) / 7));
+      max-width: min(9rem, calc(var(--line-width) / 4));
       object-fit: contain;
     }
   }
