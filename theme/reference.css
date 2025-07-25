@@ -26,8 +26,13 @@
 }
 
 .topic-desc {
-  border-left: 4px solid var(--accent);
   padding: var(--gap-md);
+  background: oklch(from var(--accent) l c h / 0.05);
+  border-radius: var(--radius-sm);
+
+  h3 {
+    color: var(--accent);
+  }
 }
 
 .reference {
@@ -63,7 +68,6 @@
   .year {
     grid-area: year;
     justify-self: center;
-    align-self: center;
     color: var(--accent);
     font-size: 1.5rem;
     font-weight: 500;

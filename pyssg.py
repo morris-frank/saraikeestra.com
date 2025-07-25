@@ -500,8 +500,8 @@ class BibliographyParser:
                 cls="topic-tags",
             ),
         ] + [
-            P(
-                desc,
+            Div(
+                [H3(topic), P(desc)],
                 cls=f"topic-desc hidden {ReferencesConfig.topics_class_name(topic)}",
             )
             for topic, desc in self.config.topics.items()
@@ -579,14 +579,13 @@ class StaticSiteGenerator:
         ]
         media_block = Div(
             [
-                H3("Media appearances"),
                 *media_items,
             ],
             cls="media",
         )
 
         return Section(
-            [H2("Science Communication"), featured_media_block, nemo_block, media_block],
+            [H2("Science Communication"), nemo_block, H3("Media appearances"), featured_media_block, media_block],
         )
 
     def _education_html(self):
@@ -605,7 +604,7 @@ class StaticSiteGenerator:
                     ],
                     cls="institution",
                 ),
-                H3(edu.degree, cls="degree"),
+                P(edu.degree, cls="degree"),
             ]
             if edu.description:
                 card_content.append(P(edu.description, cls="description"))

@@ -6,9 +6,13 @@
     padding: 0 0 1rem;
     scrollbar-width: thin;
     scrollbar-color: var(--outline) transparent;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
     gap: var(--gap-md);
+    width: var(--screen-width);
 
     > div {
+      scroll-snap-align: start;
       border: 1px solid var(--outline);
       border-radius: var(--radius-lg);
       padding: var(--gap-md);
@@ -21,6 +25,7 @@
 
       .degree {
         font-size: 1.1em;
+        font-weight: 500;
       }
 
       .institution {
