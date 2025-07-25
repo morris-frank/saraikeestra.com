@@ -1,0 +1,20 @@
+.media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: 0.9em;
+        color: var(--onSurfaceDim);
+      }
+    }
+  }
+}

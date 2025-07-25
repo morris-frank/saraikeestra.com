@@ -3,11 +3,215 @@ folder = "theme"
 skeleton = "theme/layout.html"
 output = "public"
 
+
 [references]
 author = "Keestra"
 file = "references.bib"
-
 [references.topics]
 "Endocrinology & Early development" = "Research on human biology and development, including health, nutrition, and disease prevention."
 "Access to Medicine & Global Health" = "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments."
 "Clinical Trial Transparency & Research Ethics" = "Research on clinical trial transparency and research ethics, including trial registration and reporting."
+
+
+[[education]]
+degree = "MD/PhD in Reproductive Epidemiology and Paediatric Endocrinology"
+institution = "Amsterdam UMC (AMC)"
+years = "2021-"
+thesis = "Too much too soon, too little too late: iodine and thyroid health in the first thousand days of life and its developmental consequences"
+supervisors = ["Prof. Tessa Roseboom", "Dr. Martijn Finken"]
+logo = "amc.svg"
+[[education]]
+degree = "Graduate Entry Medicine (Accelerated Bachelor)"
+institution = "University of Amsterdam"
+years = "2020-2021"
+description = "Accelerated bachelor's degree covering the first three years of medical school."
+logo = "uva.svg"
+[[education]]
+degree = "Introduction to Climate Change and Health"
+institution = "Yale University (remote)"
+years = "2020"
+description = "Remote course on climate change and health, with a final assignment on Amsterdam. (4 weeks)"
+logo = "yale.svg"
+[[education]]
+degree = "MSc Medical Anthropology (Distinction)"
+institution = "Durham University"
+years = "2018-2019"
+thesis = "The effect of early life conditions on sexual maturation - Examining the role of stress on juvenile tempo and the gene expression of Srd5a1 in GnRH-releasing neurons."
+supervisors = ["Prof. Gillian Bentley", "Prof. Philippa Melamed"]
+logo = "durham.webp"
+[[education]]
+degree = "BSc Human Sciences (1st Class Degree)"
+institution = "University College London"
+years = "2015-2018"
+thesis = "Out of Balance - an interdisciplinary integration of immunological and evolutionary perspectives on the role of sex hormones in the development of autoimmune disease."
+supervisors = ["Dr. Deniz Salali", "Dr. Victoria Male"]
+logo = "ucl.svg"
+[[education]]
+degree = "Global Citizenship Programme: Health in Future Cities"
+institution = "UCL"
+years = "2016"
+description = "Interactive summer course/simulation on future global health problems in cities. Presented outcomes to ~1000 students. (10 days)"
+logo = "ucl.svg"
+[[education]]
+degree = "Summer School on Global Health"
+institution = "University of Groningen"
+years = "2016"
+description = "Courses on global health issues such as abortion and rights to health care. (10 days)"
+[[education]]
+degree = "Osteoarchaeology and Paleopathology"
+institution = "University of Pisa"
+years = "2016"
+description = "Course on cleaning/restoring skeletal remains, sex/age determination, and paleopathology. (3 weeks)"
+[[education]]
+degree = "Pre-University Program: Archaeology"
+institution = "Leiden University"
+years = "2014"
+description = "Pre-university course on archaeological sciences for high school students (1 semester)."
+[[education]]
+degree = "Pre-University Program: Life Science & Technology"
+institution = "Leiden University"
+years = "2013"
+description = "Pre-university course on cell biology for high school students (1 semester)."
+[[education]]
+degree = "Gymnasium / Grammar School (Cum Laude)"
+institution = "St. Ignatius Gymnasium (Amsterdam)"
+years = "2012-2015"
+
+
+[[featured_media]]
+name = "The Atlantic"
+logo = "the-atlantic.svg"
+url = "https://www.theatlantic.com/science/archive/2023/06/dolphin-calf-communication-baby-talk/674499/?utm_source=feed"
+[[featured_media]]
+name = "The Guardian"
+logo = "the-guardian.svg"
+url = "https://www.theguardian.com/world/2022/jul/22/gaga-for-goo-goo-wellington-named-the-global-capital-of-baby-talk"
+[[featured_media]]
+name = "STAT News"
+logo = "stat-news.svg"
+url = "https://www.statnews.com/pharmalot/2022/02/24/clinical-trials-transparency-uk-fda/"
+[[featured_media]]
+name = "The Conversation"
+logo = "the-conversation.svg"
+url = "https://theconversation.com/your-environment-affects-how-well-your-medications-work-identifying-exactly-how-could-make-medicine-better-246476"
+[[featured_media]]
+name = "TIME"
+logo = "time-magazine.svg"
+url = "https://time.com/7261172/genes-vs-lifestyle-longevity-study/"
+[[featured_media]]
+name = "Slate"
+logo = "slate.svg"
+url = "https://www.slate.fr/story/231275/langage-parental-universel-etude-scientique-multiculturelle"
+[[featured_media]]
+name = "Quartz"
+logo = "quartz.svg"
+url = "https://qz.com/2006390/taxpayers-are-paying-twice-or-more-for-the-covid-19-vaccine"
+
+
+[nemo]
+logo = "nemo.svg"
+title = "NEMO Kennislink Blog"
+description = "Regular blog contributions for the Dutch Children's Science Museum NEMO, as part of the KNAW Faces of Science programme. Topics include evolutionary medicine, public health, and science for children."
+url = "https://www.nemokennislink.nl/facesofscience/profiel/sarai-keestra/"
+[[nemo_links]]
+title = "Waarom worden mensen ziek? Een evolutionaire blik op de gezondheid"
+title_en = "Why do people get sick? An evolutionary perspective on health"
+year = 2023
+url = "https://www.nemokennislink.nl/publicaties/waarom-worden-mensen-ziek/"
+[[nemo_links]]
+title = "Een gezonde toekomst begint al voor de geboorte"
+title_en = "A healthy future starts before birth"
+year = 2023
+url = "https://www.nemokennislink.nl/publicaties/een-gezonde-toekomst-begint-al-voor-de-geboorte/"
+[[nemo_links]]
+title = "Opsporing verzocht: de resultaten van medisch onderzoek zijn te vaak niet transparant"
+title_en = "Investigation requested: the results of medical research are often not transparent"
+year = 2023
+url = "https://www.nemokennislink.nl/publicaties/opsporing-verzocht-de-resultaten-van-medisch-onderzoek-zijn-te-vaak-niet-transparant/"
+[[nemo_links]]
+title = "150 jaar vrouwelijke artsen in Nederland: Pioniers in de wetenschap en strijders voor de rechten van de vrouw"
+title_en = "150 years of female doctors in the Netherlands: Pioneers in science and fighters for the rights of women"
+year = 2022
+url = "https://www.nemokennislink.nl/facesofscience/blogs/150-jaar-vrouwelijke-artsen-in-nederland/"
+[[nemo_links]]
+title = "Is babypraat universeel?"
+title_en = "Is baby talk universal?"
+year = 2022
+url = "https://www.nemokennislink.nl/facesofscience/blogs/is-babypraat-universeel/"
+[[nemo_links]]
+title = "Waarom lopen mensen op 2 benen?"
+title_en = "Why do people walk on two legs?"
+year = 2022
+url = "https://www.nemokennislink.nl/facesofscience/blogs/waarom-lopen-mensen-op-twee-benen/"
+[[nemo_links]]
+title = "Op bezoek bij de Wereldgezondheidsorganisatie"
+title_en = "Visiting the World Health Organization"
+year = 2022
+url = "https://www.nemokennislink.nl/facesofscience/blogs/op-bezoek-bij-de-wereldgezondheidsorganisatie/"
+[[nemo_links]]
+title = "Zeewier, Zout en Zwangere Vrouwen - Waarom er jodium in ons zout zit"
+title_en = "Seaweed, salt and pregnant women - Why iodine is in our salt"
+year = 2022
+url = "https://www.nemokennislink.nl/facesofscience/blogs/zeewier-zout-en-zwangere-vrouwen/"
+
+
+[[media]]
+title = "Food for thought: The UN Decade of Action on Nutrition at the WHO"
+outlet = "People's Dispatch"
+year = 2023
+url = "https://peoplesdispatch.org/2023/02/04/food-for-thought-the-un-decade-of-action-on-nutrition-at-the-who/"
+[[media]]
+title = "Private monopolies hinder progress on public health: intellectual property at the 75th World Health Assembly"
+outlet = "People's Dispatch"
+year = 2022
+url = "https://peoplesdispatch.org/2022/06/12/private-monopolies-hinder-progress-on-public-health-intellectual-property-at-the-75th-world-health-assembly/"
+[[media]]
+title = "Passing exams and planning protests — the role of students in the access to medicines movement"
+outlet = "Médecins Sans Frontières (MSF)"
+year = 2020
+url = "https://msf-access.medium.com/passing-exams-and-planning-protests-the-role-of-students-in-the-access-to-medicines-movement-ae3b8d8d5906"
+[[media]]
+title = "Iodine and thyroid health"
+outlet = "BOOST Thyroid"
+year = 2020
+url = "https://www.boosthyroid.com/blog/iodine"
+[[media]]
+title = "Hashimoto’s and coronavirus: what we can learn from SARS"
+outlet = "BOOST Thyroid"
+year = 2020
+url = "https://www.boosthyroid.com/blog/hashimotos-sars-corona"
+[[media]]
+title = "Dutch National Radio 1, Night of Science"
+outlet = "NPO Radio 1"
+year = 2022
+url = "https://www.nporadio1.nl/uitzendingen/de-nacht-van/4e2a6acd-5aab-4378-9e0c-b77881c7a953/2022-11-24-de-nacht-van"
+[[media]]
+title = "Political pressure in the U.K. prompted more universities to report clinical trial results"
+outlet = "STAT News"
+year = 2022
+url = "https://www.statnews.com/pharmalot/2022/02/24/clinical-trials-transparency-uk-fda/"
+[[media]]
+title = "Access to Medicines, Vaccines and the Covid-19 Pandemic"
+outlet = "The Interdisciplinarian, Harvard Public Health Review"
+year = 2021
+url = "https://hphr.org/weiss-goiandia-blog-4/"
+[[media]]
+title = "Africa should tackle failures in technology sharing"
+outlet = "University World News"
+year = 2021
+url = "https://www.universityworldnews.com/post.php?story=20210519190234497"
+[[media]]
+title = "In the push for new vaccines, taxpayers keep paying and paying"
+outlet = "Quartz"
+year = 2021
+url = "https://qz.com/2006390/taxpayers-are-paying-twice-or-more-for-the-covid-19-vaccine/"
+[[media]]
+title = "More than 1,600 clinical trials run by UK universities violate reporting rules"
+outlet = "Transparimed"
+year = 2020
+url = "https://www.transparimed.org/single-post/2019/01/24/More-than-1600-clinical-trials-run-by-UK-universities-violate-reporting-rules"
+[[media]]
+title = "The JewCL Podcast"
+outlet = "JewCL"
+year = 2018
+url = "https://jewcl.libsyn.com/"

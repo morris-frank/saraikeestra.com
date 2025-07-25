@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import yaml  # Add this import for YAML parsing
+
 
 class HTMLElement:
     def __init__(self, tag: str, children: Children, **kwargs):
@@ -47,8 +49,13 @@ class Div(HTMLElement):
 
 
 class A(HTMLElement):
-    def __init__(self, text: str, *, href: str, **kwargs):
+    def __init__(self, text: Children, *, href: str, **kwargs):
         super().__init__("a", [text], href=href, **{"target": "_blank", **kwargs})
+
+
+class Img(HTMLElement):
+    def __init__(self, src: str, alt: str, **kwargs):
+        super().__init__("img", None, src=src, alt=alt, **kwargs)
 
 
 class Span(HTMLElement):
@@ -64,6 +71,11 @@ class P(HTMLElement):
 class H2(HTMLElement):
     def __init__(self, text: Any, **kwargs):
         super().__init__("h2", [text], **kwargs)
+
+
+class H3(HTMLElement):
+    def __init__(self, text: Any, **kwargs):
+        super().__init__("h3", [text], **kwargs)
 
 
 class H4(HTMLElement):
@@ -95,11 +107,58 @@ class ReferencesConfig:
 
 
 @dataclass(frozen=True)
+class EducationConfig:
+    degree: str
+    institution: str
+    years: str
+    supervisors: Optional[List[str]] = None
+    thesis: Optional[str] = None
+    description: Optional[str] = None
+    logo: Optional[str] = None
+
+
+@dataclass(frozen=True)
+class FeaturedMediaConfig:
+    name: str
+    logo: str
+    url: str
+
+
+@dataclass(frozen=True)
+class NemoLinkConfig:
+    title: str
+    title_en: str
+    year: int
+    url: str
+
+
+@dataclass(frozen=True)
+class NemoConfig:
+    logo: str
+    title: str
+    description: str
+    url: str
+    links: List[NemoLinkConfig]
+
+
+@dataclass(frozen=True)
+class MediaConfig:
+    title: str
+    outlet: str
+    year: int
+    url: str
+
+
+@dataclass(frozen=True)
 class Config:
     """Configuration for the static site generator."""
 
     layout: LayoutConfig
     references: ReferencesConfig
+    education: List[EducationConfig]
+    featured_media: List[FeaturedMediaConfig]
+    nemo: NemoConfig
+    media: List[MediaConfig]
 
     @classmethod
     def from_toml(cls, config_path: str) -> "Config":
@@ -108,6 +167,10 @@ class Config:
         return cls(
             layout=LayoutConfig(**config_data["layout"]),
             references=ReferencesConfig(**config_data["references"]),
+            education=[EducationConfig(**education) for education in config_data["education"]],
+            featured_media=[FeaturedMediaConfig(**featured_media) for featured_media in config_data["featured_media"]],
+            nemo=NemoConfig(**config_data["nemo"], links=[NemoLinkConfig(**link) for link in config_data["nemo_links"]]),
+            media=[MediaConfig(**media) for media in config_data["media"]],
         )
 
 
@@ -469,8 +532,117 @@ class StaticSiteGenerator:
 
     def __init__(self, config_path: str = "config.toml"):
         self.config = Config.from_toml(config_path)
-        print(self.config)
         self.bib_parser = BibliographyParser(self.config.references)
+
+    def _science_communication_html(self):
+        # --- Featured Media Bar ---
+        featured_media_items = []
+        for media in self.config.featured_media:
+            featured_media_items.append(
+                A(
+                    Img(f"logos/{media.logo}", alt=media.name + " logo"),
+                    href=media.url,
+                )
+            )
+        featured_media_block = Div(
+            featured_media_items,
+            cls="featured-media",
+        )
+
+        # --- NEMO Kennislink Highlight Box ---
+        nemo_items = []
+        for link in self.config.nemo.links:
+            nemo_items.extend(
+                [
+                    Div(
+                        [
+                            A(link.title_en, href=link.url),
+                            Span(f"{link.year}"),
+                        ],
+                    ),
+                    A(link.title, href=link.url),
+                ]
+            )
+        nemo_block = Div(
+            [
+                A(Img(f"logos/{self.config.nemo.logo}", alt="NEMO Kennislink logo"), href=self.config.nemo.url),
+                P(self.config.nemo.description),
+                *nemo_items,
+            ],
+            cls="nemo-box",
+        )
+
+        # Media interviews
+        media_items = [
+            Div(
+                [
+                    A(media.title, href=media.url) if media.url else Span(media.title),
+                    Div(
+                        [
+                            Span(media.outlet),
+                            Span(media.year),
+                        ]
+                    ),
+                ],
+            )
+            for media in self.config.media
+        ]
+        media_block = Div(
+            [
+                H3("Media appearances"),
+                *media_items,
+            ],
+            cls="media",
+        )
+
+        return Section(
+            [H2("Science Communication"), featured_media_block, nemo_block, media_block],
+        )
+
+    def _education_html(self):
+        education_cards = []
+        for edu in self.config.education:
+            card_content = [
+                Div(
+                    [
+                        Div(
+                            [
+                                P(edu.institution),
+                                P(edu.years, cls="years"),
+                            ]
+                        ),
+                        Img(f"logos/{edu.logo}", alt=edu.institution + " logo") if edu.logo else None,
+                    ],
+                    cls="institution",
+                ),
+                H3(edu.degree, cls="degree"),
+            ]
+            if edu.description:
+                card_content.append(P(edu.description, cls="description"))
+
+            if edu.thesis:
+                card_content.append(P(f"Thesis: {edu.thesis}", cls="thesis"))
+
+            if edu.supervisors:
+                supervisors_text = ", ".join(edu.supervisors)
+                card_content.append(P(f"Supervisors: {supervisors_text}", cls="supervisors"))
+
+            education_cards.append(
+                Div(card_content),
+            )
+
+        return Div(
+            [
+                H2("Education"),
+                Div(
+                    education_cards,
+                ),
+                P(
+                    "← Swipe left to see earlier education",
+                ),
+            ],
+            cls="education",
+        )
 
     @property
     def layout(self) -> str:
@@ -510,14 +682,19 @@ class StaticSiteGenerator:
     def build_site(self) -> None:
         print("Building static site...")
 
+        # Remove global featured media bar
+        # Generate science communication HTML
+        scicomm_html = self._science_communication_html() or ""
+        # Generate education HTML
+        education_html = self._education_html() or ""
         # Generate bibliography HTML
         bibliography_html = self.bib_parser.as_html()
 
         # Insert CSS link into head
         layout_html = self.layout.replace("{{head}}", f"{self.css_link}")
 
-        # Insert bibliography into main
-        layout_html = layout_html.replace("{{main}}", f"{bibliography_html}")
+        # Insert all sections into main (science communication first)
+        layout_html = layout_html.replace("{{main}}", f"{scicomm_html}{education_html}{bibliography_html}")
 
         # Ensure output folder exists
         output_folder = Path(self.config.layout.output)

@@ -1,0 +1,67 @@
+.education {
+  > div {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 0 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--outline) transparent;
+    gap: var(--gap-md);
+
+    > div {
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-lg);
+      padding: var(--gap-md);
+      max-width: 20rem;
+      box-shadow: 0 2px 8px 0 oklch(from var(--outline) l c h / 0.08);
+      flex-shrink: 0;
+      display: flex;
+      gap: var(--gap-xs);
+      flex-direction: column;
+
+      .degree {
+        font-size: 1.1em;
+      }
+
+      .institution {
+        display: flex;
+        gap: var(--gap-sm);
+        justify-content: space-between;
+
+        img {
+          height: 3rem;
+          max-width: calc(var(--line-width) / 10);
+          object-fit: contain;
+        }
+
+        p {
+          font-weight: 500;
+          color: var(--accent);
+          &.years {
+            font-size: 0.9rem;
+            color: var(--onSurfaceDim);
+          }
+        }
+      }
+
+
+      .thesis {
+        font-size: 0.9rem;
+        font-style: italic;
+      }
+
+      .supervisors {
+        font-size: 0.8rem;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  > p {
+    text-align: center;
+    font-style: italic;
+  }
+}

@@ -1,0 +1,28 @@
+<svg version="1.1" id="Layer_1" xmlns:x="ns_extend;" xmlns:i="ns_ai;" xmlns:graph="ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 45.8 55.7" style="enable-background:new 0 0 45.8 55.7;" xml:space="preserve">
+ <style type="text/css">
+  .st0{fill-rule:evenodd;clip-rule:evenodd;fill:#E6000F;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#F07814;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#003741;}
+ </style>
+ <metadata>
+  <sfw xmlns="ns_sfw;">
+   <slices>
+   </slices>
+   <sliceSourceBounds bottomLeftOrigin="true" height="55.7" width="45.8" x="-88.8" y="4.3">
+   </sliceSourceBounds>
+  </sfw>
+ </metadata>
+ <g id="_x31_-logo_x2F_default_x2F_nl">
+  <g id="Beeldmerk">
+   <path id="tulp" class="st0" d="M12.2,8.6c5.5,4,9.2,10.5,9.2,17.8l0,0v17.5c-2.2-0.7-4-1.5-5.4-2.7c-2.5-2-3.8-5.5-3.8-13l0,0V8.6
+			z M33.6,8.6v19.6c0,7.5-1.3,11-3.8,13c-1.4,1.2-3.2,1.9-5.4,2.7V26.4C24.4,19.1,28,12.6,33.6,8.6z">
+   </path>
+   <path id="grachtencirkel" class="st1" d="M45.8,32.9l0-28.6c-3.3,0.2-6.5,1.1-9.2,2.5v23.7c0,15.7-11.5,16.2-13.7,16.2
+			S9.2,46.1,9.2,30.4V6.7C6.5,5.3,3.3,4.4,0,4.2v28.6c0,13,10.3,22.9,22.9,22.9S45.8,45.9,45.8,32.9z">
+   </path>
+   <path id="precisie" class="st2" d="M22.9,15.6c1.6-3.2,3.9-6.1,6.7-8.3c-1.7-2.9-4-5.4-6.7-7.3c-2.8,1.9-5.1,4.4-6.7,7.3
+			C19,9.6,21.3,12.4,22.9,15.6">
+   </path>
+  </g>
+ </g>
+</svg>

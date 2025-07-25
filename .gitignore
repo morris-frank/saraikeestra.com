@@ -3,3 +3,4 @@ __pycache__
 style-*css
 .DS_Store
 *.docx
+*pdf

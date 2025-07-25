@@ -85,6 +85,7 @@ body {
     border-radius: 0;
     background-color: var(--surface);
     align-items: center;
+    margin-bottom: var(--gap-md);
 
     img {
       width: min(50vh, 200px);
@@ -98,17 +99,18 @@ body {
       top: 0;
       z-index: 99;
       margin-top: -130px;
-    }
-
-    h1 {
-      font-size: min(2rem, calc((var(--line-width) - var(--gap-md) - 72px) / 6.5));
-    }
-
-    img {
-      width: 72px;
-      height: 72px;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+      
+      h1 {
+        font-size: min(2rem, calc((var(--line-width) - var(--gap-md) - 72px) / 6.5));
+      }
+      
+      img {
+        width: 72px;
+        height: 72px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
   }
 

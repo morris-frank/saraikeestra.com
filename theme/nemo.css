@@ -1,0 +1,30 @@
+.nemo-box {
+  background: var(--surfaceDim);
+  padding: var(--gap-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px 0 oklch(from var(--outline) l c h / 0.04);
+  display: flex;
+  gap: var(--gap-sm);
+  flex-direction: column;
+
+  > a {
+    display: block;
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--onSurfaceDim);
+
+    img {
+      height: 2.5rem;
+      max-width: 100%;
+      object-fit: contain;
+
+    }
+  }
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gap-md);
+
+  }
+}
