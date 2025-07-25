@@ -544,13 +544,18 @@ class StaticSiteGenerator:
         for link in self.config.nemo.links:
             nemo_items.extend(
                 [
-                    Div(
+                    A(
                         [
-                            A(link.title_en, href=link.url),
+                            Div(
+                                [
+                                    P(link.title_en),
+                                    P(link.title),
+                                ]
+                            ),
                             Span(f"{link.year}"),
                         ],
+                        href=link.url,
                     ),
-                    A(link.title, href=link.url),
                 ]
             )
         nemo_block = Div(

@@ -175,7 +175,8 @@
     border-radius: var(--radius-sm);
 
     div {
-      overflow: scroll;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       max-height: 230px;
       font-size: 0.8rem;
       line-height: 1.5;

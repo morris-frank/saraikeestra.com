@@ -114,6 +114,36 @@ title = "NEMO Kennislink Blog"
 description = "Regular blog contributions for the Dutch Children's Science Museum NEMO, as part of the KNAW Faces of Science programme. Topics include evolutionary medicine, public health, and science for children."
 url = "https://www.nemokennislink.nl/facesofscience/profiel/sarai-keestra/"
 [[nemo_links]]
+title = "De mysterieuze Denisovamens ontrafeld"
+title_en = "The mystery of the Denisovans unraveled"
+year = 2025
+url = "https://www.nemokennislink.nl/publicaties/het-ontrafelen-van-de-mysterieuze-denisovamens/"
+[[nemo_links]]
+title = "Een kansrijke start in het leven"
+title_en = "A lucky start in life"
+year = 2025
+url = "https://www.nemokennislink.nl/publicaties/een-kansrijke-start-in-het-leven/"
+[[nemo_links]]
+title = "Waarom Rosalind geen Nobelprijs wint"
+title_en = "Why Rosalind doesn't win a Nobel Prize"
+year = 2024
+url = "https://www.nemokennislink.nl/publicaties/waarom-rosalind-niet-de-nobelprijs-wint/"
+[[nemo_links]]
+title = "Schaamteloos menstrueren"
+title_en = "Shameless menstruation"
+year = 2024
+url = "https://www.nemokennislink.nl/publicaties/schaamteloos-menstrueren/"
+[[nemo_links]]
+title = "Lang zullen zij leven"
+title_en = "Long will they live"
+year = 2024
+url = "https://www.nemokennislink.nl/publicaties/lang-zullen-zij-leven/"
+[[nemo_links]]
+title = "Weg met de bikinigeneeskunde!"
+title_en = "Bikini medicine is over!"
+year = 2024
+url = "https://www.nemokennislink.nl/publicaties/weg-met-de-bikinigeneeskunde/"
+[[nemo_links]]
 title = "Waarom worden mensen ziek? Een evolutionaire blik op de gezondheid"
 title_en = "Why do people get sick? An evolutionary perspective on health"
 year = 2023

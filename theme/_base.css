@@ -93,7 +93,6 @@ body {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     background-color: var(--surface);
-    box-shadow: 0 0 0 1px oklch(from var(--surface) l c h / 0.1);
     
     img {
       width: var(--header-height);
@@ -103,7 +102,7 @@ body {
     
     &.sticky {
       background-color: transparent;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(6px);
       position: sticky;
       top: 0;
       z-index: 99;

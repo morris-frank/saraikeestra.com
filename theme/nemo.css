@@ -6,25 +6,23 @@
   display: flex;
   gap: var(--gap-sm);
   flex-direction: column;
+  
+  img {
+    height: 2.5rem;
+    max-width: 100%;
+    object-fit: contain;
+  }
 
-  > a {
+  p + p {
     display: block;
     font-style: italic;
     font-size: 0.9em;
     color: var(--onSurfaceDim);
-
-    img {
-      height: 2.5rem;
-      max-width: 100%;
-      object-fit: contain;
-
-    }
   }
 
-  > div {
+  a {
     display: flex;
     justify-content: space-between;
     gap: var(--gap-md);
-
   }
 }
