@@ -47,14 +47,12 @@
   border-radius: var(--radius-md);
   gap: 0 var(--gap-md);
   align-items: start;
-  border: 1px solid var(--outlineDim);
-  box-shadow: 0 0 #0000, 0 0 #0000, 0px 4px 8px 0px oklch(from var(--outline) l c h / 0.1),
-    0 8px 3px -6px oklch(from var(--outline) l c h / 0.1);
+  border: 1px solid var(--outline);
+  box-shadow: var(--shadow-md);
 
   &:hover {
-    border-color: var(--outline);
-    box-shadow: 0 0 #0000, 0 0 #0000, 0 20px 25px -5px oklch(from var(--outline) l c h / 0.1),
-      0 8px 10px -6px oklch(from var(--outline) l c h / 0.1);
+    border-color: var(--outlineBright);
+    box-shadow: var(--shadow-lg);
   }
 
   .source {

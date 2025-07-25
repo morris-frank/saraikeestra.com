@@ -2,7 +2,7 @@
   background: var(--surfaceDim);
   padding: var(--gap-md);
   border-radius: var(--radius-md);
-  box-shadow: 0 2px 8px 0 oklch(from var(--outline) l c h / 0.04);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-wrap: wrap;
   gap: var(--gap-md);
