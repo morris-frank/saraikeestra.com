@@ -1,16 +1,12 @@
 #! /usr/bin/env python3
 from __future__ import annotations
 
-import glob
 import hashlib
-import html
 import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-
-import yaml  # Add this import for YAML parsing
 
 
 class HTMLElement:
