@@ -508,16 +508,11 @@ class BibliographyParser:
         ]
 
     def as_html(self) -> Children:
-        return Div(
+        return Section(
             [
-                Section(
-                    [
-                        H2("Publications"),
-                        self._topics_html(),
-                    ],
-                    style="margin-bottom: var(--gap-md);",
-                ),
-                Section([entry.as_html(match_author=self.config.author) for entry in self.entries]),
+                H2("Publications"),
+                self._topics_html(),
+                *[entry.as_html(match_author=self.config.author) for entry in self.entries],
             ]
         )
 
@@ -626,7 +621,7 @@ class StaticSiteGenerator:
                 Div(card_content),
             )
 
-        return Div(
+        return Section(
             [
                 H2("Education"),
                 Div(
