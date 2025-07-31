@@ -71,8 +71,8 @@ thesis = "Too much too soon, too little too late: iodine and thyroid health in t
 supervisors = [
     "Prof. Tessa Roseboom (Main Promotor, Epidemiology & Data Science, AMC)",
     "Dr. Martijn Finken (Co-promotor, Paediatric endocrinology, Emma Children's Hospital)",
-    "Dr. Alexandra Alvergne (Institute for Evolutionary Sciences, Montpellier University & University of Oxford)",
-    "Austin Argentieri (Massachusetts General Hospital, Harvard University)",
+    # "Dr. Alexandra Alvergne (Institute for Evolutionary Sciences, Montpellier University & University of Oxford)",
+    # "Austin Argentieri (Massachusetts General Hospital, Harvard University)",
 ]
 logo = "amc.svg"
 [[education]]
