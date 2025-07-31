@@ -551,6 +551,8 @@ class StaticSiteGenerator:
             cls="featured-media",
         )
 
+        intro_video_embed = '<video src="https://cdn.maurice-frank.com/morris-media/sarai-faces_of_science.mkv" controls poster="sarai-faces_of_science.png"></video>'
+
         # --- NEMO Kennislink Highlight Box ---
         nemo_items = []
         for link in self.config.nemo.links:
@@ -602,7 +604,7 @@ class StaticSiteGenerator:
         )
 
         return Section(
-            [H2("Science Communication"), nemo_block, H3("Media appearances"), featured_media_block, media_block],
+            [H2("Science Communication"), intro_video_embed, nemo_block, H3("Media appearances"), featured_media_block, media_block],
         )
 
     def _experience_html(self):
