@@ -13,55 +13,97 @@ file = "references.bib"
 "Clinical Trial Transparency & Research Ethics" = "Research on clinical trial transparency and research ethics, including trial registration and reporting. This area examines the ethical and practical aspects of ensuring that clinical research is conducted transparently and that results are made publicly available in a timely manner. Research focuses on identifying gaps in trial reporting practices, evaluating the effectiveness of policies and interventions to improve transparency, and understanding the role of various stakeholders including universities, funders, and regulatory bodies in promoting research integrity. This includes studies on the impact of missing trial data on evidence-based medicine, the development of tools and frameworks for monitoring compliance, and the implementation of best practices for clinical trial transparency across different jurisdictions and institutions."
 
 
+[[experience]]
+title = "Research Assistant at the Department of Global Health and Development and Antimicrobial Resistance Centre"
+institution = "London School of Hygiene and Tropical Medicine"
+description = "Systematic review of structural interventions in WASH/biosecurity to reduce AMR burden in LMICs from a One Health perspective."
+years = "2020 - 2021"
+logo = "lshtm.svg"
+[[experience]]
+title = "Research Assistant at the School of Anthropology and Museum Ethnography"
+institution = "University of Oxford"
+description = "Understanding the natural variation in thyroid function using an evolutionary ecology framework and medical anthropology perspectives."
+years = "2019 - 2021"
+logo = "oxford.svg"
+[[experience]]
+title = "Research Assistant at the Bangladeshi Migrants Diet & Anthropometrics Study"
+institution = "Durham University"
+description = "Analysing data on different generations of Bangladeshi migrants to north London to analyse obesogenic changes in diet and lifestyle to design culturally appropriate public health interventions."
+years = "2021"
+logo = "durham.webp"
+[[experience]]
+title = "Research Assistant at the South Omo Food Security & Health Study"
+institution = "Durham University"
+description = "Analysing data on health and child nutritional status in a nomadic agro-pastoralist population in South-Western Ethiopia in the context of government-led sedentarisation."
+years = "2020"
+logo = "durham.webp"
+[[experience]]
+title = "Laboratory Assistant Parent-Infant Sleeping Lab"
+institution = "Durham University"
+description = "Volunteered on studies looking at the effect of swadling and nighttime breastfeeding on sleeping behaviours of mother's and their babies."
+years = "2018 - 2019"
+logo = "durham.webp"
+[[experience]]
+title = "Research Assistant Health and Wellbeing in Transitioning Hunter-Gatherers of the Congo Basin"
+institution = "University College London"
+description = "Fieldwork for two months in Congo-Brazzaville on the health and nutrition of Mbendjele hunter-gatherers."
+years = "2018"
+logo = "ucl.svg"
+[[experience]]
+title = "Research Intern Molecular And Cultural Evolution (MACE) lab"
+institution = "University College London"
+description = "Assisted a PhD student on her research on human genetic adaptation to dietary change, learning R studio, cleaning dietary databases."
+years = "2017 - 2018"
+logo = "ucl.svg"
+[[experience]]
+title = "Fieldwork in Burgos, Spain"
+institution = "Atapuerca Foundation"
+description = "Bioarcheological fieldwork at the excavation site in Western Europe with the oldest human remains near Burgos, Spain."
+years = "2017"
+logo = "atapuerca.svg"
+
 [[education]]
 degree = "MD/PhD in Reproductive Epidemiology and Paediatric Endocrinology"
 institution = "Amsterdam UMC (AMC)"
-years = "2021-"
+years = "2021-2025"
+description = "Alternating PhD research on the developmental plasticity of the thyroid axis with a MD in medicine. Funded by the Amsterdam UMC, Amsterdam Reproduction & Development Institute, and Stichting Steun Emma Kinderziekenhuis."
 thesis = "Too much too soon, too little too late: iodine and thyroid health in the first thousand days of life and its developmental consequences"
-supervisors = ["Prof. Tessa Roseboom", "Dr. Martijn Finken"]
+supervisors = [
+    "Prof. Tessa Roseboom (Main Promotor, Epidemiology & Data Science, AMC)",
+    "Dr. Martijn Finken (Co-promotor, Paediatric endocrinology, Emma Children's Hospital)",
+    "Dr. Alexandra Alvergne (Institute for Evolutionary Sciences, Montpellier University & University of Oxford)",
+    "Austin Argentieri (Massachusetts General Hospital, Harvard University)",
+]
 logo = "amc.svg"
 [[education]]
-degree = "Graduate Entry Medicine (Accelerated Bachelor)"
+degree = "Graduate Entry Medicine"
 institution = "University of Amsterdam"
 years = "2020-2021"
-description = "Accelerated bachelor's degree covering the first three years of medical school."
+description = "Accelerated bachelor's degree covering the first three years of medical school within 1 year."
 logo = "uva.svg"
 [[education]]
-degree = "Introduction to Climate Change and Health"
-institution = "Yale University (remote)"
-years = "2020"
-description = "Remote course on climate change and health, with a final assignment on Amsterdam. (4 weeks)"
-logo = "yale.svg"
-[[education]]
-degree = "MSc Medical Anthropology (Distinction)"
+degree = "MSc Medical Anthropology"
+distinction = "Distinction"
 institution = "Durham University"
 years = "2018-2019"
 thesis = "The effect of early life conditions on sexual maturation - Examining the role of stress on juvenile tempo and the gene expression of Srd5a1 in GnRH-releasing neurons."
-supervisors = ["Prof. Gillian Bentley", "Prof. Philippa Melamed"]
+supervisors = [
+    "Prof. Gillian Bentley (Anthropology, Durham)",
+    "Prof. Philippa Melamed (Molecular biology, Technion, Haifa, Israel)",
+]
+description = "Biocultural approaches to public and global health research."
 logo = "durham.webp"
 [[education]]
-degree = "BSc Human Sciences (1st Class Degree)"
+degree = "BSc Human Sciences"
+distinction = "1st Class Honours"
 institution = "University College London"
 years = "2015-2018"
 thesis = "Out of Balance - an interdisciplinary integration of immunological and evolutionary perspectives on the role of sex hormones in the development of autoimmune disease."
-supervisors = ["Dr. Deniz Salali", "Dr. Victoria Male"]
+supervisors = [
+    "Dr. Deniz Salali (Anthropology)",
+    "Dr. Victoria Male (Infection & Immunology)",
+]
 logo = "ucl.svg"
-[[education]]
-degree = "Global Citizenship Programme: Health in Future Cities"
-institution = "UCL"
-years = "2016"
-description = "Interactive summer course/simulation on future global health problems in cities. Presented outcomes to ~1000 students. (10 days)"
-logo = "ucl.svg"
-[[education]]
-degree = "Summer School on Global Health"
-institution = "University of Groningen"
-years = "2016"
-description = "Courses on global health issues such as abortion and rights to health care. (10 days)"
-[[education]]
-degree = "Osteoarchaeology and Paleopathology"
-institution = "University of Pisa"
-years = "2016"
-description = "Course on cleaning/restoring skeletal remains, sex/age determination, and paleopathology. (3 weeks)"
 [[education]]
 degree = "Pre-University Program: Archaeology"
 institution = "Leiden University"
@@ -72,10 +114,6 @@ degree = "Pre-University Program: Life Science & Technology"
 institution = "Leiden University"
 years = "2013"
 description = "Pre-university course on cell biology for high school students (1 semester)."
-[[education]]
-degree = "Gymnasium / Grammar School (Cum Laude)"
-institution = "St. Ignatius Gymnasium (Amsterdam)"
-years = "2012-2015"
 
 
 [[featured_media]]
@@ -201,16 +239,6 @@ outlet = "Médecins Sans Frontières (MSF)"
 year = 2020
 url = "https://msf-access.medium.com/passing-exams-and-planning-protests-the-role-of-students-in-the-access-to-medicines-movement-ae3b8d8d5906"
 [[media]]
-title = "Iodine and thyroid health"
-outlet = "BOOST Thyroid"
-year = 2020
-url = "https://www.boosthyroid.com/blog/iodine"
-[[media]]
-title = "Hashimoto’s and coronavirus: what we can learn from SARS"
-outlet = "BOOST Thyroid"
-year = 2020
-url = "https://www.boosthyroid.com/blog/hashimotos-sars-corona"
-[[media]]
 title = "Dutch National Radio 1, Night of Science"
 outlet = "NPO Radio 1"
 year = 2022
@@ -224,7 +252,7 @@ url = "https://www.statnews.com/pharmalot/2022/02/24/clinical-trials-transparenc
 title = "Access to Medicines, Vaccines and the Covid-19 Pandemic"
 outlet = "The Interdisciplinarian, Harvard Public Health Review"
 year = 2021
-url = "https://hphr.org/weiss-goiandia-blog-4/"
+url = "https://bcphr.org/weiss-goitiandia-blog-4/"
 [[media]]
 title = "Africa should tackle failures in technology sharing"
 outlet = "University World News"
@@ -240,8 +268,3 @@ title = "More than 1,600 clinical trials run by UK universities violate reportin
 outlet = "Transparimed"
 year = 2020
 url = "https://www.transparimed.org/single-post/2019/01/24/More-than-1600-clinical-trials-run-by-UK-universities-violate-reporting-rules"
-[[media]]
-title = "The JewCL Podcast"
-outlet = "JewCL"
-year = 2018
-url = "https://jewcl.libsyn.com/"

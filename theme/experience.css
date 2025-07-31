@@ -1,4 +1,4 @@
-.education {
+.experience {
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -22,63 +22,30 @@
     flex-direction: column;
     box-shadow: var(--shadow-sm);
 
-    .degree {
-      display: flex;
-      gap: var(--gap-xs);
-      align-items: center;
-      justify-content: space-between;
-
-      .distinction {
-        font-size: 0.7rem;
-        background-color: var(--accentContainer);
-        color: var(--onAccentContainer);
-        padding: 0.1rem 0.5rem;
-        border-radius: var(--radius-sm);
-      }
-
-      .degree-name {
-        font-size: 1.1em;
-        font-weight: 500;
-      }
-    }
-
     .institution {
       display: flex;
       gap: var(--gap-sm);
       justify-content: space-between;
-
       img {
         height: 3rem;
         max-width: calc(var(--line-width) / 10);
         object-fit: contain;
       }
-
-      p {
-        font-weight: 500;
-        color: var(--accent);
-        &.years {
-          font-size: 0.9rem;
-          color: var(--onSurfaceDim);
-        }
-      }
     }
 
-    .thesis {
-      font-size: 0.9rem;
-      font-style: italic;
-    }
-
-    .supervisors {
-      font-size: 0.8rem;
+    .title {
+      font-size: 1.1em;
+      font-weight: 500;
     }
 
     .description {
-      font-size: 0.9rem;
+      font-size: 0.9em;
     }
   }
 }
 
-.education-swipe {
-  text-align: center;
-  font-style: italic;
-}
+.experience-swipe {
+    text-align: center;
+    font-style: italic;
+  }
+  

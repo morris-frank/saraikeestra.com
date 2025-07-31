@@ -111,6 +111,16 @@ class EducationConfig:
     thesis: Optional[str] = None
     description: Optional[str] = None
     logo: Optional[str] = None
+    distinction: Optional[str] = None
+
+
+@dataclass(frozen=True)
+class ExperienceConfig:
+    title: str
+    institution: str
+    description: str
+    years: str
+    logo: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -152,6 +162,7 @@ class Config:
     layout: LayoutConfig
     references: ReferencesConfig
     education: List[EducationConfig]
+    experience: List[ExperienceConfig]
     featured_media: List[FeaturedMediaConfig]
     nemo: NemoConfig
     media: List[MediaConfig]
@@ -164,6 +175,7 @@ class Config:
             layout=LayoutConfig(**config_data["layout"]),
             references=ReferencesConfig(**config_data["references"]),
             education=[EducationConfig(**education) for education in config_data["education"]],
+            experience=[ExperienceConfig(**experience) for experience in config_data["experience"]],
             featured_media=[FeaturedMediaConfig(**featured_media) for featured_media in config_data["featured_media"]],
             nemo=NemoConfig(**config_data["nemo"], links=[NemoLinkConfig(**link) for link in config_data["nemo_links"]]),
             media=[MediaConfig(**media) for media in config_data["media"]],
@@ -593,6 +605,37 @@ class StaticSiteGenerator:
             [H2("Science Communication"), nemo_block, H3("Media appearances"), featured_media_block, media_block],
         )
 
+    def _experience_html(self):
+        experience_cards = []
+        for exp in self.config.experience:
+            experience_cards.append(
+                Div(
+                    [
+                        Div(
+                            [
+                                Div(
+                                    [
+                                        P(exp.institution),
+                                        P(exp.years, cls="years"),
+                                    ],
+                                ),
+                                Img(f"logos/{exp.logo}", alt=exp.institution + " logo") if exp.logo else None,
+                            ],
+                            cls="institution",
+                        ),
+                        P(exp.title, cls="title"),
+                        P(exp.description, cls="description"),
+                    ],
+                )
+            )
+        return Section(
+            [
+                H2("Experience"),
+                Div(experience_cards, cls="experience"),
+                P("← Swipe left to see earlier experience", cls="experience-swipe"),
+            ],
+        )
+
     def _education_html(self):
         education_cards = []
         for edu in self.config.education:
@@ -609,7 +652,13 @@ class StaticSiteGenerator:
                     ],
                     cls="institution",
                 ),
-                P(edu.degree, cls="degree"),
+                Div(
+                    [
+                        P(edu.degree, cls="degree-name"),
+                        P(edu.distinction, cls="distinction") if edu.distinction else None,
+                    ],
+                    cls="degree",
+                ),
             ]
             if edu.description:
                 card_content.append(P(edu.description, cls="description"))
@@ -630,12 +679,13 @@ class StaticSiteGenerator:
                 H2("Education"),
                 Div(
                     education_cards,
+                    cls="education",
                 ),
                 P(
                     "← Swipe left to see earlier education",
+                    cls="education-swipe",
                 ),
             ],
-            cls="education",
         )
 
     @property
@@ -681,6 +731,8 @@ class StaticSiteGenerator:
         scicomm_html = self._science_communication_html() or ""
         # Generate education HTML
         education_html = self._education_html() or ""
+        # Generate experience HTML
+        experience_html = self._experience_html() or ""
         # Generate bibliography HTML
         bibliography_html = self.bib_parser.as_html()
 
@@ -688,7 +740,7 @@ class StaticSiteGenerator:
         layout_html = self.layout.replace("{{head}}", f"{self.css_link}")
 
         # Insert all sections into main (science communication first)
-        layout_html = layout_html.replace("{{main}}", f"{scicomm_html}{education_html}{bibliography_html}")
+        layout_html = layout_html.replace("{{main}}", f"{scicomm_html}{education_html}{experience_html}{bibliography_html}")
 
         # Ensure output folder exists
         output_folder = Path(self.config.layout.output)
