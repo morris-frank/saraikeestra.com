@@ -21,6 +21,8 @@
     gap: var(--gap-xs);
     flex-direction: column;
     box-shadow: var(--shadow-sm);
+    background-image: url("/groovepaper.png");
+    background-repeat: repeat;
 
     .degree {
       display: flex;

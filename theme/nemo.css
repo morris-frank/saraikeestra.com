@@ -1,7 +1,16 @@
+video {
+  border-radius: var(--radius-lg);
+  border: 0.5rem solid var(--outlineDim);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .nemo-box {
   background: var(--surfaceDim);
   padding: var(--gap-lg);
   border-radius: var(--radius-lg);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   box-shadow: var(--shadow-sm);
   display: flex;
   gap: var(--gap-sm);
@@ -11,6 +20,7 @@
     height: 2.5rem;
     max-width: 100%;
     object-fit: contain;
+    margin-bottom: var(--gap-md);
   }
 
   p + p {

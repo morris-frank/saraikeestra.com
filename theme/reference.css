@@ -47,7 +47,7 @@
   grid-template-columns: min-content 1fr 1fr;
   transition: 0.3s ease;
   padding: var(--gap-md);
-  background-image: url("/public/groovepaper.png");
+  background-image: url("/groovepaper.png");
   background-repeat: repeat;
   border-radius: var(--radius-md);
   gap: 0 var(--gap-md);
