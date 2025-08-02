@@ -551,7 +551,7 @@ class StaticSiteGenerator:
             cls="featured-media",
         )
 
-        intro_video_embed = '<video src="https://cdn.maurice-frank.com/morris-media/sarai-faces_of_science.mkv" controls poster="sarai-faces_of_science.png"></video>'
+        intro_video_embed = '<video src="https://cdn.maurice-frank.com/morris-media/sarai-faces_of_science.mp4" controls poster="sarai-faces_of_science.png"></video>'
 
         # --- NEMO Kennislink Highlight Box ---
         nemo_items = []
