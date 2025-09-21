@@ -442,6 +442,38 @@ class BibTechReport(BibEntry):
         )
 
 
+@dataclass(frozen=True)
+class BibInBook(BibEntry):
+    """Represents a book chapter."""
+
+    booktitle: Optional[str] = None
+    pages: Optional[str] = None
+    editor: Optional[str] = None
+
+    def _entry_type(self) -> str:
+        return "InBook"
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "BibInBook":
+        """Create InBook from dictionary data."""
+        base = BibEntry.from_dict(data)
+        return cls(
+            key=base.key,
+            title=base.title,
+            authors=base.authors,
+            year=base.year,
+            month=base.month,
+            url=base.url,
+            doi=base.doi,
+            publisher=base.publisher,
+            abstract=base.abstract,
+            topic=base.topic,
+            booktitle=data.get("booktitle"),
+            pages=data.get("pages"),
+            editor=data.get("editor"),
+        )
+
+
 class BibliographyParser:
     """Parser for .bib files."""
 
@@ -464,6 +496,8 @@ class BibliographyParser:
                     entry = BibInProceedings.from_dict(entry_data)
                 elif entry_type == "techreport":
                     entry = BibTechReport.from_dict(entry_data)
+                elif entry_type == "inbook":
+                    entry = BibInBook.from_dict(entry_data)
                 else:
                     # For unknown types, create a generic article
                     entry = BibArticle.from_dict(entry_data)
