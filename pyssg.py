@@ -776,10 +776,10 @@ class StaticSiteGenerator:
 
         # Insert all sections into main (science communication first)
         main_html = ""
-        main_html += education_html
-        main_html += experience_html
-        main_html += scicomm_html
-        main_html += bibliography_html
+        main_html += str(education_html)
+        main_html += str(experience_html)
+        main_html += str(scicomm_html)
+        main_html += str(bibliography_html)
         layout_html = layout_html.replace("{{main}}", main_html)
 
         # Ensure output folder exists
