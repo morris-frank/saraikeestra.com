@@ -762,7 +762,9 @@ class StaticSiteGenerator:
     def build_site(self) -> None:
         print("Building static site...")
 
-        # Remove global featured media bar
+        # Insert CSS link into head
+        layout_html = self.layout.replace("{{head}}", f"{self.css_link}")
+
         # Generate science communication HTML
         scicomm_html = self._science_communication_html() or ""
         # Generate education HTML
@@ -772,11 +774,13 @@ class StaticSiteGenerator:
         # Generate bibliography HTML
         bibliography_html = self.bib_parser.as_html()
 
-        # Insert CSS link into head
-        layout_html = self.layout.replace("{{head}}", f"{self.css_link}")
-
         # Insert all sections into main (science communication first)
-        layout_html = layout_html.replace("{{main}}", f"{scicomm_html}{education_html}{experience_html}{bibliography_html}")
+        main_html = ""
+        main_html += education_html
+        main_html += experience_html
+        main_html += scicomm_html
+        main_html += bibliography_html
+        layout_html = layout_html.replace("{{main}}", main_html)
 
         # Ensure output folder exists
         output_folder = Path(self.config.layout.output)
