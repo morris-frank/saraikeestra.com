@@ -103,6 +103,7 @@ body {
     &.sticky {
       background-color: transparent;
       backdrop-filter: blur(6px);
+      mask:      linear-gradient(to bottom, #000000 60%, rgba(0, 0, 0, 0) 99%);
       position: sticky;
       top: 0;
       z-index: 99;
