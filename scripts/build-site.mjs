@@ -360,21 +360,12 @@ function renderEditScript(site) {
     document.addEventListener("DOMContentLoaded", function () {
       const editConfig = ${JSON.stringify({ repo, branch: site.repo.branch })};
       const body = document.body;
-      const indicator = document.querySelector("[data-edit-indicator]");
-
       function editUrl(file) {
         return "https://github.com/" + editConfig.repo + "/edit/" + editConfig.branch + "/" + encodeURI(file).replaceAll("%2F", "/");
       }
 
-      function setIndicatorText(text) {
-        if (indicator) {
-          indicator.textContent = text;
-        }
-      }
-
       function updateEditState(enabled) {
         body.classList.toggle("config-edit-mode", enabled);
-        setIndicatorText(enabled ? "Edit mode active. Click a highlighted block." : "Press Ctrl/Cmd+Shift+E or use ?edit=1");
       }
 
       window.enableConfigEditMode = function (enabled = true) {
@@ -395,16 +386,6 @@ function renderEditScript(site) {
           event.preventDefault();
           updateEditState(!body.classList.contains("config-edit-mode"));
         }
-      });
-
-      document.addEventListener("mouseover", function (event) {
-        if (!body.classList.contains("config-edit-mode")) return;
-        const target = event.target.closest("[data-source-file]");
-        if (!target) {
-          setIndicatorText("Edit mode active. Click a highlighted block.");
-          return;
-        }
-        setIndicatorText("Open " + target.dataset.sourceLabel);
       });
 
       document.addEventListener("click", function (event) {
@@ -491,7 +472,7 @@ function renderPage({ site, home, education, experience, scienceCommunication, p
   <title>${escapeHtml(site.pageTitle)}</title>
 </head>
 <body>
-  <div class="edit-indicator" data-edit-indicator>Press Ctrl/Cmd+Shift+E or use ?edit=1</div>
+  <div class="edit-indicator">Edit mode: press Ctrl/Cmd+Shift+E or use ?edit=1</div>
   <header${sourceAttrs("content/site.json", "Site settings")}>
     <img src="${escapeHtml(site.assets.profileImage)}" alt="${escapeHtml(site.name)}" />
     <main>

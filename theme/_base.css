@@ -208,13 +208,12 @@ a {
   bottom: var(--gap-lg);
   z-index: 200;
   max-width: min(24rem, calc(100vw - 2 * var(--gap-lg)));
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--outline);
-  border-radius: var(--radius-md);
-  background: color-mix(in oklab, var(--surface) 92%, var(--accentContainer));
-  box-shadow: var(--shadow-md);
-  color: var(--onSurfaceDim);
-  font-size: 0.9rem;
+  color: color-mix(in oklab, var(--onSurfaceDim) 72%, transparent);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
 }
 
 body.config-edit-mode [data-source-file] {
@@ -226,4 +225,3 @@ body.config-edit-mode [data-source-file] {
 body.config-edit-mode [data-source-file]:hover {
   box-shadow: 0 0 0 0.35rem color-mix(in oklab, var(--accentContainer) 80%, white);
 }
-

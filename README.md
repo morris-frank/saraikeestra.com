@@ -27,7 +27,15 @@ This is meant to let a non-technical editor click the part they want to change a
 ## Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 The generator writes `public/index.html` and a hashed stylesheet into `public/`.
+
+## Preview locally
+
+```bash
+pnpm preview
+```
+
+This builds the site and serves `public/` at `http://127.0.0.1:4173`.

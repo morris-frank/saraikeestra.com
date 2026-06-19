@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-site.mjs",
-    "check": "npm run build"
+    "preview": "pnpm build && node scripts/preview.mjs",
+    "check": "pnpm build"
   },
   "engines": {
     "node": ">=20"
