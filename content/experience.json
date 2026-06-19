@@ -1,0 +1,62 @@
+{
+  "title": "Experience",
+  "swipeHint": "← Swipe left to see earlier experience",
+  "items": [
+    {
+      "title": "Research Assistant at the Department of Global Health and Development and Antimicrobial Resistance Centre",
+      "institution": "London School of Hygiene and Tropical Medicine",
+      "description": "Systematic review of structural interventions in WASH/biosecurity to reduce AMR burden in LMICs from a One Health perspective.",
+      "years": "2020 - 2021",
+      "logo": "lshtm.svg"
+    },
+    {
+      "title": "Research Assistant at the School of Anthropology and Museum Ethnography",
+      "institution": "University of Oxford",
+      "description": "Understanding the natural variation in thyroid function using an evolutionary ecology framework and medical anthropology perspectives.",
+      "years": "2019 - 2021",
+      "logo": "oxford.svg"
+    },
+    {
+      "title": "Research Assistant at the Bangladeshi Migrants Diet & Anthropometrics Study",
+      "institution": "Durham University",
+      "description": "Analysing data on different generations of Bangladeshi migrants to north London to analyse obesogenic changes in diet and lifestyle to design culturally appropriate public health interventions.",
+      "years": "2021",
+      "logo": "durham.webp"
+    },
+    {
+      "title": "Research Assistant at the South Omo Food Security & Health Study",
+      "institution": "Durham University",
+      "description": "Analysing data on health and child nutritional status in a nomadic agro-pastoralist population in South-Western Ethiopia in the context of government-led sedentarisation.",
+      "years": "2020",
+      "logo": "durham.webp"
+    },
+    {
+      "title": "Laboratory Assistant Parent-Infant Sleeping Lab",
+      "institution": "Durham University",
+      "description": "Volunteered on studies looking at the effect of swadling and nighttime breastfeeding on sleeping behaviours of mother's and their babies.",
+      "years": "2018 - 2019",
+      "logo": "durham.webp"
+    },
+    {
+      "title": "Research Assistant Health and Wellbeing in Transitioning Hunter-Gatherers of the Congo Basin",
+      "institution": "University College London",
+      "description": "Fieldwork for two months in Congo-Brazzaville on the health and nutrition of Mbendjele hunter-gatherers.",
+      "years": "2018",
+      "logo": "ucl.svg"
+    },
+    {
+      "title": "Research Intern Molecular And Cultural Evolution (MACE) lab",
+      "institution": "University College London",
+      "description": "Assisted a PhD student on her research on human genetic adaptation to dietary change, learning R studio, cleaning dietary databases.",
+      "years": "2017 - 2018",
+      "logo": "ucl.svg"
+    },
+    {
+      "title": "Fieldwork in Burgos, Spain",
+      "institution": "Atapuerca Foundation",
+      "description": "Bioarcheological fieldwork at the excavation site in Western Europe with the oldest human remains near Burgos, Spain.",
+      "years": "2017",
+      "logo": "atapuerca.svg"
+    }
+  ]
+}

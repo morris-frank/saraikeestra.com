@@ -4,3 +4,4 @@ style-*css
 .DS_Store
 *.docx
 *pdf
+node_modules

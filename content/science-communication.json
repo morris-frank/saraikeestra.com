@@ -1,0 +1,181 @@
+{
+  "title": "Science Communication",
+  "video": {
+    "src": "https://cdn.maurice-frank.com/morris-media/sarai-faces_of_science.mp4",
+    "poster": "sarai-faces_of_science.png"
+  },
+  "featuredMedia": [
+    {
+      "name": "The Atlantic",
+      "logo": "the-atlantic.svg",
+      "url": "https://www.theatlantic.com/science/archive/2023/06/dolphin-calf-communication-baby-talk/674499/?utm_source=feed"
+    },
+    {
+      "name": "The Guardian",
+      "logo": "the-guardian.svg",
+      "url": "https://www.theguardian.com/world/2022/jul/22/gaga-for-goo-goo-wellington-named-the-global-capital-of-baby-talk"
+    },
+    {
+      "name": "STAT News",
+      "logo": "stat-news.svg",
+      "url": "https://www.statnews.com/pharmalot/2022/02/24/clinical-trials-transparency-uk-fda/"
+    },
+    {
+      "name": "The Conversation",
+      "logo": "the-conversation.svg",
+      "url": "https://theconversation.com/your-environment-affects-how-well-your-medications-work-identifying-exactly-how-could-make-medicine-better-246476"
+    },
+    {
+      "name": "TIME",
+      "logo": "time-magazine.svg",
+      "url": "https://time.com/7261172/genes-vs-lifestyle-longevity-study/"
+    },
+    {
+      "name": "Slate",
+      "logo": "slate.svg",
+      "url": "https://www.slate.fr/story/231275/langage-parental-universel-etude-scientique-multiculturelle"
+    },
+    {
+      "name": "Quartz",
+      "logo": "quartz.svg",
+      "url": "https://qz.com/2006390/taxpayers-are-paying-twice-or-more-for-the-covid-19-vaccine"
+    }
+  ],
+  "nemo": {
+    "logo": "nemo.svg",
+    "title": "NEMO Kennislink Blog",
+    "description": "Regular blog contributions for the Dutch Children's Science Museum NEMO, as part of the KNAW Faces of Science programme. Topics include evolutionary medicine, public health, and science for children.",
+    "url": "https://www.nemokennislink.nl/facesofscience/profiel/sarai-keestra/",
+    "links": [
+      {
+        "title": "De mysterieuze Denisovamens ontrafeld",
+        "titleEn": "The mystery of the Denisovans unraveled",
+        "year": 2025,
+        "url": "https://www.nemokennislink.nl/publicaties/het-ontrafelen-van-de-mysterieuze-denisovamens/"
+      },
+      {
+        "title": "Een kansrijke start in het leven",
+        "titleEn": "A lucky start in life",
+        "year": 2025,
+        "url": "https://www.nemokennislink.nl/publicaties/een-kansrijke-start-in-het-leven/"
+      },
+      {
+        "title": "Waarom Rosalind geen Nobelprijs wint",
+        "titleEn": "Why Rosalind doesn't win a Nobel Prize",
+        "year": 2024,
+        "url": "https://www.nemokennislink.nl/publicaties/waarom-rosalind-niet-de-nobelprijs-wint/"
+      },
+      {
+        "title": "Schaamteloos menstrueren",
+        "titleEn": "Shameless menstruation",
+        "year": 2024,
+        "url": "https://www.nemokennislink.nl/publicaties/schaamteloos-menstrueren/"
+      },
+      {
+        "title": "Lang zullen zij leven",
+        "titleEn": "Long will they live",
+        "year": 2024,
+        "url": "https://www.nemokennislink.nl/publicaties/lang-zullen-zij-leven/"
+      },
+      {
+        "title": "Weg met de bikinigeneeskunde!",
+        "titleEn": "Bikini medicine is over!",
+        "year": 2024,
+        "url": "https://www.nemokennislink.nl/publicaties/weg-met-de-bikinigeneeskunde/"
+      },
+      {
+        "title": "Waarom worden mensen ziek? Een evolutionaire blik op de gezondheid",
+        "titleEn": "Why do people get sick? An evolutionary perspective on health",
+        "year": 2023,
+        "url": "https://www.nemokennislink.nl/publicaties/waarom-worden-mensen-ziek/"
+      },
+      {
+        "title": "Een gezonde toekomst begint al voor de geboorte",
+        "titleEn": "A healthy future starts before birth",
+        "year": 2023,
+        "url": "https://www.nemokennislink.nl/publicaties/een-gezonde-toekomst-begint-al-voor-de-geboorte/"
+      },
+      {
+        "title": "Opsporing verzocht: de resultaten van medisch onderzoek zijn te vaak niet transparant",
+        "titleEn": "Investigation requested: the results of medical research are often not transparent",
+        "year": 2023,
+        "url": "https://www.nemokennislink.nl/publicaties/opsporing-verzocht-de-resultaten-van-medisch-onderzoek-zijn-te-vaak-niet-transparant/"
+      },
+      {
+        "title": "150 jaar vrouwelijke artsen in Nederland: Pioniers in de wetenschap en strijders voor de rechten van de vrouw",
+        "titleEn": "150 years of female doctors in the Netherlands: Pioneers in science and fighters for the rights of women",
+        "year": 2022,
+        "url": "https://www.nemokennislink.nl/facesofscience/blogs/150-jaar-vrouwelijke-artsen-in-nederland/"
+      },
+      {
+        "title": "Is babypraat universeel?",
+        "titleEn": "Is baby talk universal?",
+        "year": 2022,
+        "url": "https://www.nemokennislink.nl/facesofscience/blogs/is-babypraat-universeel/"
+      },
+      {
+        "title": "Waarom lopen mensen op 2 benen?",
+        "titleEn": "Why do people walk on two legs?",
+        "year": 2022,
+        "url": "https://www.nemokennislink.nl/facesofscience/blogs/waarom-lopen-mensen-op-twee-benen/"
+      },
+      {
+        "title": "Op bezoek bij de Wereldgezondheidsorganisatie",
+        "titleEn": "Visiting the World Health Organization",
+        "year": 2022,
+        "url": "https://www.nemokennislink.nl/facesofscience/blogs/op-bezoek-bij-de-wereldgezondheidsorganisatie/"
+      },
+      {
+        "title": "Zeewier, Zout en Zwangere Vrouwen - Waarom er jodium in ons zout zit",
+        "titleEn": "Seaweed, salt and pregnant women - Why iodine is in our salt",
+        "year": 2022,
+        "url": "https://www.nemokennislink.nl/facesofscience/blogs/zeewier-zout-en-zwangere-vrouwen/"
+      }
+    ]
+  },
+  "mediaHeading": "Media appearances",
+  "media": [
+    {
+      "title": "Food for thought: The UN Decade of Action on Nutrition at the WHO",
+      "outlet": "People's Dispatch",
+      "year": 2023,
+      "url": "https://peoplesdispatch.org/2023/02/04/food-for-thought-the-un-decade-of-action-on-nutrition-at-the-who/"
+    },
+    {
+      "title": "Private monopolies hinder progress on public health: intellectual property at the 75th World Health Assembly",
+      "outlet": "People's Dispatch",
+      "year": 2022,
+      "url": "https://peoplesdispatch.org/2022/06/12/private-monopolies-hinder-progress-on-public-health-intellectual-property-at-the-75th-world-health-assembly/"
+    },
+    {
+      "title": "Passing exams and planning protests — the role of students in the access to medicines movement",
+      "outlet": "Médecins Sans Frontières (MSF)",
+      "year": 2020,
+      "url": "https://msf-access.medium.com/passing-exams-and-planning-protests-the-role-of-students-in-the-access-to-medicines-movement-ae3b8d8d5906"
+    },
+    {
+      "title": "Dutch National Radio 1, Night of Science",
+      "outlet": "NPO Radio 1",
+      "year": 2022,
+      "url": "https://www.nporadio1.nl/uitzendingen/de-nacht-van/4e2a6acd-5aab-4378-9e0c-b77881c7a953/2022-11-24-de-nacht-van"
+    },
+    {
+      "title": "Political pressure in the U.K. prompted more universities to report clinical trial results",
+      "outlet": "STAT News",
+      "year": 2022,
+      "url": "https://www.statnews.com/pharmalot/2022/02/24/clinical-trials-transparency-uk-fda/"
+    },
+    {
+      "title": "Access to Medicines, Vaccines and the Covid-19 Pandemic",
+      "outlet": "The Interdisciplinarian, Harvard Public Health Review",
+      "year": 2021,
+      "url": "https://bcphr.org/weiss-goitiandia-blog-4/"
+    },
+    {
+      "title": "Africa should tackle failures in technology sharing",
+      "outlet": "University World News",
+      "year": 2021,
+      "url": "https://www.universityworldnews.com/post.php?story=20210519190234497"
+    }
+  ]
+}

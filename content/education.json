@@ -1,0 +1,62 @@
+{
+  "title": "Education",
+  "swipeHint": "← Swipe left to see earlier education",
+  "items": [
+    {
+      "degree": "MD/PhD in Reproductive Epidemiology and Paediatric Endocrinology",
+      "institution": "Amsterdam UMC (AMC)",
+      "years": "2021-2025",
+      "description": "Alternating PhD research on the developmental plasticity of the thyroid axis with a MD in medicine. Funded by the Amsterdam UMC, Amsterdam Reproduction & Development Institute, and Stichting Steun Emma Kinderziekenhuis.",
+      "thesis": "Too much too soon, too little too late: iodine and thyroid health in the first thousand days of life and its developmental consequences",
+      "supervisors": [
+        "Prof. Tessa Roseboom (Main Promotor, Epidemiology & Data Science, AMC)",
+        "Dr. Martijn Finken (Co-promotor, Paediatric endocrinology, Emma Children's Hospital)"
+      ],
+      "logo": "amc.svg"
+    },
+    {
+      "degree": "Graduate Entry Medicine",
+      "institution": "University of Amsterdam",
+      "years": "2020-2021",
+      "description": "Accelerated bachelor's degree covering the first three years of medical school within 1 year.",
+      "logo": "uva.svg"
+    },
+    {
+      "degree": "MSc Medical Anthropology",
+      "distinction": "Distinction",
+      "institution": "Durham University",
+      "years": "2018-2019",
+      "thesis": "The effect of early life conditions on sexual maturation - Examining the role of stress on juvenile tempo and the gene expression of Srd5a1 in GnRH-releasing neurons.",
+      "supervisors": [
+        "Prof. Gillian Bentley (Anthropology, Durham)",
+        "Prof. Philippa Melamed (Molecular biology, Technion, Haifa, Israel)"
+      ],
+      "description": "Biocultural approaches to public and global health research.",
+      "logo": "durham.webp"
+    },
+    {
+      "degree": "BSc Human Sciences",
+      "distinction": "1st Class Honours",
+      "institution": "University College London",
+      "years": "2015-2018",
+      "thesis": "Out of Balance - an interdisciplinary integration of immunological and evolutionary perspectives on the role of sex hormones in the development of autoimmune disease.",
+      "supervisors": [
+        "Dr. Deniz Salali (Anthropology)",
+        "Dr. Victoria Male (Infection & Immunology)"
+      ],
+      "logo": "ucl.svg"
+    },
+    {
+      "degree": "Pre-University Program: Archaeology",
+      "institution": "Leiden University",
+      "years": "2014",
+      "description": "Pre-university course on archaeological sciences for high school students (1 semester)."
+    },
+    {
+      "degree": "Pre-University Program: Life Science & Technology",
+      "institution": "Leiden University",
+      "years": "2013",
+      "description": "Pre-university course on cell biology for high school students (1 semester)."
+    }
+  ]
+}

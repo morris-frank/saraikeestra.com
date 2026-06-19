@@ -1,0 +1,48 @@
+{
+  "name": "Sarai Keestra",
+  "pageTitle": "Sarai Keestra",
+  "baseUrl": "https://sarai-keestra.com/",
+  "themeColor": "oklch(40% 42% 29deg)",
+  "description": "Sarai Keestra - Medical researcher and PhD student at Amsterdam UMC studying the first 1000 days of life and thyroid gland evolution. Expert in epidemiology, pediatrics, and medical anthropology.",
+  "keywords": [
+    "Sarai Keestra",
+    "medical researcher",
+    "Amsterdam UMC",
+    "epidemiology",
+    "pediatrics",
+    "thyroid gland",
+    "first 1000 days",
+    "medical anthropology",
+    "PhD student",
+    "evolutionary medicine"
+  ],
+  "author": "Sarai Keestra",
+  "language": "English",
+  "repo": {
+    "owner": "morris-frank",
+    "name": "saraikeestra.com",
+    "branch": "main"
+  },
+  "assets": {
+    "profileImage": "sarai.jpg",
+    "favicon": "sarai.jpg",
+    "facesOfSciencePoster": "sarai-faces_of_science.png",
+    "font": "Lora-VariableFont_wght.ttf",
+    "paperTexture": "groovepaper.png"
+  },
+  "socialLinks": [
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/sarai-keestra-1a8751134/",
+      "icon": "linkedin"
+    },
+    {
+      "label": "ORCID",
+      "url": "https://orcid.org/0000-0002-6368-0977",
+      "icon": "orcid"
+    }
+  ],
+  "footer": {
+    "copyright": "© 2025 Sarai Keestra"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "intro": [
+    {
+      "parts": [
+        {
+          "text": "I am a medical researcher and medical student at "
+        },
+        {
+          "text": "Amsterdam UMC",
+          "href": "https://pure.amsterdamumc.nl/en/persons/sarai-keestra"
+        },
+        {
+          "text": ", in the departments of epidemiology and pediatrics. My PhD research focuses on the first 1000 days of life—a crucial period in which health is formed. From an evolutionary perspective, I primarily study the role of the thyroid gland, a key organ in our energy metabolism."
+        }
+      ]
+    },
+    {
+      "parts": [
+        {
+          "text": "With a background in Human Sciences ("
+        },
+        {
+          "text": "UCL",
+          "href": "https://www.ucl.ac.uk/"
+        },
+        {
+          "text": ") and Medical Anthropology ("
+        },
+        {
+          "text": "Durham University",
+          "href": "https://www.dur.ac.uk/"
+        },
+        {
+          "text": "), I am fascinated by the interaction between genes and environment. The thyroid gland serves as a unique window into this: evolutionarily ancient, hormonally active, and often dysregulated in women during vulnerable stages of life. As a female scientist, I am particularly eager to contribute to knowledge about understudied conditions that affect women."
+        }
+      ]
+    }
+  ]
+}

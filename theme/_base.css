@@ -190,4 +190,40 @@ a {
   height: 1.5rem;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.edit-indicator {
+  position: fixed;
+  right: var(--gap-lg);
+  bottom: var(--gap-lg);
+  z-index: 200;
+  max-width: min(24rem, calc(100vw - 2 * var(--gap-lg)));
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--outline);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--surface) 92%, var(--accentContainer));
+  box-shadow: var(--shadow-md);
+  color: var(--onSurfaceDim);
+  font-size: 0.9rem;
+}
+
+body.config-edit-mode [data-source-file] {
+  cursor: pointer;
+  outline: 2px solid color-mix(in oklab, var(--accent) 70%, white);
+  outline-offset: 0.35rem;
+}
+
+body.config-edit-mode [data-source-file]:hover {
+  box-shadow: 0 0 0 0.35rem color-mix(in oklab, var(--accentContainer) 80%, white);
+}
 
