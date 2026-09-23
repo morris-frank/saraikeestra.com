@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://sarai-keestra.com">
-    <img src="https://img.shields.io/badge/%E2%86%97%20sarai--keestra.com-8EDE3D?style=for-the-badge&amp;labelColor=16211B" alt="Open sarai-keestra.com">
+    <img src="https://img.shields.io/badge/%E2%86%97%20sarai--keestra.com-D78A7A?style=for-the-badge&amp;labelColor=2D2825" alt="Open sarai-keestra.com">
   </a>
 </p>
 
@@ -14,9 +14,9 @@
   <strong>Personal site of Sarai Keestra, medical researcher at Amsterdam UMC.</strong>
   <br>
   <br>
-  <img src="https://img.shields.io/badge/generator-node-8EDE3D?style=flat-square&amp;labelColor=16211B" alt="Node generator">
-  <a href="references.bib"><img src="https://img.shields.io/badge/publications-BibTeX-8EDE3D?style=flat-square&amp;labelColor=16211B" alt="Publications from BibTeX"></a>
-  <a href="#edit-mode-on-the-live-site"><img src="https://img.shields.io/badge/edit-click%20%E2%86%92%20GitHub-1AB172?style=flat-square&amp;labelColor=16211B" alt="Click to edit on GitHub"></a>
+  <img src="https://img.shields.io/badge/generator-node-D78A7A?style=flat-square&amp;labelColor=2D2825" alt="Node generator">
+  <a href="references.bib"><img src="https://img.shields.io/badge/publications-BibTeX-D78A7A?style=flat-square&amp;labelColor=2D2825" alt="Publications from BibTeX"></a>
+  <a href="#edit-mode-on-the-live-site"><img src="https://img.shields.io/badge/edit-click%20%E2%86%92%20GitHub-7E9688?style=flat-square&amp;labelColor=2D2825" alt="Click to edit on GitHub"></a>
 </p>
 
 <br clear="left">
