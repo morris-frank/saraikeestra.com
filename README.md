@@ -1,6 +1,30 @@
-# Sarai Keestra website
+<p align="center">
+  <a href="https://sarai-keestra.com">
+    <img src="https://img.shields.io/badge/%E2%86%97%20sarai--keestra.com-8EDE3D?style=for-the-badge&amp;labelColor=16211B" alt="Open sarai-keestra.com">
+  </a>
+</p>
 
-Static personal site built with a node-based generator.
+<img src="brand/icon/icon-saraikeestra-on-obsidian-1024.png" align="left" width="128" hspace="16" alt="sarai-keestra.com icon">
+
+<h3>sarai-keestra.com</h3>
+
+<p>
+  <sub>JSON IN, ONE STATIC PAGE OUT</sub>
+  <br>
+  <strong>Personal site of Sarai Keestra, medical researcher at Amsterdam UMC.</strong>
+  <br>
+  <br>
+  <img src="https://img.shields.io/badge/generator-node-8EDE3D?style=flat-square&amp;labelColor=16211B" alt="Node generator">
+  <a href="references.bib"><img src="https://img.shields.io/badge/publications-BibTeX-8EDE3D?style=flat-square&amp;labelColor=16211B" alt="Publications from BibTeX"></a>
+  <a href="#edit-mode-on-the-live-site"><img src="https://img.shields.io/badge/edit-click%20%E2%86%92%20GitHub-1AB172?style=flat-square&amp;labelColor=16211B" alt="Click to edit on GitHub"></a>
+</p>
+
+<br clear="left">
+
+```bash
+pnpm build      # content/*.json + references.bib → public/index.html + hashed CSS
+pnpm preview    # build, then serve public/ at http://127.0.0.1:4173
+```
 
 ## Content files
 
@@ -23,19 +47,3 @@ The generated page exposes `window.enableConfigEditMode()`.
 - The page redirects to the matching GitHub edit URL for that source file
 
 This is meant to let a non-technical editor click the part they want to change and land in the right file directly.
-
-## Build
-
-```bash
-pnpm build
-```
-
-The generator writes `public/index.html` and a hashed stylesheet into `public/`.
-
-## Preview locally
-
-```bash
-pnpm preview
-```
-
-This builds the site and serves `public/` at `http://127.0.0.1:4173`.
