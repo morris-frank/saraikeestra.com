@@ -2,18 +2,26 @@
   "title": "Lately",
   "items": [
     {
+      "feature": true,
       "kind": "Recognition",
       "year": "2026",
-      "title": "Named in EW’s 30 onder 30",
-      "text": "Selected for EW Magazine’s 2026 list of thirty young talents under thirty.",
+      "title": "EW 30 onder 30",
+      "subtitle": "Named one of EW Magazine’s thirty young talents under thirty.",
+      "text": "Recognised for combining medicine, anthropology and evolutionary science in her research on iodine, the thyroid and child development.",
+      "quote": "Schildklierproblemen komen vaker voor bij vrouwen en we snappen niet precies waarom. […] Tijd om daar verandering in te brengen.",
+      "quoteLang": "nl",
+      "quoteTranslation": "Thyroid problems are more common in women, and we don’t understand exactly why. […] Time to change that.",
+      "image": "sarai-ew-2026.jpg",
+      "imageAlt": "Sarai Keestra in a garden, holding a white coat and a stethoscope",
+      "imageCredit": "Photo: EW Magazine",
       "url": "https://www.ewmagazine.nl/30-onder-30-2026/#ew30-profile-15",
-      "linkLabel": "Read the profile"
+      "linkLabel": "Read the profile (in Dutch)"
     },
     {
       "kind": "Milestone",
       "year": "2026",
       "title": "Graduated as a medical doctor",
-      "text": "Finished medical school at Amsterdam UMC in May 2026; the PhD on iodine and thyroid health in the first thousand days continues."
+      "text": "Finished medical school at Amsterdam UMC in May 2026. The PhD on iodine and thyroid health in the first thousand days continues."
     },
     {
       "kind": "New paper",

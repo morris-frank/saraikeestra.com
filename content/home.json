@@ -70,5 +70,28 @@
         }
       ]
     }
+  ],
+  "heading": "Curious about how bodies respond to their surroundings",
+  "glance": [
+    {
+      "label": "Now",
+      "value": "Medical doctor (basisarts) and PhD candidate at Amsterdam UMC"
+    },
+    {
+      "label": "Grew up in",
+      "value": "Amsterdam"
+    },
+    {
+      "label": "Studied",
+      "value": "Human Sciences (UCL), Medical Anthropology (Durham), Medicine (University of Amsterdam)"
+    },
+    {
+      "label": "Focus",
+      "value": "Iodine and the thyroid in the first thousand days; women’s health; access to medicines"
+    },
+    {
+      "label": "Writes for",
+      "value": "NEMO Kennislink, through Faces of Science"
+    }
   ]
 }

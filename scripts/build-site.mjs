@@ -172,41 +172,72 @@ const lastYear = (years = "") => {
   return Number.parseInt(all[all.length - 1], 10);
 };
 
-function sectionHead(eyebrow, title, intro = "") {
+function sectionHead(num, eyebrow, title, intro = "") {
   return `<header class="section-head">
-      <p class="eyebrow">${escapeHtml(eyebrow)}</p>
+      <p class="eyebrow"><span class="num">${escapeHtml(num)}</span>${escapeHtml(eyebrow)}</p>
       <h2>${escapeHtml(title)}</h2>
       ${intro ? `<p class="section-intro">${escapeHtml(intro)}</p>` : ""}
     </header>`;
 }
 
-/* ---------- hero ---------- */
-function renderHero(site) {
+/* ---------- hero with contents strip ---------- */
+function renderHero(site, overview) {
   const socials = site.socialLinks
     .map((link) => `<a class="pill" href="${escapeHtml(link.url)}"${externalLinkAttrs}>${renderSocialIcon(link.icon, link.label).replace('<span class="sr-only">', "<span>")}</a>`)
     .join("");
+  const tiles = overview
+    .map((o, i) => `<a class="toc-tile" href="#${escapeHtml(o.id)}">
+        <span class="num">${String(i + 1).padStart(2, "0")}</span>
+        <span class="toc-label">${escapeHtml(o.label)}</span>
+        <span class="toc-teaser">${escapeHtml(o.teaser)}</span>
+      </a>`)
+    .join("");
   return `<section class="hero"${src("site")}>
-    <div class="portrait" data-field-anchor>
-      <img src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
+    <div class="hero-id">
+      <div class="portrait" data-field-anchor>
+        <img src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
+      </div>
+      <p class="eyebrow">${escapeHtml(site.role)}</p>
+      <h1>${escapeHtml(site.name)}</h1>
+      <p class="tagline">${escapeHtml(site.tagline)}</p>
+      <nav class="socials" aria-label="Profiles">${socials}</nav>
     </div>
-    <p class="eyebrow">${escapeHtml(site.role)}</p>
-    <h1>${escapeHtml(site.name)}</h1>
-    <p class="tagline">${escapeHtml(site.tagline)}</p>
-    <nav class="socials" aria-label="Profiles">${socials}</nav>
+    <nav class="toc" aria-label="On this page">${tiles}</nav>
   </section>`;
 }
 
 function renderTopbar(site) {
-  const links = site.nav.map((item) => `<a href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
+  const links = site.nav.map((item) => `<a href="#${escapeHtml(item.id)}" data-spy="${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
   return `<nav class="topbar" aria-label="Sections"${src("site")}>
     <a class="topbar-name" href="#top">${escapeHtml(site.name)}</a>
     <div class="topbar-links">${links}</div>
   </nav>`;
 }
 
-/* ---------- news ---------- */
+/* ---------- lately: feature + small cards ---------- */
 function renderNews(news) {
-  const cards = news.items
+  const feature = news.items.find((i) => i.feature);
+  const rest = news.items.filter((i) => !i.feature);
+  const featureHtml = feature
+    ? `<article class="card feature"${src("news")}>
+        ${feature.image ? `<figure class="feature-photo">
+          <img src="${escapeHtml(feature.image)}" alt="${escapeHtml(feature.imageAlt || "")}" loading="lazy" width="900" height="1349" />
+          ${feature.imageCredit ? `<figcaption>${escapeHtml(feature.imageCredit)}</figcaption>` : ""}
+        </figure>` : ""}
+        <div class="feature-body">
+          <p class="meta"><span class="kind">${escapeHtml(feature.kind)}</span><span>${escapeHtml(feature.year)}</span></p>
+          <h3>${escapeHtml(feature.title)}</h3>
+          <p class="feature-sub">${escapeHtml(feature.subtitle || "")}</p>
+          ${feature.quote ? `<blockquote>
+            <p lang="${escapeHtml(feature.quoteLang || "en")}">“${escapeHtml(feature.quote)}”</p>
+            ${feature.quoteTranslation ? `<p class="translation">${escapeHtml(feature.quoteTranslation)}</p>` : ""}
+          </blockquote>` : ""}
+          <p class="feature-text">${escapeHtml(feature.text || "")}</p>
+          ${feature.url ? `<a class="more" href="${escapeHtml(feature.url)}"${externalLinkAttrs}>${escapeHtml(feature.linkLabel || "Read more")} →</a>` : ""}
+        </div>
+      </article>`
+    : "";
+  const cards = rest
     .map((item) => `<article class="card news-card"${src("news")}>
       <p class="meta"><span class="kind">${escapeHtml(item.kind)}</span><span>${escapeHtml(item.year)}</span></p>
       <h3>${escapeHtml(item.title)}</h3>
@@ -214,26 +245,37 @@ function renderNews(news) {
       ${item.url ? `<a class="more" href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.linkLabel || "Read more")} →</a>` : ""}
     </article>`)
     .join("");
-  return `<section id="news" class="band"${src("news")}>
-    ${sectionHead("News", news.title)}
-    <div class="grid-3">${cards}</div>
+  return `<section id="news" class="news"${src("news")}>
+    <div class="bento">
+      ${featureHtml}
+      <div class="news-stack">${cards}</div>
+    </div>
   </section>`;
 }
 
-/* ---------- about ---------- */
-function renderAbout(home) {
+/* ---------- about + at a glance ---------- */
+function renderAbout(home, num) {
   const [first, ...rest] = home.intro;
-  return `<section id="about" class="prose-section"${src("home")}>
-    ${sectionHead("About", "Curious about how bodies respond to their surroundings")}
-    <div class="prose">
-      <p class="lead">${renderRichText(first.parts)}</p>
-      ${rest.map((p) => `<p>${renderRichText(p.parts)}</p>`).join("")}
+  const glance = (home.glance || [])
+    .map((g) => `<div><dt>${escapeHtml(g.label)}</dt><dd>${escapeHtml(g.value)}</dd></div>`)
+    .join("");
+  return `<section id="about"${src("home")}>
+    ${sectionHead(num, "About", home.heading || "About")}
+    <div class="split">
+      <div class="prose">
+        <p class="lead">${renderRichText(first.parts)}</p>
+        ${rest.map((p) => `<p>${renderRichText(p.parts)}</p>`).join("")}
+      </div>
+      <aside class="card glance" aria-label="At a glance">
+        <h3>At a glance</h3>
+        <dl>${glance}</dl>
+      </aside>
     </div>
   </section>`;
 }
 
 /* ---------- research ---------- */
-function renderResearch(content, publications) {
+function renderResearch(content, publications, num) {
   const counts = new Map();
   for (const p of publications) {
     const slug = slugifyTopic(p.fields.topic || "Other");
@@ -243,8 +285,7 @@ function renderResearch(content, publications) {
     .map((topic, index) => {
       const slug = slugifyTopic(topic.name);
       return `<article class="card theme-card t-${index + 1}"${src("pubs")}>
-        <span class="theme-mark" aria-hidden="true"></span>
-        <h3>${escapeHtml(topic.short || topic.name)}</h3>
+        <div class="theme-top"><span class="theme-mark" aria-hidden="true"></span><h3>${escapeHtml(topic.short || topic.name)}</h3></div>
         <p>${escapeHtml(topic.summary || topic.description)}</p>
         <a class="more" href="#publications" data-filter="${escapeHtml(slug)}">${counts.get(slug) || 0} publications →</a>
       </article>`;
@@ -269,31 +310,28 @@ function renderResearch(content, publications) {
     .join("");
 
   return `<section id="research"${src("pubs")}>
-    ${sectionHead("Research", "Three connected threads")}
+    ${sectionHead(num, "Research", "Three connected threads")}
     <div class="grid-3">${themes}</div>
-    ${featured ? `<div class="featured card"${src("pubs")}>
-      <h3>Selected work</h3>
-      <ol class="featured-list">${featured}</ol>
+    ${featured ? `<div class="selected"${src("pubs")}>
+      <h3 class="mini-head">Selected work</h3>
+      <ol class="compact-list">${featured}</ol>
     </div>` : ""}
   </section>`;
 }
 
 /* ---------- writing & media ---------- */
-function renderWriting(content) {
+function renderWriting(content, num) {
   const nemo = content.nemo.links
-    .map((item) => `<a class="article" href="${escapeHtml(item.url)}"${externalLinkAttrs}${src("scicomm")}>
+    .map((item) => `<li${src("scicomm")}>
       <span class="year">${escapeHtml(item.year)}</span>
-      <span class="article-title">${escapeHtml(item.titleEn)}</span>
-      <span class="article-nl" lang="nl">${escapeHtml(item.title)}</span>
-    </a>`)
+      <a href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.titleEn)}<span class="nl" lang="nl">${escapeHtml(item.title)}</span></a>
+    </li>`)
     .join("");
-
   const logos = content.featuredMedia
     .map((item) => `<a href="${escapeHtml(item.url)}"${externalLinkAttrs} title="${escapeHtml(item.name)}"${src("scicomm")}>
       <img src="logos/${escapeHtml(item.logo)}" alt="${escapeHtml(item.name)}" loading="lazy" />
     </a>`)
     .join("");
-
   const media = [...content.media]
     .sort((a, b) => b.year - a.year)
     .map((item) => `<li${src("scicomm")}>
@@ -306,66 +344,72 @@ function renderWriting(content) {
     .join("");
 
   return `<section id="writing"${src("scicomm")}>
-    ${sectionHead("Writing & media", "Keeping the questions coming", "Blogs for NEMO Kennislink, press coverage of the research, and appearances on radio and in print.")}
-    <div class="media-feature">
-      <figure class="video card">
-        <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
-        <figcaption>Faces of Science portrait, KNAW · De Jonge Akademie · NEMO</figcaption>
-      </figure>
-    </div>
-    <div class="nemo card"${src("scicomm")}>
-      <div class="nemo-head">
-        <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
-        <p>${escapeHtml(content.nemo.description)}</p>
+    ${sectionHead(num, "Writing & media", "Keeping the questions coming")}
+    <div class="split split-even">
+      <div class="col">
+        <figure class="video card">
+          <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
+          <figcaption>Faces of Science portrait · KNAW, De Jonge Akademie and NEMO</figcaption>
+        </figure>
+        <div class="card press">
+          <h3 class="mini-head">Research featured in</h3>
+          <div class="press-logos"${src("scicomm")}>${logos}</div>
+        </div>
+        <div class="card appearances">
+          <h3 class="mini-head">${escapeHtml(content.mediaHeading)}</h3>
+          <ul class="compact-list">${media}</ul>
+        </div>
       </div>
-      <div class="articles">${nemo}</div>
+      <div class="card col nemo"${src("scicomm")}>
+        <div class="nemo-head">
+          <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
+          <p>${escapeHtml(content.nemo.description)}</p>
+        </div>
+        <ol class="compact-list dense">${nemo}</ol>
+      </div>
     </div>
-    <h3 class="center-h3">${escapeHtml(content.mediaHeading)}</h3>
-    <div class="press-logos"${src("scicomm")}>${logos}</div>
-    <ul class="dated-list">${media}</ul>
   </section>`;
 }
 
-/* ---------- path (education + experience as one timeline) ---------- */
-function renderPath(education, experience) {
-  const items = [
-    ...education.items.map((item) => ({ ...item, kind: "Education", heading: item.degree, key: "education" })),
-    ...experience.items.map((item) => ({ ...item, kind: "Research", heading: item.title, key: "experience" }))
-  ].sort((a, b) => lastYear(b.years) - lastYear(a.years));
-
+/* ---------- path: two columns ---------- */
+function renderPathColumn(title, items, key) {
   const rows = items
     .map((item) => {
-      const details = [
-        item.distinction ? `<p class="distinction">${escapeHtml(item.distinction)}</p>` : "",
+      const heading = item.degree || item.title;
+      const more = [
         item.description ? `<p>${escapeHtml(item.description)}</p>` : "",
         item.thesis ? `<p class="small"><em>Thesis:</em> ${escapeHtml(item.thesis)}</p>` : "",
         item.supervisors ? `<p class="small"><em>Supervisors:</em> ${escapeHtml(item.supervisors.join("; "))}</p>` : ""
       ].join("");
-      return `<li class="tl-item k-${item.key}"${src(item.key)}>
-        <span class="tl-dot" aria-hidden="true"></span>
-        <div class="tl-card card">
-          <p class="meta"><span class="kind">${escapeHtml(item.kind)}</span><span>${escapeHtml(item.years)}</span></p>
-          <div class="tl-head">
+      return `<li class="step"${src(key)}>
+        <span class="year">${escapeHtml(item.years)}</span>
+        <div class="step-body">
+          <div class="step-head">
             <div>
-              <h3>${escapeHtml(item.heading)}</h3>
+              <p class="step-title">${escapeHtml(heading)}${item.distinction ? ` <span class="distinction">${escapeHtml(item.distinction)}</span>` : ""}</p>
               <p class="institution">${escapeHtml(item.institution)}</p>
             </div>
             ${item.logo ? `<img src="logos/${escapeHtml(item.logo)}" alt="" loading="lazy" />` : ""}
           </div>
-          ${details}
+          ${more ? `<details><summary>More</summary>${more}</details>` : ""}
         </div>
       </li>`;
     })
     .join("");
+  return `<div class="card path-col k-${key}"${src(key)}>
+    <h3 class="mini-head">${escapeHtml(title)}</h3>
+    <ol class="steps">${rows}</ol>
+  </div>`;
+}
 
+function renderPath(education, experience, num) {
+  const sort = (arr) => [...arr].sort((a, b) => lastYear(b.years) - lastYear(a.years));
   return `<section id="path"${src("education")}>
-    ${sectionHead("Path", "From human sciences to the clinic", "Education and research posts in one timeline, most recent first.")}
-    <div class="tl-filter" role="group" aria-label="Show">
-      <button type="button" class="chip is-on" data-tl="all">All</button>
-      <button type="button" class="chip" data-tl="education">Education</button>
-      <button type="button" class="chip" data-tl="experience">Research posts</button>
+    ${sectionHead(num, "Path", "From human sciences to the clinic")}
+    <div class="split split-even">
+      ${renderPathColumn(education.title, sort(education.items), "education")}
+      ${renderPathColumn("Research posts", sort(experience.items), "experience")}
     </div>
-    <ol class="timeline">${rows}</ol>
   </section>`;
 }
 
@@ -380,14 +424,10 @@ function renderPublication(entry, authorMatch, topicIndex) {
   if (authors.length <= 4) {
     authorShort = authors.map(fmt).join(", ");
   } else {
-    const keep = new Set([0, mi, authors.length - 1].filter((i) => i >= 0));
+    const keep = [...new Set([0, mi, authors.length - 1].filter((i) => i >= 0))].sort((a, b) => a - b);
     const parts = [];
     let prev = -1;
-    [...keep].sort((a, b) => a - b).forEach((i) => {
-      if (i - prev > 1) parts.push("…");
-      parts.push(fmt(authors[i], i));
-      prev = i;
-    });
+    keep.forEach((i) => { if (i - prev > 1) parts.push("…"); parts.push(fmt(authors[i], i)); prev = i; });
     authorShort = parts.join(", ");
   }
   const venue = [f.journal || f.booktitle || f.publisher || f.institution, f.volume ? `vol. ${f.volume}` : "", f.number ? `no. ${f.number}` : ""].filter(Boolean).join(" · ");
@@ -399,11 +439,10 @@ function renderPublication(entry, authorMatch, topicIndex) {
   const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
 
   return `<li class="pub t-${topicIndex.get(slug) || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
-    <span class="topic-dot" title="${escapeHtml(topic)}" aria-hidden="true"></span>
+    <span class="year">${escapeHtml(f.year || "")}</span>
     <div class="pub-body">
-      <p class="pub-title">${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
-      <p class="pub-authors">${authorShort}</p>
-      <p class="venue">${escapeHtml(venue)}</p>
+      <p class="pub-title"><span class="topic-dot" title="${escapeHtml(topic)}" aria-hidden="true"></span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
+      <p class="pub-meta"><span class="pub-authors">${authorShort}</span><span class="venue">${escapeHtml(venue)}</span></p>
       ${abstract || doi ? `<details>
         <summary>${abstract ? "Abstract" : "Details"}</summary>
         ${abstract ? `<p>${escapeHtml(abstract)}</p>` : ""}
@@ -418,7 +457,7 @@ function renderPublication(entry, authorMatch, topicIndex) {
   </li>`;
 }
 
-function renderPublications(content, publications) {
+function renderPublications(content, publications, num) {
   const topicIndex = new Map(content.topics.map((t, i) => [slugifyTopic(t.name), i + 1]));
   const chips = [`<button type="button" class="chip is-on" data-filter="all">All <span>${publications.length}</span></button>`]
     .concat(content.topics.map((t, i) => {
@@ -427,27 +466,17 @@ function renderPublications(content, publications) {
       return `<button type="button" class="chip t-${i + 1}" data-filter="${escapeHtml(slug)}"><span class="topic-dot" aria-hidden="true"></span>${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
     }))
     .join("");
-
   const descs = content.topics
     .map((t) => `<p class="topic-desc" data-topic="${escapeHtml(slugifyTopic(t.name))}" hidden>${escapeHtml(t.summary || t.description)}</p>`)
     .join("");
-
-  const years = [...new Set(publications.map((p) => p.year))].sort((a, b) => b - a);
-  const groups = years
-    .map((year) => `<div class="year-group" data-year="${year}">
-      <h3 class="year-divider"><span>${year || "Undated"}</span></h3>
-      <ol class="pubs">${publications.filter((p) => p.year === year).map((p) => renderPublication(p, content.authorMatch, topicIndex)).join("")}</ol>
-    </div>`)
-    .join("");
-
   return `<section id="publications"${src("pubs")}>
-    ${sectionHead("Publications", content.title, content.sectionIntro)}
+    ${sectionHead(num, "Publications", content.title)}
     <div class="pub-controls">
       <div class="chips" role="group" aria-label="Filter by theme">${chips}</div>
       <label class="search"><span class="sr-only">Search publications</span><input type="search" placeholder="Search titles, co-authors, journals…" /></label>
     </div>
     ${descs}
-    <div class="pub-list">${groups}</div>
+    <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topicIndex)).join("")}</ol>
     <p class="empty" hidden>No publications match that search.</p>
   </section>`;
 }
@@ -501,7 +530,7 @@ function renderPageScript(site) {
     // publications: theme chips + search
     var chips = document.querySelectorAll("#publications .chip");
     var items = document.querySelectorAll(".pub");
-    var groups = document.querySelectorAll(".year-group");
+    
     var descs = document.querySelectorAll(".topic-desc");
     var input = document.querySelector("#publications input[type=search]");
     var empty = document.querySelector("#publications .empty");
@@ -513,7 +542,6 @@ function renderPageScript(site) {
         var ok = (current === "all" || it.dataset.topic === current) && (!q || it.dataset.search.indexOf(q) > -1);
         it.hidden = !ok; if (ok) shown++;
       });
-      groups.forEach(function (g) { g.hidden = !g.querySelector(".pub:not([hidden])"); });
       descs.forEach(function (d) { d.hidden = d.dataset.topic !== current; });
       chips.forEach(function (c) { c.classList.toggle("is-on", c.dataset.filter === current); });
       if (empty) empty.hidden = shown > 0;
@@ -528,21 +556,33 @@ function renderPageScript(site) {
       a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });
     });
 
-    // path: education / research toggle
-    var tlChips = document.querySelectorAll(".tl-filter .chip");
-    tlChips.forEach(function (c) { c.addEventListener("click", function () {
-      if (body.classList.contains("config-edit-mode")) return;
-      var k = c.dataset.tl;
-      tlChips.forEach(function (o) { o.classList.toggle("is-on", o === c); });
-      document.querySelectorAll(".tl-item").forEach(function (it) {
-        it.hidden = k !== "all" && !it.classList.contains("k-" + k);
-      });
-    }); });
+    // scrollspy for the top bar
+    var spyLinks = document.querySelectorAll(".topbar [data-spy]");
+    if ("IntersectionObserver" in window && spyLinks.length) {
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          spyLinks.forEach(function (l) { l.classList.toggle("is-active", l.dataset.spy === e.target.id); });
+        });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+      spyLinks.forEach(function (l) { var s = document.getElementById(l.dataset.spy); if (s) spy.observe(s); });
+    }
   });
   </script>`;
 }
 
 function renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile }) {
+  const years = publications.map((p) => p.year).filter(Boolean);
+  const pathItems = education.items.length + experience.items.length;
+  const firstYear = Math.min(...[...education.items, ...experience.items].map((i) => Number.parseInt((String(i.years).match(/\d{4}/) || ["9999"])[0], 10)));
+  const overview = [
+    { id: "about", label: "About", teaser: "Doctor, researcher, writer" },
+    { id: "research", label: "Research", teaser: `${pubContent.topics.length} threads, from iodine to evidence` },
+    { id: "writing", label: "Writing & media", teaser: `${scicomm.nemo.links.length} NEMO blogs · ${scicomm.featuredMedia.length} outlets` },
+    { id: "path", label: "Path", teaser: `${pathItems} steps since ${firstYear}` },
+    { id: "publications", label: "Publications", teaser: `${publications.length} since ${Math.min(...years)}` }
+  ];
+  const num = (id) => String(overview.findIndex((o) => o.id === id) + 1).padStart(2, "0");
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -566,13 +606,13 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <div class="edit-indicator">Edit mode: press Ctrl/Cmd+Shift+E or use ?edit=1</div>
   ${renderTopbar(site)}
   <main class="page">
-    ${renderHero(site)}
+    ${renderHero(site, overview)}
     ${renderNews(news)}
-    ${renderAbout(home)}
-    ${renderResearch(pubContent, publications)}
-    ${renderWriting(scicomm)}
-    ${renderPath(education, experience)}
-    ${renderPublications(pubContent, publications)}
+    ${renderAbout(home, num("about"))}
+    ${renderResearch(pubContent, publications, num("research"))}
+    ${renderWriting(scicomm, num("writing"))}
+    ${renderPath(education, experience, num("path"))}
+    ${renderPublications(pubContent, publications, num("publications"))}
   </main>
   <footer class="footer"${src("site")}>
     <p>${escapeHtml(site.footer.copyright)}</p>

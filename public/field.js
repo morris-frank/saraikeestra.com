@@ -177,11 +177,11 @@ void main(){
 
   function draw(now) {
     const w = window.innerWidth, h = window.innerHeight;
-    const scaleCss = Math.min(Math.max(Math.min(w * 0.36, h * 0.42), 170), 420);
+    const scaleCss = Math.min(Math.max(Math.min(w * 0.34, h * 0.38), 160), 360);
     const y = anchorDocY - window.scrollY * 0.55; // parallax: gland drifts slower than the page
     const fade = 1 - 0.6 * Math.min(1, window.scrollY / (h * 1.4));
     gl.uniform2f(U.res, canvas.width, canvas.height);
-    gl.uniform2f(U.anchor, anchorX * RES, (h - y) * RES);
+    gl.uniform2f(U.anchor, anchorX * RES, (h - y - scaleCss * 0.22) * RES); // gland sits a little below the portrait
     gl.uniform1f(U.scale, scaleCss * RES);
     gl.uniform1f(U.time, reduce.matches ? 12.0 : (now - start) / 1000);
     gl.uniform1f(U.fade, fade);
