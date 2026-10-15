@@ -197,6 +197,14 @@ function renderHero(site) {
   </header>`;
 }
 
+function renderChapterMenu(site) {
+  const links = (site.chapters || site.nav).map((c) => `<a href="#${escapeHtml(c.id)}" data-spy="${escapeHtml(c.id)}">${escapeHtml(c.label)}</a>`).join("");
+  return `<nav class="chapters" aria-label="Chapters"${src("site")}>
+    <a class="chapters-name" href="#top">${escapeHtml(site.name)}</a>
+    <div class="chapters-links">${links}</div>
+  </nav>`;
+}
+
 /* ---------- topic glyphs: small hand-drawn marks instead of colour dots ---------- */
 const GLYPHS = {
   // thyroid: two lobes and the isthmus
@@ -552,6 +560,23 @@ function renderPageScript(site) {
       if (!t) return; e.preventDefault(); e.stopPropagation(); location.href = editUrl(t.dataset.sourceFile);
     }, true);
 
+    // chapter menu: fades in once the header has scrolled away, highlights the current chapter
+    var hero = document.querySelector(".hero");
+    var menu = document.querySelector(".chapters");
+    if (hero && menu && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        menu.classList.toggle("is-visible", !entries[0].isIntersecting);
+      }).observe(hero);
+      var spyLinks = menu.querySelectorAll("[data-spy]");
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          spyLinks.forEach(function (l) { l.classList.toggle("is-active", l.dataset.spy === e.target.id); });
+        });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+      spyLinks.forEach(function (l) { var t = document.getElementById(l.dataset.spy); if (t) spy.observe(t); });
+    }
+
     // publications: theme chips + search
     var chips = document.querySelectorAll("#publications .chip");
     var items = document.querySelectorAll(".pub");
@@ -607,6 +632,7 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <title>${escapeHtml(site.pageTitle)}</title>
 </head>
 <body id="top">
+  ${renderChapterMenu(site)}
   <div class="edit-indicator">Edit mode: press Ctrl/Cmd+Shift+E or use ?edit=1</div>
   <main class="page">
     ${renderHero(site)}

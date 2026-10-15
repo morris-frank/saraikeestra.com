@@ -19,6 +19,7 @@
   --muted: #857a72;
   --line: rgb(45 40 37 / 0.12);
   --line-strong: rgb(45 40 37 / 0.22);
+  --line-faint: rgb(45 40 37 / 0.06);
 
   /* accents: thyroid rose, plum (the axis), sage (the contours) */
   --rose: #b05c4f;
@@ -46,8 +47,8 @@
   --space: clamp(3.5rem, 7vw, 5.5rem);
 
   /* hand-made, slightly uneven corners */
-  --radius: 0.45rem;
-  --radius-sm: 0.25rem;
+  --radius: 0.4rem 0.55rem 0.45rem 0.6rem / 0.55rem 0.4rem 0.6rem 0.45rem;
+  --radius-sm: 0.2rem 0.3rem 0.22rem 0.32rem / 0.3rem 0.2rem 0.32rem 0.22rem;
 
   --shadow: none;
   color-scheme: light;
