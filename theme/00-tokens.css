@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Lora";
+  src: url("Lora-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  /* paper & ink */
+  --paper: #fbf7f2;
+  --paper-2: #f3ebe2;
+  --ink: #2d2825;
+  --ink-2: #554a44;
+  --muted: #857a72;
+  --line: rgb(45 40 37 / 0.12);
+  --line-strong: rgb(45 40 37 / 0.22);
+
+  /* accents: thyroid rose, plum (the axis), sage (the contours) */
+  --rose: #b05c4f;
+  --rose-soft: #f2d9d2;
+  --plum: #6e3f52;
+  --plum-soft: #eadde3;
+  --sage: #5f7b6c;
+  --sage-soft: #dfe7e1;
+
+  /* shader palette (read by field.js; must be #rrggbb) */
+  --field-paper: #fbf7f2;
+  --field-rose: #e3a597;
+  --field-rose-deep: #b8695c;
+  --field-plum: #6e3f52;
+  --field-sage: #7e9688;
+
+  /* topics */
+  --t1: var(--rose);
+  --t2: var(--sage);
+  --t3: var(--plum);
+
+  --serif: "Lora", Georgia, "Times New Roman", serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --narrow: 40rem;
+  --wide: 68rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --space: clamp(4.5rem, 10vw, 8rem);
+
+  /* hand-made, slightly uneven corners */
+  --radius: 1.1rem 1.4rem 1.2rem 1.5rem / 1.4rem 1.1rem 1.5rem 1.2rem;
+  --radius-sm: 0.6rem 0.75rem 0.65rem 0.8rem / 0.75rem 0.6rem 0.8rem 0.65rem;
+
+  --shadow: 0 1px 1px rgb(45 40 37 / 0.04), 0 8px 24px -12px rgb(45 40 37 / 0.18);
+  color-scheme: light;
+}

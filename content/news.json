@@ -1,0 +1,27 @@
+{
+  "title": "Lately",
+  "items": [
+    {
+      "kind": "Recognition",
+      "year": "2026",
+      "title": "Named in EW’s 30 onder 30",
+      "text": "Selected for EW Magazine’s 2026 list of thirty young talents under thirty.",
+      "url": "https://www.ewmagazine.nl/30-onder-30-2026/#ew30-profile-15",
+      "linkLabel": "Read the profile"
+    },
+    {
+      "kind": "Milestone",
+      "year": "2026",
+      "title": "Graduated as a medical doctor",
+      "text": "Finished medical school at Amsterdam UMC in May 2026; the PhD on iodine and thyroid health in the first thousand days continues."
+    },
+    {
+      "kind": "New paper",
+      "year": "2025",
+      "title": "Maternal thyroid function and the adolescent brain",
+      "text": "Thyroid function in early pregnancy and neurodevelopment in early adolescence, in the Amsterdam ABCD cohort.",
+      "url": "https://doi.org/10.1016/j.cpnec.2025.100333",
+      "linkLabel": "Read the paper"
+    }
+  ]
+}

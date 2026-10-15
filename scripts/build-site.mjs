@@ -155,389 +155,454 @@ function renderSocialIcon(icon, label) {
   return escapeHtml(label);
 }
 
-function renderEducationSection(content) {
-  const cards = content.items
-    .map(
-      (item) => `<div${sourceAttrs("content/education.json", "Education content")}>
-        <div class="institution">
-          <div>
-            <p>${escapeHtml(item.institution)}</p>
-            <p class="years">${escapeHtml(item.years)}</p>
-          </div>
-          ${item.logo ? `<img src="logos/${escapeHtml(item.logo)}" alt="${escapeHtml(item.institution)} logo" loading="lazy" />` : ""}
-        </div>
-        <div class="degree">
-          <p class="degree-name">${escapeHtml(item.degree)}</p>
-          ${item.distinction ? `<p class="distinction">${escapeHtml(item.distinction)}</p>` : ""}
-        </div>
-        ${item.description ? `<p class="description">${escapeHtml(item.description)}</p>` : ""}
-        ${item.thesis ? `<p class="thesis">Thesis: ${escapeHtml(item.thesis)}</p>` : ""}
-        ${item.supervisors ? `<p class="supervisors">Supervisors: ${escapeHtml(item.supervisors.join(", "))}</p>` : ""}
-      </div>`
-    )
-    .join("");
+const SRC = {
+  site: ["content/site.json", "Site settings"],
+  home: ["content/home.json", "Home intro"],
+  news: ["content/news.json", "News & highlights"],
+  education: ["content/education.json", "Education content"],
+  experience: ["content/experience.json", "Experience content"],
+  scicomm: ["content/science-communication.json", "Science communication content"],
+  pubs: ["content/publications.json", "Publication topics"],
+  bib: ["references.bib", "Publication source file"]
+};
+const src = (key) => sourceAttrs(...SRC[key]);
 
-  return `<section${sourceAttrs("content/education.json", "Education content")}>
-    <h2>${escapeHtml(content.title)}</h2>
-    <div class="education">${cards}</div>
-    <p class="education-swipe">${escapeHtml(content.swipeHint)}</p>
-  </section>`;
+const lastYear = (years = "") => {
+  const all = String(years).match(/\d{4}/g) || ["0"];
+  return Number.parseInt(all[all.length - 1], 10);
+};
+
+function sectionHead(eyebrow, title, intro = "") {
+  return `<header class="section-head">
+      <p class="eyebrow">${escapeHtml(eyebrow)}</p>
+      <h2>${escapeHtml(title)}</h2>
+      ${intro ? `<p class="section-intro">${escapeHtml(intro)}</p>` : ""}
+    </header>`;
 }
 
-function renderExperienceSection(content) {
-  const cards = content.items
-    .map(
-      (item) => `<div${sourceAttrs("content/experience.json", "Experience content")}>
-        <div class="institution">
-          <div>
-            <p>${escapeHtml(item.institution)}</p>
-            <p class="years">${escapeHtml(item.years)}</p>
-          </div>
-          ${item.logo ? `<img src="logos/${escapeHtml(item.logo)}" alt="${escapeHtml(item.institution)} logo" loading="lazy" />` : ""}
-        </div>
-        <p class="title">${escapeHtml(item.title)}</p>
-        <p class="description">${escapeHtml(item.description)}</p>
-      </div>`
-    )
+/* ---------- hero ---------- */
+function renderHero(site) {
+  const socials = site.socialLinks
+    .map((link) => `<a class="pill" href="${escapeHtml(link.url)}"${externalLinkAttrs}>${renderSocialIcon(link.icon, link.label).replace('<span class="sr-only">', "<span>")}</a>`)
     .join("");
-
-  return `<section${sourceAttrs("content/experience.json", "Experience content")}>
-    <h2>${escapeHtml(content.title)}</h2>
-    <div class="experience">${cards}</div>
-    <p class="experience-swipe">${escapeHtml(content.swipeHint)}</p>
-  </section>`;
-}
-
-function renderScienceCommunicationSection(content) {
-  const featuredMedia = content.featuredMedia
-    .map(
-      (item) => `<a href="${escapeHtml(item.url)}"${externalLinkAttrs}${sourceAttrs("content/science-communication.json", "Science communication content")}>
-        <img src="logos/${escapeHtml(item.logo)}" alt="${escapeHtml(item.name)} logo" loading="lazy" />
-      </a>`
-    )
-    .join("");
-
-  const nemoLinks = content.nemo.links
-    .map(
-      (item) => `<a href="${escapeHtml(item.url)}"${externalLinkAttrs}${sourceAttrs("content/science-communication.json", "Science communication content")}>
-        <div>
-          <p>${escapeHtml(item.titleEn)}</p>
-          <p>${escapeHtml(item.title)}</p>
-        </div>
-        <span>${escapeHtml(item.year)}</span>
-      </a>`
-    )
-    .join("");
-
-  const media = content.media
-    .map(
-      (item) => `<div${sourceAttrs("content/science-communication.json", "Science communication content")}>
-        ${item.url ? `<a href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.title)}</a>` : `<span>${escapeHtml(item.title)}</span>`}
-        <div>
-          <span>${escapeHtml(item.outlet)}</span>
-          <span>${escapeHtml(item.year)}</span>
-        </div>
-      </div>`
-    )
-    .join("");
-
-  return `<section${sourceAttrs("content/science-communication.json", "Science communication content")}>
-    <h2>${escapeHtml(content.title)}</h2>
-    <video src="${escapeHtml(content.video.src)}" controls poster="${escapeHtml(content.video.poster)}"></video>
-    <div class="nemo-box"${sourceAttrs("content/science-communication.json", "Science communication content")}>
-      <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}>
-        <img src="logos/${escapeHtml(content.nemo.logo)}" alt="${escapeHtml(content.nemo.title)} logo" />
-      </a>
-      <p>${escapeHtml(content.nemo.description)}</p>
-      ${nemoLinks}
+  return `<section class="hero"${src("site")}>
+    <div class="portrait" data-field-anchor>
+      <img src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
     </div>
-    <h3>${escapeHtml(content.mediaHeading)}</h3>
-    <div class="featured-media"${sourceAttrs("content/science-communication.json", "Science communication content")}>${featuredMedia}</div>
-    <div class="media"${sourceAttrs("content/science-communication.json", "Science communication content")}>${media}</div>
+    <p class="eyebrow">${escapeHtml(site.role)}</p>
+    <h1>${escapeHtml(site.name)}</h1>
+    <p class="tagline">${escapeHtml(site.tagline)}</p>
+    <nav class="socials" aria-label="Profiles">${socials}</nav>
   </section>`;
 }
 
-function renderPublication(entry, authorMatch) {
-  const fields = entry.fields;
-  const title = fields.title || entry.key;
-  const authors = splitAuthors(fields.author || "");
-  const matchedIndex = authors.findIndex((author) => author.toLowerCase().includes(String(authorMatch).toLowerCase()));
-  const expands = authors.length > 3;
-  const authorHtml = authors
-    .map((author, index) => {
-      const isMatch = index === matchedIndex;
-      const isFirst = index === 0;
-      const isLast = index === authors.length - 1;
-      const className = isMatch ? "author-match" : !expands || isFirst || isLast ? "author-visible" : "author-toggle";
-      const text = `${author}${isLast ? "" : ","}`;
-      const prefix = isFirst && expands && !isMatch ? `<span class="author-ellipsis">...</span>` : "";
-      const suffix = isLast && expands && !isMatch ? `<span class="author-ellipsis">...</span>` : "";
-      return `${prefix}<span class="${className}">${escapeHtml(text)}</span>${suffix}`;
+function renderTopbar(site) {
+  const links = site.nav.map((item) => `<a href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
+  return `<nav class="topbar" aria-label="Sections"${src("site")}>
+    <a class="topbar-name" href="#top">${escapeHtml(site.name)}</a>
+    <div class="topbar-links">${links}</div>
+  </nav>`;
+}
+
+/* ---------- news ---------- */
+function renderNews(news) {
+  const cards = news.items
+    .map((item) => `<article class="card news-card"${src("news")}>
+      <p class="meta"><span class="kind">${escapeHtml(item.kind)}</span><span>${escapeHtml(item.year)}</span></p>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p>${escapeHtml(item.text)}</p>
+      ${item.url ? `<a class="more" href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.linkLabel || "Read more")} →</a>` : ""}
+    </article>`)
+    .join("");
+  return `<section id="news" class="band"${src("news")}>
+    ${sectionHead("News", news.title)}
+    <div class="grid-3">${cards}</div>
+  </section>`;
+}
+
+/* ---------- about ---------- */
+function renderAbout(home) {
+  const [first, ...rest] = home.intro;
+  return `<section id="about" class="prose-section"${src("home")}>
+    ${sectionHead("About", "Curious about how bodies respond to their surroundings")}
+    <div class="prose">
+      <p class="lead">${renderRichText(first.parts)}</p>
+      ${rest.map((p) => `<p>${renderRichText(p.parts)}</p>`).join("")}
+    </div>
+  </section>`;
+}
+
+/* ---------- research ---------- */
+function renderResearch(content, publications) {
+  const counts = new Map();
+  for (const p of publications) {
+    const slug = slugifyTopic(p.fields.topic || "Other");
+    counts.set(slug, (counts.get(slug) || 0) + 1);
+  }
+  const themes = content.topics
+    .map((topic, index) => {
+      const slug = slugifyTopic(topic.name);
+      return `<article class="card theme-card t-${index + 1}"${src("pubs")}>
+        <span class="theme-mark" aria-hidden="true"></span>
+        <h3>${escapeHtml(topic.short || topic.name)}</h3>
+        <p>${escapeHtml(topic.summary || topic.description)}</p>
+        <a class="more" href="#publications" data-filter="${escapeHtml(slug)}">${counts.get(slug) || 0} publications →</a>
+      </article>`;
     })
     .join("");
-  const source = [fields.journal || fields.booktitle || fields.publisher || fields.institution, fields.volume ? `Vol. ${fields.volume}` : "", fields.number ? `No. ${fields.number}` : ""]
+
+  const byKey = new Map(publications.map((p) => [p.key, p]));
+  const featured = (content.featured || [])
+    .map((key) => byKey.get(key))
     .filter(Boolean)
-    .join(" | ");
-  const topic = fields.topic || "Other";
-  const topicClass = slugifyTopic(topic);
-  const doi = fields.doi || "";
-  const url = fields.url || (doi ? `https://doi.org/${doi}` : "");
-  const hasScore = doi.startsWith("10.");
-  return `<div class="reference ${hasScore ? "with-score" : "no-score"} ${escapeHtml(topicClass)}" style="order: 200;" data-topic="${escapeHtml(topicClass)}"${sourceAttrs("references.bib", "Publication source file")}>
-    <div class="year">${escapeHtml(fields.year || "")}</div>
-    <div class="source"><span>${escapeHtml(source)}</span></div>
-    <span class="topic">${escapeHtml(topic)}</span>
-    <div class="title">
-      ${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}
-      ${doi ? `<span>${escapeHtml(doi)}</span>` : ""}
-    </div>
-    <div class="badges">
-      ${doi ? `<span class="__dimensions_badge_embed__" data-doi="${escapeHtml(doi)}" data-legend="hover-right" data-style="small_circle"></span>` : ""}
-      ${doi ? `<div class="altmetric-embed" data-badge-type="donut" data-badge-popover="right" data-doi="${escapeHtml(doi)}"></div>` : ""}
-      ${doi ? `<a href="https://plu.mx/plum/a/?doi=${escapeHtml(doi)}" class="plumx-plum-print-popup" data-popup="right" data-size="medium" data-site="plum" data-hide-when-empty="true"${externalLinkAttrs}></a>` : ""}
-    </div>
-    <div class="authors ${expands ? "" : "expanded"}" onclick="this.classList.add('expanded')">${authorHtml}</div>
-    <div class="abstract"><div>${escapeHtml(fields.abstract || "")}</div></div>
-  </div>`;
-}
-
-function renderPublicationsSection(content, bibSource) {
-  const publications = parseBibtex(bibSource)
-    .map((entry) => ({ ...entry, year: Number.parseInt(entry.fields.year || "0", 10) || 0 }))
-    .sort((left, right) => right.year - left.year);
-
-  const topics = content.topics
-    .map(
-      (topic) => `<span class="active ${escapeHtml(slugifyTopic(topic.name))}" data-topic="${escapeHtml(slugifyTopic(topic.name))}"${sourceAttrs("content/publications.json", "Publication topics")}>${escapeHtml(topic.name)}</span>`
-    )
+    .map((entry) => {
+      const f = entry.fields;
+      const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : "");
+      return `<li${src("bib")}>
+        <span class="year">${escapeHtml(f.year || "")}</span>
+        <div>
+          ${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(f.title)}</a>` : escapeHtml(f.title)}
+          <p class="venue">${escapeHtml(f.journal || f.booktitle || f.publisher || "")}</p>
+        </div>
+      </li>`;
+    })
     .join("");
 
-  const topicDescriptions = content.topics
-    .map(
-      (topic) => `<div class="topic-desc hidden ${escapeHtml(slugifyTopic(topic.name))}"${sourceAttrs("content/publications.json", "Publication topics")}>
-        <h3>${escapeHtml(topic.name)}</h3>
-        <p>${escapeHtml(topic.description)}</p>
-      </div>`
-    )
-    .join("");
-
-  const entries = publications.map((entry) => renderPublication(entry, content.authorMatch)).join("");
-
-  return `<section${sourceAttrs("content/publications.json", "Publication topics")}>
-    <h2>${escapeHtml(content.title)}</h2>
-    <div class="topic-tags">${topics}</div>
-    ${topicDescriptions}
-    ${entries}
+  return `<section id="research"${src("pubs")}>
+    ${sectionHead("Research", "Three connected threads")}
+    <div class="grid-3">${themes}</div>
+    ${featured ? `<div class="featured card"${src("pubs")}>
+      <h3>Selected work</h3>
+      <ol class="featured-list">${featured}</ol>
+    </div>` : ""}
   </section>`;
 }
 
+/* ---------- writing & media ---------- */
+function renderWriting(content) {
+  const nemo = content.nemo.links
+    .map((item) => `<a class="article" href="${escapeHtml(item.url)}"${externalLinkAttrs}${src("scicomm")}>
+      <span class="year">${escapeHtml(item.year)}</span>
+      <span class="article-title">${escapeHtml(item.titleEn)}</span>
+      <span class="article-nl" lang="nl">${escapeHtml(item.title)}</span>
+    </a>`)
+    .join("");
+
+  const logos = content.featuredMedia
+    .map((item) => `<a href="${escapeHtml(item.url)}"${externalLinkAttrs} title="${escapeHtml(item.name)}"${src("scicomm")}>
+      <img src="logos/${escapeHtml(item.logo)}" alt="${escapeHtml(item.name)}" loading="lazy" />
+    </a>`)
+    .join("");
+
+  const media = [...content.media]
+    .sort((a, b) => b.year - a.year)
+    .map((item) => `<li${src("scicomm")}>
+      <span class="year">${escapeHtml(item.year)}</span>
+      <div>
+        ${item.url ? `<a href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.title)}</a>` : `<span>${escapeHtml(item.title)}</span>`}
+        <p class="venue">${escapeHtml(item.outlet)}</p>
+      </div>
+    </li>`)
+    .join("");
+
+  return `<section id="writing"${src("scicomm")}>
+    ${sectionHead("Writing & media", "Keeping the questions coming", "Blogs for NEMO Kennislink, press coverage of the research, and appearances on radio and in print.")}
+    <div class="media-feature">
+      <figure class="video card">
+        <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
+        <figcaption>Faces of Science portrait, KNAW · De Jonge Akademie · NEMO</figcaption>
+      </figure>
+    </div>
+    <div class="nemo card"${src("scicomm")}>
+      <div class="nemo-head">
+        <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
+        <p>${escapeHtml(content.nemo.description)}</p>
+      </div>
+      <div class="articles">${nemo}</div>
+    </div>
+    <h3 class="center-h3">${escapeHtml(content.mediaHeading)}</h3>
+    <div class="press-logos"${src("scicomm")}>${logos}</div>
+    <ul class="dated-list">${media}</ul>
+  </section>`;
+}
+
+/* ---------- path (education + experience as one timeline) ---------- */
+function renderPath(education, experience) {
+  const items = [
+    ...education.items.map((item) => ({ ...item, kind: "Education", heading: item.degree, key: "education" })),
+    ...experience.items.map((item) => ({ ...item, kind: "Research", heading: item.title, key: "experience" }))
+  ].sort((a, b) => lastYear(b.years) - lastYear(a.years));
+
+  const rows = items
+    .map((item) => {
+      const details = [
+        item.distinction ? `<p class="distinction">${escapeHtml(item.distinction)}</p>` : "",
+        item.description ? `<p>${escapeHtml(item.description)}</p>` : "",
+        item.thesis ? `<p class="small"><em>Thesis:</em> ${escapeHtml(item.thesis)}</p>` : "",
+        item.supervisors ? `<p class="small"><em>Supervisors:</em> ${escapeHtml(item.supervisors.join("; "))}</p>` : ""
+      ].join("");
+      return `<li class="tl-item k-${item.key}"${src(item.key)}>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card card">
+          <p class="meta"><span class="kind">${escapeHtml(item.kind)}</span><span>${escapeHtml(item.years)}</span></p>
+          <div class="tl-head">
+            <div>
+              <h3>${escapeHtml(item.heading)}</h3>
+              <p class="institution">${escapeHtml(item.institution)}</p>
+            </div>
+            ${item.logo ? `<img src="logos/${escapeHtml(item.logo)}" alt="" loading="lazy" />` : ""}
+          </div>
+          ${details}
+        </div>
+      </li>`;
+    })
+    .join("");
+
+  return `<section id="path"${src("education")}>
+    ${sectionHead("Path", "From human sciences to the clinic", "Education and research posts in one timeline, most recent first.")}
+    <div class="tl-filter" role="group" aria-label="Show">
+      <button type="button" class="chip is-on" data-tl="all">All</button>
+      <button type="button" class="chip" data-tl="education">Education</button>
+      <button type="button" class="chip" data-tl="experience">Research posts</button>
+    </div>
+    <ol class="timeline">${rows}</ol>
+  </section>`;
+}
+
+/* ---------- publications ---------- */
+function renderPublication(entry, authorMatch, topicIndex) {
+  const f = entry.fields;
+  const title = f.title || entry.key;
+  const authors = splitAuthors(f.author || "");
+  const mi = authors.findIndex((a) => a.toLowerCase().includes(String(authorMatch).toLowerCase()));
+  const fmt = (a, i) => (i === mi ? `<strong>${escapeHtml(a)}</strong>` : escapeHtml(a));
+  let authorShort;
+  if (authors.length <= 4) {
+    authorShort = authors.map(fmt).join(", ");
+  } else {
+    const keep = new Set([0, mi, authors.length - 1].filter((i) => i >= 0));
+    const parts = [];
+    let prev = -1;
+    [...keep].sort((a, b) => a - b).forEach((i) => {
+      if (i - prev > 1) parts.push("…");
+      parts.push(fmt(authors[i], i));
+      prev = i;
+    });
+    authorShort = parts.join(", ");
+  }
+  const venue = [f.journal || f.booktitle || f.publisher || f.institution, f.volume ? `vol. ${f.volume}` : "", f.number ? `no. ${f.number}` : ""].filter(Boolean).join(" · ");
+  const topic = f.topic || "Other";
+  const slug = slugifyTopic(topic);
+  const doi = f.doi || "";
+  const url = f.url || (doi ? `https://doi.org/${doi}` : "");
+  const abstract = f.abstract && !/^N\/A$/i.test(f.abstract) ? f.abstract : "";
+  const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
+
+  return `<li class="pub t-${topicIndex.get(slug) || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
+    <span class="topic-dot" title="${escapeHtml(topic)}" aria-hidden="true"></span>
+    <div class="pub-body">
+      <p class="pub-title">${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
+      <p class="pub-authors">${authorShort}</p>
+      <p class="venue">${escapeHtml(venue)}</p>
+      ${abstract || doi ? `<details>
+        <summary>${abstract ? "Abstract" : "Details"}</summary>
+        ${abstract ? `<p>${escapeHtml(abstract)}</p>` : ""}
+        ${authors.length > 4 ? `<p class="small">${authors.map(fmt).join(", ")}</p>` : ""}
+        ${doi ? `<div class="badges">
+          <span class="doi">doi:${escapeHtml(doi)}</span>
+          <span class="__dimensions_badge_embed__" data-doi="${escapeHtml(doi)}" data-legend="hover-right" data-style="small_circle"></span>
+          <div class="altmetric-embed" data-badge-type="donut" data-badge-popover="right" data-doi="${escapeHtml(doi)}" data-hide-no-mentions="true"></div>
+        </div>` : ""}
+      </details>` : ""}
+    </div>
+  </li>`;
+}
+
+function renderPublications(content, publications) {
+  const topicIndex = new Map(content.topics.map((t, i) => [slugifyTopic(t.name), i + 1]));
+  const chips = [`<button type="button" class="chip is-on" data-filter="all">All <span>${publications.length}</span></button>`]
+    .concat(content.topics.map((t, i) => {
+      const slug = slugifyTopic(t.name);
+      const n = publications.filter((p) => slugifyTopic(p.fields.topic || "") === slug).length;
+      return `<button type="button" class="chip t-${i + 1}" data-filter="${escapeHtml(slug)}"><span class="topic-dot" aria-hidden="true"></span>${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
+    }))
+    .join("");
+
+  const descs = content.topics
+    .map((t) => `<p class="topic-desc" data-topic="${escapeHtml(slugifyTopic(t.name))}" hidden>${escapeHtml(t.summary || t.description)}</p>`)
+    .join("");
+
+  const years = [...new Set(publications.map((p) => p.year))].sort((a, b) => b - a);
+  const groups = years
+    .map((year) => `<div class="year-group" data-year="${year}">
+      <h3 class="year-divider"><span>${year || "Undated"}</span></h3>
+      <ol class="pubs">${publications.filter((p) => p.year === year).map((p) => renderPublication(p, content.authorMatch, topicIndex)).join("")}</ol>
+    </div>`)
+    .join("");
+
+  return `<section id="publications"${src("pubs")}>
+    ${sectionHead("Publications", content.title, content.sectionIntro)}
+    <div class="pub-controls">
+      <div class="chips" role="group" aria-label="Filter by theme">${chips}</div>
+      <label class="search"><span class="sr-only">Search publications</span><input type="search" placeholder="Search titles, co-authors, journals…" /></label>
+    </div>
+    ${descs}
+    <div class="pub-list">${groups}</div>
+    <p class="empty" hidden>No publications match that search.</p>
+  </section>`;
+}
+
+/* ---------- css + scripts ---------- */
 async function buildCss() {
-  const files = (await readdir(themeDir))
-    .filter((file) => file.endsWith(".css"))
-    .sort();
-  const css = (
-    await Promise.all(
-      files.map(async (file) => `/* ${file} */\n${await readFile(path.join(themeDir, file), "utf8")}`)
-    )
-  ).join("\n\n");
+  const files = (await readdir(themeDir)).filter((file) => file.endsWith(".css")).sort();
+  const css = (await Promise.all(files.map(async (file) => `/* ${file} */\n${await readFile(path.join(themeDir, file), "utf8")}`))).join("\n\n");
   const hash = crypto.createHash("md5").update(css).digest("hex").slice(0, 8);
   const fileName = `style-${hash}.css`;
-
   const publicFiles = await readdir(publicDir);
-  await Promise.all(
-    publicFiles
-      .filter((file) => /^style-[a-f0-9]{8}\.css$/.test(file))
-      .map((file) => rm(path.join(publicDir, file)))
-  );
-
+  await Promise.all(publicFiles.filter((file) => /^style-[a-f0-9]{8}\.css$/.test(file)).map((file) => rm(path.join(publicDir, file))));
   await writeFile(path.join(publicDir, fileName), css);
   return fileName;
 }
 
-function renderEditScript(site) {
+function renderPageScript(site) {
   const repo = `${site.repo.owner}/${site.repo.name}`;
   return `<script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const editConfig = ${JSON.stringify({ repo, branch: site.repo.branch })};
-      const body = document.body;
-      function editUrl(file) {
-        return "https://github.com/" + editConfig.repo + "/edit/" + editConfig.branch + "/" + encodeURI(file).replaceAll("%2F", "/");
-      }
-
-      function updateEditState(enabled) {
-        body.classList.toggle("config-edit-mode", enabled);
-      }
-
-      window.enableConfigEditMode = function (enabled = true) {
-        updateEditState(Boolean(enabled));
-      };
-
-      window.openConfigSourceFromElement = function (element) {
-        const target = element instanceof Element ? element.closest("[data-source-file]") : null;
-        if (!target) return false;
-        window.location.href = editUrl(target.dataset.sourceFile);
-        return true;
-      };
-
-      updateEditState(new URLSearchParams(window.location.search).get("edit") === "1");
-
-      document.addEventListener("keydown", function (event) {
-        if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "e") {
-          event.preventDefault();
-          updateEditState(!body.classList.contains("config-edit-mode"));
-        }
-      });
-
-      document.addEventListener("click", function (event) {
-        if (!body.classList.contains("config-edit-mode")) return;
-        const target = event.target.closest("[data-source-file]");
-        if (!target) return;
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = editUrl(target.dataset.sourceFile);
-      }, true);
-
-      function reorderReferences() {
-        const references = document.querySelectorAll(".reference.with-score");
-        let allScoresFound = true;
-        references.forEach((ref) => {
-          const scoreElement = ref.querySelector(".__dimensions_badge_embed__ .__db_score");
-          if (!scoreElement) {
-            allScoresFound = false;
-            return;
-          }
-          const score = 200 - parseFloat(scoreElement.textContent);
-          ref.style.order = score;
-        });
-        if (!allScoresFound) {
-          setTimeout(reorderReferences, 500);
-        }
-      }
-
-      reorderReferences();
-
-      const topicTags = document.querySelectorAll(".topic-tags span");
-      const topicDescs = document.querySelectorAll(".topic-desc");
-      const references = document.querySelectorAll(".reference");
-
-      topicTags.forEach((filter) => {
-        filter.addEventListener("click", function () {
-          if (body.classList.contains("config-edit-mode")) return;
-          if (this.classList.contains("selected")) {
-            topicTags.forEach((tag) => {
-              tag.classList.remove("selected");
-              tag.classList.add("active");
-            });
-            topicDescs.forEach((desc) => desc.classList.add("hidden"));
-            references.forEach((reference) => reference.classList.remove("hidden"));
-            return;
-          }
-
-          topicTags.forEach((tag) => {
-            tag.classList.remove("selected");
-            tag.classList.remove("active");
-          });
-          this.classList.add("selected");
-          topicDescs.forEach((desc) => desc.classList.add("hidden"));
-          const topic = this.dataset.topic;
-          const description = document.querySelector(".topic-desc." + topic);
-          if (description) description.classList.remove("hidden");
-          references.forEach((reference) => {
-            reference.classList.toggle("hidden", !reference.classList.contains(topic));
-          });
-        });
-      });
+  document.addEventListener("DOMContentLoaded", function () {
+    var body = document.body;
+    var editConfig = ${JSON.stringify({ repo, branch: site.repo.branch })};
+    function editUrl(file) {
+      return "https://github.com/" + editConfig.repo + "/edit/" + editConfig.branch + "/" + encodeURI(file).replaceAll("%2F", "/");
+    }
+    function setEdit(on) { body.classList.toggle("config-edit-mode", on); }
+    window.enableConfigEditMode = function (on) { setEdit(on === undefined ? true : Boolean(on)); };
+    window.openConfigSourceFromElement = function (el) {
+      var t = el instanceof Element ? el.closest("[data-source-file]") : null;
+      if (!t) return false; window.location.href = editUrl(t.dataset.sourceFile); return true;
+    };
+    setEdit(new URLSearchParams(location.search).get("edit") === "1");
+    document.addEventListener("keydown", function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === "e") { e.preventDefault(); setEdit(!body.classList.contains("config-edit-mode")); }
     });
+    document.addEventListener("click", function (e) {
+      if (!body.classList.contains("config-edit-mode")) return;
+      var t = e.target.closest("[data-source-file]");
+      if (!t) return; e.preventDefault(); e.stopPropagation(); location.href = editUrl(t.dataset.sourceFile);
+    }, true);
+
+    // topbar shows once the hero has scrolled away
+    var hero = document.querySelector(".hero");
+    var bar = document.querySelector(".topbar");
+    if (hero && bar && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        bar.classList.toggle("is-visible", !entries[0].isIntersecting);
+      }, { rootMargin: "-40% 0px 0px 0px" }).observe(hero);
+    }
+
+    // publications: theme chips + search
+    var chips = document.querySelectorAll("#publications .chip");
+    var items = document.querySelectorAll(".pub");
+    var groups = document.querySelectorAll(".year-group");
+    var descs = document.querySelectorAll(".topic-desc");
+    var input = document.querySelector("#publications input[type=search]");
+    var empty = document.querySelector("#publications .empty");
+    var current = "all";
+    function apply() {
+      var q = (input && input.value || "").trim().toLowerCase();
+      var shown = 0;
+      items.forEach(function (it) {
+        var ok = (current === "all" || it.dataset.topic === current) && (!q || it.dataset.search.indexOf(q) > -1);
+        it.hidden = !ok; if (ok) shown++;
+      });
+      groups.forEach(function (g) { g.hidden = !g.querySelector(".pub:not([hidden])"); });
+      descs.forEach(function (d) { d.hidden = d.dataset.topic !== current; });
+      chips.forEach(function (c) { c.classList.toggle("is-on", c.dataset.filter === current); });
+      if (empty) empty.hidden = shown > 0;
+    }
+    function setFilter(f) { current = f; apply(); }
+    chips.forEach(function (c) { c.addEventListener("click", function () {
+      if (body.classList.contains("config-edit-mode")) return;
+      setFilter(c.dataset.filter === current ? "all" : c.dataset.filter);
+    }); });
+    if (input) input.addEventListener("input", apply);
+    document.querySelectorAll("a[data-filter]").forEach(function (a) {
+      a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });
+    });
+
+    // path: education / research toggle
+    var tlChips = document.querySelectorAll(".tl-filter .chip");
+    tlChips.forEach(function (c) { c.addEventListener("click", function () {
+      if (body.classList.contains("config-edit-mode")) return;
+      var k = c.dataset.tl;
+      tlChips.forEach(function (o) { o.classList.toggle("is-on", o === c); });
+      document.querySelectorAll(".tl-item").forEach(function (it) {
+        it.hidden = k !== "all" && !it.classList.contains("k-" + k);
+      });
+    }); });
+  });
   </script>`;
 }
 
-function renderPage({ site, home, education, experience, scienceCommunication, publications, cssFile }) {
+function renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="${escapeHtml(site.themeColor)}" />
+  <meta name="theme-color" content="#fbf7f2" />
   <meta name="description" content="${escapeHtml(site.description)}" />
   <meta name="keywords" content="${escapeHtml(site.keywords.join(", "))}" />
   <meta name="author" content="${escapeHtml(site.author)}" />
   <meta name="robots" content="index, follow" />
-  <meta name="language" content="${escapeHtml(site.language)}" />
   <link rel="icon" type="image/jpeg" href="${escapeHtml(site.assets.favicon)}" />
   <link rel="canonical" href="${escapeHtml(site.baseUrl)}" />
+  <link rel="preload" href="${escapeHtml(site.assets.font)}" as="font" type="font/ttf" crossorigin />
   <link rel="stylesheet" href="${escapeHtml(cssFile)}" />
-  <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
   <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
-  <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
   <title>${escapeHtml(site.pageTitle)}</title>
 </head>
-<body>
+<body id="top">
+  <canvas id="field" aria-hidden="true"></canvas>
   <div class="edit-indicator">Edit mode: press Ctrl/Cmd+Shift+E or use ?edit=1</div>
-  <header${sourceAttrs("content/site.json", "Site settings")}>
-    <img src="${escapeHtml(site.assets.profileImage)}" alt="${escapeHtml(site.name)}" />
-    <main>
-      <h1>${escapeHtml(site.name)}</h1>
-      <nav>
-        ${site.socialLinks
-          .map(
-            (link) => `<a href="${escapeHtml(link.url)}"${externalLinkAttrs} aria-label="${escapeHtml(link.label)}">${renderSocialIcon(link.icon, link.label)}</a>`
-          )
-          .join("")}
-      </nav>
-    </main>
-  </header>
-
-  <header class="sticky"${sourceAttrs("content/site.json", "Site settings")}>
-    <img src="${escapeHtml(site.assets.profileImage)}" alt="${escapeHtml(site.name)}" />
-    <main>
-      <h1>${escapeHtml(site.name)}</h1>
-    </main>
-  </header>
-
-  <section${sourceAttrs("content/home.json", "Home intro")}>
-    ${home.intro.map((paragraph) => `<p>${renderRichText(paragraph.parts)}</p>`).join("")}
-  </section>
-
-  <main>
-    ${renderEducationSection(education)}
-    ${renderExperienceSection(experience)}
-    ${renderScienceCommunicationSection(scienceCommunication)}
-    ${renderPublicationsSection(publications.content, publications.bibSource)}
+  ${renderTopbar(site)}
+  <main class="page">
+    ${renderHero(site)}
+    ${renderNews(news)}
+    ${renderAbout(home)}
+    ${renderResearch(pubContent, publications)}
+    ${renderWriting(scicomm)}
+    ${renderPath(education, experience)}
+    ${renderPublications(pubContent, publications)}
   </main>
-
-  <footer${sourceAttrs("content/site.json", "Site settings")}>
+  <footer class="footer"${src("site")}>
     <p>${escapeHtml(site.footer.copyright)}</p>
+    <p><a href="#top">Back to top ↑</a></p>
   </footer>
-
-  ${renderEditScript(site)}
+  <script src="field.js" defer></script>
+  ${renderPageScript(site)}
 </body>
 </html>`;
 }
 
 async function main() {
-  const [site, home, education, experience, scienceCommunication, publicationsContent, bibSource] = await Promise.all([
+  const [site, home, news, education, experience, scicomm, pubContent, bibSource] = await Promise.all([
     readJson("content/site.json"),
     readJson("content/home.json"),
+    readJson("content/news.json"),
     readJson("content/education.json"),
     readJson("content/experience.json"),
     readJson("content/science-communication.json"),
     readJson("content/publications.json"),
     readText("references.bib")
   ]);
+  const publications = parseBibtex(bibSource)
+    .map((entry) => ({ ...entry, year: Number.parseInt(entry.fields.year || "0", 10) || 0 }))
+    .sort((a, b) => b.year - a.year);
 
   const cssFile = await buildCss();
-  const html = renderPage({
-    site,
-    home,
-    education,
-    experience,
-    scienceCommunication,
-    publications: { content: publicationsContent, bibSource },
-    cssFile
-  });
-
+  const html = renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile });
   await writeFile(path.join(publicDir, "index.html"), html);
-  process.stdout.write("Built public/index.html\n");
+  process.stdout.write(`Built public/index.html (${publications.length} publications)\n`);
 }
 
 main().catch((error) => {
