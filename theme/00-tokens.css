@@ -47,6 +47,6 @@
   --radius: 1.1rem 1.4rem 1.2rem 1.5rem / 1.4rem 1.1rem 1.5rem 1.2rem;
   --radius-sm: 0.6rem 0.75rem 0.65rem 0.8rem / 0.75rem 0.6rem 0.8rem 0.65rem;
 
-  --shadow: 0 1px 1px rgb(45 40 37 / 0.04), 0 8px 24px -12px rgb(45 40 37 / 0.18);
+  --shadow: none;
   color-scheme: light;
 }

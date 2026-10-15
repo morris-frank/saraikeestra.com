@@ -172,10 +172,10 @@ const lastYear = (years = "") => {
   return Number.parseInt(all[all.length - 1], 10);
 };
 
-function sectionHead(num, eyebrow, title, intro = "") {
+// Section headings use the plain section name so they match the contents strip.
+function sectionHead(_num, name, _title, intro = "") {
   return `<header class="section-head">
-      <p class="eyebrow"><span class="num">${escapeHtml(num)}</span>${escapeHtml(eyebrow)}</p>
-      <h2>${escapeHtml(title)}</h2>
+      <h2>${escapeHtml(name)}</h2>
       ${intro ? `<p class="section-intro">${escapeHtml(intro)}</p>` : ""}
     </header>`;
 }
@@ -187,7 +187,6 @@ function renderHero(site, overview) {
     .join("");
   const tiles = overview
     .map((o, i) => `<a class="toc-tile" href="#${escapeHtml(o.id)}">
-        <span class="num">${String(i + 1).padStart(2, "0")}</span>
         <span class="toc-label">${escapeHtml(o.label)}</span>
         <span class="toc-teaser">${escapeHtml(o.teaser)}</span>
       </a>`)
@@ -197,8 +196,8 @@ function renderHero(site, overview) {
       <div class="portrait" data-field-anchor>
         <img src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
       </div>
-      <p class="eyebrow">${escapeHtml(site.role)}</p>
       <h1>${escapeHtml(site.name)}</h1>
+      <p class="role">${escapeHtml(site.role)}</p>
       <p class="tagline">${escapeHtml(site.tagline)}</p>
       <nav class="socials" aria-label="Profiles">${socials}</nav>
     </div>
@@ -225,8 +224,7 @@ function renderNews(news) {
           ${feature.imageCredit ? `<figcaption>${escapeHtml(feature.imageCredit)}</figcaption>` : ""}
         </figure>` : ""}
         <div class="feature-body">
-          <p class="meta"><span class="kind">${escapeHtml(feature.kind)}</span><span>${escapeHtml(feature.year)}</span></p>
-          <h3>${escapeHtml(feature.title)}</h3>
+          <h3>${escapeHtml(feature.title)} <span class="year">${escapeHtml(feature.year)}</span></h3>
           <p class="feature-sub">${escapeHtml(feature.subtitle || "")}</p>
           ${feature.quote ? `<blockquote>
             <p lang="${escapeHtml(feature.quoteLang || "en")}">“${escapeHtml(feature.quote)}”</p>
@@ -239,8 +237,7 @@ function renderNews(news) {
     : "";
   const cards = rest
     .map((item) => `<article class="card news-card"${src("news")}>
-      <p class="meta"><span class="kind">${escapeHtml(item.kind)}</span><span>${escapeHtml(item.year)}</span></p>
-      <h3>${escapeHtml(item.title)}</h3>
+      <h3>${escapeHtml(item.title)} <span class="year">${escapeHtml(item.year)}</span></h3>
       <p>${escapeHtml(item.text)}</p>
       ${item.url ? `<a class="more" href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.linkLabel || "Read more")} →</a>` : ""}
     </article>`)

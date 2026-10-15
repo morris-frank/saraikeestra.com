@@ -19,10 +19,6 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
 }
 .section-head { gap: 0.35rem; }
 .section-head h2 { font-size: clamp(1.6rem, 3.2vw, 2.15rem); }
-.section-head .eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; }
-.section-head .eyebrow::after { content: ""; width: 1.75rem; height: 1px; background: var(--line-strong); }
-.num { font-family: var(--sans); font-variant-numeric: tabular-nums; color: var(--rose); letter-spacing: 0.04em; }
-.section-head .num::after { content: ""; display: inline-block; width: 1.75rem; height: 1px; background: var(--line-strong); vertical-align: middle; margin-left: 0.6rem; }
 .section-intro { color: var(--ink-2); }
 
 .card {
@@ -46,7 +42,6 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
   display: flex; gap: 0.75rem; align-items: baseline; justify-content: space-between;
   font-size: 0.78rem; color: var(--muted);
 }
-.kind { text-transform: uppercase; letter-spacing: 0.12em; color: var(--plum); }
 
 .more { font-size: 0.9rem; font-weight: 500; margin-top: auto; }
 

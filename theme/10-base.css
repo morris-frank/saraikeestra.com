@@ -43,14 +43,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 img { max-width: 100%; display: block; }
 
-.eyebrow, .meta, .chip, .venue, .year, .small, .topbar, .pill, .more, summary, figcaption, .footer {
+.meta, .chip, .venue, .year, .small, .topbar, .pill, .more, summary, figcaption, .footer {
   font-family: var(--sans);
-}
-.eyebrow {
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 .small { font-size: 0.85rem; color: var(--ink-2); }
 .venue { font-size: 0.85rem; color: var(--muted); }
