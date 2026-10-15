@@ -8,7 +8,7 @@
 .id-text { text-align: left; }
 .hero h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 0.95; text-shadow: -1px 2px 0 #f3efef; }
 .role { font: 1rem var(--sans); color: var(--muted); margin-top: 0.15rem; }
-.tagline { max-width: 34rem; font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: var(--ink-2); }
+.tagline { max-width: 34rem; font-size: 1rem; color: var(--ink-2); }
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
   font: 0.88rem var(--sans); color: var(--ink-2);
