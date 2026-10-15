@@ -7,19 +7,29 @@
       "name": "Endocrinology & Early development",
       "description": "Research on human biology and development, including health, nutrition, and disease prevention. This encompasses studies on endocrine system function, particularly thyroid health and its role in early development, reproductive epidemiology, and the long-term effects of early life exposures on health outcomes. Research in this area examines how environmental factors, nutrition, and developmental processes interact to shape health trajectories from conception through childhood and into adulthood. This includes investigations into evolutionary medicine perspectives on human health, the role of hormones in development and disease, and the impact of early life conditions on later health outcomes.",
       "summary": "How iodine and thyroid hormones in pregnancy and early life shape growth, brain development and health later on, read through an evolutionary lens.",
-      "short": "Thyroid & early life"
+      "short": "Thyroid & early life",
+      "glyph": "thyroid"
     },
     {
-      "name": "Access to Medicine & Global Health",
-      "description": "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments. This field addresses the critical challenges of ensuring equitable access to essential medicines and health technologies worldwide, particularly in low- and middle-income countries. Research focuses on understanding and addressing barriers to access, including intellectual property rights, pricing mechanisms, technology transfer practices, and the role of universities and public institutions in the biomedical innovation ecosystem. This includes studies on antimicrobial resistance, One Health approaches to disease prevention, and the development of sustainable solutions for global health challenges.",
-      "summary": "Why medicines become unaffordable, how universities handle publicly funded discoveries, and One Health approaches to antimicrobial resistance.",
-      "short": "Access to medicines"
+      "name": "Access to Medicine",
+      "description": "Research on global health and access to health technologies, including vaccines, diagnostics, and treatments. This field addresses the critical challenges of ensuring equitable access to essential medicines and health technologies worldwide, particularly in low- and middle-income countries. Research focuses on understanding and addressing barriers to access, including intellectual property rights, pricing mechanisms, technology transfer practices, and the role of universities and public institutions in the biomedical innovation ecosystem.",
+      "summary": "Why medicines become unaffordable, how universities handle publicly funded discoveries, and who gets access to new health technologies.",
+      "short": "Access to medicines",
+      "glyph": "pill"
     },
     {
       "name": "Clinical Trial Transparency & Research Ethics",
       "description": "Research on clinical trial transparency and research ethics, including trial registration and reporting. This area examines the ethical and practical aspects of ensuring that clinical research is conducted transparently and that results are made publicly available in a timely manner. Research focuses on identifying gaps in trial reporting practices, evaluating the effectiveness of policies and interventions to improve transparency, and understanding the role of various stakeholders including universities, funders, and regulatory bodies in promoting research integrity. This includes studies on the impact of missing trial data on evidence-based medicine, the development of tools and frameworks for monitoring compliance, and the implementation of best practices for clinical trial transparency across different jurisdictions and institutions.",
       "summary": "Whether trial results actually get reported, and what funders, universities and regulators can do to close the evidence gap.",
-      "short": "Trial transparency"
+      "short": "Trial transparency",
+      "glyph": "lens"
+    },
+    {
+      "name": "Global Health",
+      "short": "Global health",
+      "glyph": "globe",
+      "summary": "Health, diet and wellbeing in changing communities, from hunter-gatherers in the Congo Basin to One Health approaches to antimicrobial resistance.",
+      "description": "Population and global health research across cultures and settings: nutrition, diet and health among BaYaka hunter-gatherers, cross-cultural studies of infant-directed speech, the environmental and genetic architecture of ageing, public health responses to disease outbreaks, and One Health WASH and biosecurity interventions to reduce antimicrobial resistance."
     }
   ],
   "featured": [

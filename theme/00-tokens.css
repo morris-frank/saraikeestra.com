@@ -12,8 +12,8 @@
 
 :root {
   /* paper & ink */
-  --paper: #fbf7f2;
-  --paper-2: #f3ebe2;
+  --paper: #fffefb;
+  --paper-2: #f6f2ec;
   --ink: #2d2825;
   --ink-2: #554a44;
   --muted: #857a72;
@@ -28,17 +28,13 @@
   --sage: #5f7b6c;
   --sage-soft: #dfe7e1;
 
-  /* shader palette (read by field.js; must be #rrggbb) */
-  --field-paper: #fbf7f2;
-  --field-rose: #e3a597;
-  --field-rose-deep: #b8695c;
-  --field-plum: #6e3f52;
-  --field-sage: #7e9688;
 
   /* topics */
   --t1: var(--rose);
   --t2: var(--sage);
   --t3: var(--plum);
+  --ochre: #94672a;
+  --t4: var(--ochre);
 
   --hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
   --serif: "Alegreya Sans", ui-sans-serif, system-ui, sans-serif; /* body */

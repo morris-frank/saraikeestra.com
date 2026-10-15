@@ -54,16 +54,8 @@
       "label": "About"
     },
     {
-      "id": "research",
-      "label": "Research"
-    },
-    {
       "id": "writing",
       "label": "Writing & media"
-    },
-    {
-      "id": "path",
-      "label": "Path"
     },
     {
       "id": "publications",

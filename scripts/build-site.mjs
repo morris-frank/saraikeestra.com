@@ -181,36 +181,41 @@ function sectionHead(_num, name, _title, intro = "") {
 }
 
 /* ---------- hero with contents strip ---------- */
-function renderHero(site, overview) {
-  const socials = site.socialLinks
-    .map((link) => `<a class="pill" href="${escapeHtml(link.url)}"${externalLinkAttrs}>${renderSocialIcon(link.icon, link.label).replace('<span class="sr-only">', "<span>")}</a>`)
-    .join("");
-  const tiles = overview
-    .map((o, i) => `<a class="toc-tile" href="#${escapeHtml(o.id)}">
-        <span class="toc-label">${escapeHtml(o.label)}</span>
-        <span class="toc-teaser">${escapeHtml(o.teaser)}</span>
-      </a>`)
-    .join("");
-  return `<section class="hero"${src("site")}>
-    <div class="hero-id">
-      <div class="portrait" data-field-anchor>
-        <img src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
+function renderHero(site) {
+  const sections = site.nav.map((item) => `<a class="badge" href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`);
+  const profiles = site.socialLinks.map((link) => `<a class="badge" href="${escapeHtml(link.url)}"${externalLinkAttrs}>${escapeHtml(link.label)} ↗</a>`);
+  return `<header class="hero"${src("site")}>
+    <div class="id-row">
+      <img class="portrait" src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
+      <div class="id-text">
+        <h1>${escapeHtml(site.name)}</h1>
+        <p class="role">${escapeHtml(site.role)}</p>
       </div>
-      <h1>${escapeHtml(site.name)}</h1>
-      <p class="role">${escapeHtml(site.role)}</p>
-      <p class="tagline">${escapeHtml(site.tagline)}</p>
-      <nav class="socials" aria-label="Profiles">${socials}</nav>
     </div>
-    <nav class="toc" aria-label="On this page">${tiles}</nav>
-  </section>`;
+    <p class="tagline">${escapeHtml(site.tagline)}</p>
+    <nav class="badge-line" aria-label="On this page and elsewhere">${sections.join("")}<span class="badge-sep" aria-hidden="true"></span>${profiles.join("")}</nav>
+  </header>`;
 }
 
-function renderTopbar(site) {
-  const links = site.nav.map((item) => `<a href="#${escapeHtml(item.id)}" data-spy="${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
-  return `<nav class="topbar" aria-label="Sections"${src("site")}>
-    <a class="topbar-name" href="#top">${escapeHtml(site.name)}</a>
-    <div class="topbar-links">${links}</div>
-  </nav>`;
+/* ---------- topic glyphs: small hand-drawn marks instead of colour dots ---------- */
+const GLYPHS = {
+  // thyroid: two lobes and the isthmus
+  thyroid: `<path class="fill" d="M12 14.6c-1.6 1.4-3.9 1.9-5.4.5-1.9-1.7-2-5.6-.8-8.5.8-1.8 2.2-2.5 3.1-1.6.9.9.5 3.6 1.2 6.1.4 1.4 1.1 2.5 1.9 3.5z"/><path class="fill" d="M12 14.6c1.6 1.4 3.9 1.9 5.4.5 1.9-1.7 2-5.6.8-8.5-.8-1.8-2.2-2.5-3.1-1.6-.9.9-.5 3.6-1.2 6.1-.4 1.4-1.1 2.5-1.9 3.5z"/><path d="M12 14.6c-1.6 1.4-3.9 1.9-5.4.5-1.9-1.7-2-5.6-.8-8.5.8-1.8 2.2-2.5 3.1-1.6.9.9.5 3.6 1.2 6.1.4 1.4 1.1 2.5 1.9 3.5 .8-1 1.5-2.1 1.9-3.5.7-2.5.3-5.2 1.2-6.1.9-.9 2.3-.2 3.1 1.6 1.2 2.9 1.1 6.8-.8 8.5-1.5 1.4-3.8.9-5.4-.5"/>`,
+  // capsule, half filled
+  pill: `<path class="fill" d="M8.4 8.6 4.8 12.2a3.6 3.6 0 0 0 5.1 5.1l3.6-3.6z"/><path d="M19.3 4.8a3.6 3.6 0 0 0-5.1-.1L4.8 14.1a3.6 3.6 0 0 0 5.1 5.1l9.4-9.3a3.6 3.6 0 0 0 0-5.1zM8.4 8.6l5.1 5.1"/>`,
+  // magnifier over a page: transparency
+  lens: `<path d="M5.5 3.8h7.8l3 3v3.4M5.5 3.8v15.6h5.2M8 8.2h4.6M8 11.2h3"/><circle class="fill" cx="15.2" cy="15.2" r="3.4"/><circle cx="15.2" cy="15.2" r="3.4"/><path d="m17.7 17.8 2.6 2.6"/>`,
+  // globe
+  globe: `<circle class="fill" cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="8.2"/><path d="M3.9 10.6c2.6.9 5.3 1.3 8.1 1.3s5.5-.4 8.1-1.3M12 3.8c-2.3 2.2-3.4 5-3.4 8.2s1.1 6 3.4 8.2c2.3-2.2 3.4-5 3.4-8.2S14.3 6 12 3.8z"/>`
+};
+function glyph(name, title = "") {
+  const body = GLYPHS[name] || GLYPHS.globe;
+  return `<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${title ? `<title>${escapeHtml(title)}</title>` : ""}${body}</svg>`;
+}
+function topicMeta(content) {
+  const map = new Map();
+  content.topics.forEach((t, i) => map.set(slugifyTopic(t.name), { index: i + 1, glyph: t.glyph, name: t.name, short: t.short || t.name }));
+  return map;
 }
 
 /* ---------- lately: feature + small cards ---------- */
@@ -282,7 +287,7 @@ function renderResearch(content, publications, num) {
     .map((topic, index) => {
       const slug = slugifyTopic(topic.name);
       return `<article class="card theme-card t-${index + 1}"${src("pubs")}>
-        <div class="theme-top"><span class="theme-mark" aria-hidden="true"></span><h3>${escapeHtml(topic.short || topic.name)}</h3></div>
+        <div class="theme-top">${glyph(topic.glyph)}<h3>${escapeHtml(topic.short || topic.name)}</h3></div>
         <p>${escapeHtml(topic.summary || topic.description)}</p>
         <a class="more" href="#publications" data-filter="${escapeHtml(slug)}">${counts.get(slug) || 0} publications →</a>
       </article>`;
@@ -399,19 +404,51 @@ function renderPathColumn(title, items, key) {
   </div>`;
 }
 
+function renderPostsByInstitution(items) {
+  const groups = new Map();
+  for (const item of items) {
+    if (!groups.has(item.institution)) groups.set(item.institution, { institution: item.institution, logo: item.logo, items: [] });
+    groups.get(item.institution).items.push(item);
+  }
+  const ordered = [...groups.values()]
+    .map((g) => ({ ...g, items: g.items.sort((a, b) => lastYear(b.years) - lastYear(a.years)) }))
+    .sort((a, b) => lastYear(b.items[0].years) - lastYear(a.items[0].years));
+  const rows = ordered
+    .map((g) => `<li class="inst"${src("experience")}>
+      <div class="inst-head">
+        <p class="inst-name">${escapeHtml(g.institution)}</p>
+        ${g.logo ? `<img src="logos/${escapeHtml(g.logo)}" alt="" loading="lazy" />` : ""}
+      </div>
+      <ol class="inst-roles">${g.items
+        .map((item) => `<li class="step">
+          <span class="year">${escapeHtml(item.years)}</span>
+          <div class="step-body">
+            <p class="step-title">${escapeHtml(item.title)}</p>
+            ${item.description ? `<details><summary>More</summary><p>${escapeHtml(item.description)}</p></details>` : ""}
+          </div>
+        </li>`)
+        .join("")}</ol>
+    </li>`)
+    .join("");
+  return `<div class="card path-col"${src("experience")}>
+    <h3 class="mini-head">Research posts</h3>
+    <ol class="insts">${rows}</ol>
+  </div>`;
+}
+
 function renderPath(education, experience, num) {
   const sort = (arr) => [...arr].sort((a, b) => lastYear(b.years) - lastYear(a.years));
   return `<section id="path"${src("education")}>
     ${sectionHead(num, "Path", "From human sciences to the clinic")}
     <div class="split split-even">
       ${renderPathColumn(education.title, sort(education.items), "education")}
-      ${renderPathColumn("Research posts", sort(experience.items), "experience")}
+      ${renderPostsByInstitution(experience.items)}
     </div>
   </section>`;
 }
 
 /* ---------- publications ---------- */
-function renderPublication(entry, authorMatch, topicIndex) {
+function renderPublication(entry, authorMatch, topics) {
   const f = entry.fields;
   const title = f.title || entry.key;
   const authors = splitAuthors(f.author || "");
@@ -435,10 +472,10 @@ function renderPublication(entry, authorMatch, topicIndex) {
   const abstract = f.abstract && !/^N\/A$/i.test(f.abstract) ? f.abstract : "";
   const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
 
-  return `<li class="pub t-${topicIndex.get(slug) || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
+  return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
     <span class="year">${escapeHtml(f.year || "")}</span>
     <div class="pub-body">
-      <p class="pub-title"><span class="topic-dot" title="${escapeHtml(topic)}" aria-hidden="true"></span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
+      <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
       <p class="pub-meta"><span class="pub-authors">${authorShort}</span><span class="venue">${escapeHtml(venue)}</span></p>
       ${abstract || doi ? `<details>
         <summary>${abstract ? "Abstract" : "Details"}</summary>
@@ -455,12 +492,12 @@ function renderPublication(entry, authorMatch, topicIndex) {
 }
 
 function renderPublications(content, publications, num) {
-  const topicIndex = new Map(content.topics.map((t, i) => [slugifyTopic(t.name), i + 1]));
+  const topics = topicMeta(content);
   const chips = [`<button type="button" class="chip is-on" data-filter="all">All <span>${publications.length}</span></button>`]
     .concat(content.topics.map((t, i) => {
       const slug = slugifyTopic(t.name);
       const n = publications.filter((p) => slugifyTopic(p.fields.topic || "") === slug).length;
-      return `<button type="button" class="chip t-${i + 1}" data-filter="${escapeHtml(slug)}"><span class="topic-dot" aria-hidden="true"></span>${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
+      return `<button type="button" class="chip t-${i + 1}" data-filter="${escapeHtml(slug)}">${glyph(t.glyph)}${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
     }))
     .join("");
   const descs = content.topics
@@ -473,7 +510,7 @@ function renderPublications(content, publications, num) {
       <label class="search"><span class="sr-only">Search publications</span><input type="search" placeholder="Search titles, co-authors, journals…" /></label>
     </div>
     ${descs}
-    <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topicIndex)).join("")}</ol>
+    <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topics)).join("")}</ol>
     <p class="empty" hidden>No publications match that search.</p>
   </section>`;
 }
@@ -515,15 +552,6 @@ function renderPageScript(site) {
       if (!t) return; e.preventDefault(); e.stopPropagation(); location.href = editUrl(t.dataset.sourceFile);
     }, true);
 
-    // topbar shows once the hero has scrolled away
-    var hero = document.querySelector(".hero");
-    var bar = document.querySelector(".topbar");
-    if (hero && bar && "IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        bar.classList.toggle("is-visible", !entries[0].isIntersecting);
-      }, { rootMargin: "-40% 0px 0px 0px" }).observe(hero);
-    }
-
     // publications: theme chips + search
     var chips = document.querySelectorAll("#publications .chip");
     var items = document.querySelectorAll(".pub");
@@ -553,39 +581,18 @@ function renderPageScript(site) {
       a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });
     });
 
-    // scrollspy for the top bar
-    var spyLinks = document.querySelectorAll(".topbar [data-spy]");
-    if ("IntersectionObserver" in window && spyLinks.length) {
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          spyLinks.forEach(function (l) { l.classList.toggle("is-active", l.dataset.spy === e.target.id); });
-        });
-      }, { rootMargin: "-25% 0px -65% 0px" });
-      spyLinks.forEach(function (l) { var s = document.getElementById(l.dataset.spy); if (s) spy.observe(s); });
-    }
   });
   </script>`;
 }
 
 function renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile }) {
-  const years = publications.map((p) => p.year).filter(Boolean);
-  const pathItems = education.items.length + experience.items.length;
-  const firstYear = Math.min(...[...education.items, ...experience.items].map((i) => Number.parseInt((String(i.years).match(/\d{4}/) || ["9999"])[0], 10)));
-  const overview = [
-    { id: "about", label: "About", teaser: "Doctor, researcher, writer" },
-    { id: "research", label: "Research", teaser: `${pubContent.topics.length} threads, from iodine to evidence` },
-    { id: "writing", label: "Writing & media", teaser: `${scicomm.nemo.links.length} NEMO blogs · ${scicomm.featuredMedia.length} outlets` },
-    { id: "path", label: "Path", teaser: `${pathItems} steps since ${firstYear}` },
-    { id: "publications", label: "Publications", teaser: `${publications.length} since ${Math.min(...years)}` }
-  ];
-  const num = (id) => String(overview.findIndex((o) => o.id === id) + 1).padStart(2, "0");
+  const num = () => "";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#fbf7f2" />
+  <meta name="theme-color" content="#fffefb" />
   <meta name="description" content="${escapeHtml(site.description)}" />
   <meta name="keywords" content="${escapeHtml(site.keywords.join(", "))}" />
   <meta name="author" content="${escapeHtml(site.author)}" />
@@ -600,11 +607,9 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <title>${escapeHtml(site.pageTitle)}</title>
 </head>
 <body id="top">
-  <canvas id="field" aria-hidden="true"></canvas>
   <div class="edit-indicator">Edit mode: press Ctrl/Cmd+Shift+E or use ?edit=1</div>
-  ${renderTopbar(site)}
   <main class="page">
-    ${renderHero(site, overview)}
+    ${renderHero(site)}
     ${renderNews(news)}
     ${renderAbout(home, num("about"))}
     ${renderResearch(pubContent, publications, num("research"))}
@@ -616,7 +621,6 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
     <p>${escapeHtml(site.footer.copyright)}</p>
     <p><a href="#top">Back to top ↑</a></p>
   </footer>
-  <script src="field.js" defer></script>
   ${renderPageScript(site)}
 </body>
 </html>`;
