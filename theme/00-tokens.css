@@ -22,8 +22,10 @@
   --line-faint: rgb(45 40 37 / 0.06);
 
   /* accents: thyroid rose, plum (the axis), sage (the contours) */
-  --rose: #b05c4f;
-  --rose-soft: #f2d9d2;
+  --rose: #5e3a8c;   /* primary: iodine violet (name kept for the cascade) */
+  --iodine: #5e3a8c;
+  --terracotta: #b05c4f;
+  --rose-soft: #ece4f5;
   --plum: #6e3f52;
   --plum-soft: #eadde3;
   --sage: #5f7b6c;
@@ -31,9 +33,9 @@
 
 
   /* topics */
-  --t1: var(--rose);
+  --t1: var(--terracotta);
   --t2: var(--sage);
-  --t3: var(--plum);
+  --t3: #4f6d8a;
   --ochre: #94672a;
   --t4: var(--ochre);
 

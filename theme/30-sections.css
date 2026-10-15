@@ -8,7 +8,7 @@
 .id-text { text-align: left; }
 .hero h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 0.95; text-shadow: -1px 2px 0 #f3efef; }
 .role { font: 1rem var(--sans); color: var(--muted); margin-top: 0.15rem; }
-.tagline { max-width: 34rem; font-size: clamp(1.05rem, 2.2vw, 1.2rem); font-style: italic; color: var(--ink-2); }
+.tagline { max-width: 34rem; font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: var(--ink-2); }
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
   font: 0.88rem var(--sans); color: var(--ink-2);
@@ -102,7 +102,7 @@
 .press-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem 1.75rem; padding: 0.25rem 0; }
 .press-logos img { height: 1.35rem; width: auto; max-width: 7rem; filter: grayscale(1); opacity: 0.6; transition: opacity 0.2s, filter 0.2s; }
 .press-logos a:hover img { filter: none; opacity: 1; }
-.nemo-head { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.5rem; padding-bottom: 0.7rem; margin-bottom: 0.1rem; border-bottom: 1px solid var(--line); }
+.nemo-head { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.5rem; margin-bottom: 0.5rem; }
 .nemo-head img { width: 9rem; height: auto; }
 .nemo-head p { color: var(--ink-2); font-size: 0.86rem; line-height: 1.45; }
 
@@ -166,7 +166,7 @@ details[open] summary::before { content: "− "; }
 @media (max-width: 34rem) { .badge-sep { flex-basis: 100%; height: 0; margin: 0; background: none; } }
 
 /* ---------- list separators: headings get a clear rule, items a faint one ---------- */
-.card .mini-head, .glance h3 { padding-bottom: 0.45rem; margin-bottom: 0; border-bottom: 1px solid var(--line); }
+.card .mini-head, .glance h3 { margin-bottom: 0.25rem; }
 .compact-list > li, .step, .inst, .glance dl > div, .pub { border-top-color: var(--line-faint); }
 .compact-list > li:last-child { border-bottom-color: var(--line-faint); }
 .card .compact-list > li:first-child, .card .steps > .step:first-child, .insts > .inst:first-child, .glance dl > div:first-child { border-top: 0; }
@@ -189,3 +189,8 @@ details[open] summary::before { content: "− "; }
 .chapters-links a.is-active { background: var(--ink); color: #fff; }
 @media (max-width: 40rem) { .chapters-name { display: none; } .chapters { padding-left: 0.35rem; } }
 @media (prefers-reduced-motion: reduce) { .chapters, .chapters.is-visible { transition: none; } }
+
+/* four research themes: 4 across, then 2×2, then stacked (never 3 + 1) */
+#research .grid-3 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 64rem) { #research .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 34rem) { #research .grid-3 { grid-template-columns: 1fr; } }
