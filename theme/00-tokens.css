@@ -46,8 +46,8 @@
   --space: clamp(3.5rem, 7vw, 5.5rem);
 
   /* hand-made, slightly uneven corners */
-  --radius: 1.1rem 1.4rem 1.2rem 1.5rem / 1.4rem 1.1rem 1.5rem 1.2rem;
-  --radius-sm: 0.6rem 0.75rem 0.65rem 0.8rem / 0.75rem 0.6rem 0.8rem 0.65rem;
+  --radius: 0.45rem;
+  --radius-sm: 0.25rem;
 
   --shadow: none;
   color-scheme: light;

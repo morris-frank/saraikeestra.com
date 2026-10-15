@@ -12,7 +12,7 @@
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
   font: 0.88rem var(--sans); color: var(--ink-2);
-  padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: 999px; background: #fff;
+  padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: 0.3rem; background: #fff;
 }
 .badge:hover { color: var(--rose); border-color: var(--rose); text-decoration: none; }
 .badge-sep { width: 1px; height: 1rem; background: var(--line-strong); margin: 0 0.3rem; }
@@ -114,7 +114,7 @@
 .step-head img { height: 1.6rem; width: auto; max-width: 4rem; object-fit: contain; opacity: 0.75; flex: none; }
 .step-title { font-size: 0.98rem; line-height: 1.35; }
 .institution { font: 0.82rem var(--sans); color: var(--muted); margin-top: 0.15rem; }
-.distinction { font: 0.72rem var(--sans); color: var(--plum); background: var(--plum-soft); border-radius: 999px; padding: 0.05rem 0.5rem; white-space: nowrap; vertical-align: 0.1em; }
+.distinction { font: 0.72rem var(--sans); color: var(--plum); background: var(--plum-soft); border-radius: 0.3rem; padding: 0.05rem 0.5rem; white-space: nowrap; vertical-align: 0.1em; }
 .step details { margin-top: 0.3rem; }
 .step details > p { font-size: 0.88rem; color: var(--ink-2); margin-top: 0.35rem; }
 
@@ -131,7 +131,7 @@ details[open] summary::before { content: "− "; }
 .search { width: min(100%, 20rem); }
 .search input {
   width: 100%; font: 0.9rem var(--sans); color: var(--ink);
-  padding: 0.45rem 1rem; border-radius: 999px;
+  padding: 0.45rem 1rem; border-radius: 0.3rem;
   border: 1px solid var(--line-strong); background: color-mix(in oklab, var(--paper) 85%, transparent);
 }
 .topic-desc { max-width: var(--narrow); text-align: center; color: var(--ink-2); font-size: 0.92rem; }
