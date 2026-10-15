@@ -1,9 +1,14 @@
+/* Self-hosted, SIL Open Font License (see public/fonts/OFL-*.txt) */
 @font-face {
-  font-family: "Lora";
-  src: url("Lora-VariableFont_wght.ttf") format("truetype");
+  font-family: "Caveat";
+  src: url("fonts/caveat-latin-wght-normal.woff2") format("woff2");
   font-weight: 400 700;
   font-display: swap;
 }
+@font-face { font-family: "Alegreya Sans"; src: url("fonts/alegreya-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Alegreya Sans"; src: url("fonts/alegreya-sans-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Alegreya Sans"; src: url("fonts/alegreya-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Alegreya Sans"; src: url("fonts/alegreya-sans-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 
 :root {
   /* paper & ink */
@@ -35,8 +40,9 @@
   --t2: var(--sage);
   --t3: var(--plum);
 
-  --serif: "Lora", Georgia, "Times New Roman", serif;
-  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --serif: "Alegreya Sans", ui-sans-serif, system-ui, sans-serif; /* body */
+  --sans: "Alegreya Sans", ui-sans-serif, system-ui, sans-serif;  /* UI */
 
   --narrow: 40rem;
   --wide: 72rem;

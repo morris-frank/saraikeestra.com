@@ -27,8 +27,9 @@
     "profileImage": "sarai.jpg",
     "favicon": "sarai.jpg",
     "facesOfSciencePoster": "sarai-faces_of_science.png",
-    "font": "Lora-VariableFont_wght.ttf",
-    "paperTexture": "groovepaper.png"
+    "font": "fonts/alegreya-sans-latin-400-normal.woff2",
+    "paperTexture": "groovepaper.png",
+    "headingFont": "fonts/caveat-latin-wght-normal.woff2"
   },
   "socialLinks": [
     {

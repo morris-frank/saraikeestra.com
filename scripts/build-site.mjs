@@ -592,7 +592,8 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <meta name="robots" content="index, follow" />
   <link rel="icon" type="image/jpeg" href="${escapeHtml(site.assets.favicon)}" />
   <link rel="canonical" href="${escapeHtml(site.baseUrl)}" />
-  <link rel="preload" href="${escapeHtml(site.assets.font)}" as="font" type="font/ttf" crossorigin />
+  <link rel="preload" href="${escapeHtml(site.assets.font)}" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="${escapeHtml(site.assets.headingFont)}" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="${escapeHtml(cssFile)}" />
   <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
   <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
