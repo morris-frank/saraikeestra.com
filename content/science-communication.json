@@ -6,6 +6,11 @@
   },
   "featuredMedia": [
     {
+      "name": "EW",
+      "logo": "ew.svg",
+      "url": "https://www.ewmagazine.nl/30-onder-30-2026/#ew30-profile-15"
+    },
+    {
       "name": "The Atlantic",
       "logo": "the-atlantic.svg",
       "url": "https://www.theatlantic.com/science/archive/2023/06/dolphin-calf-communication-baby-talk/674499/?utm_source=feed"

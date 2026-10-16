@@ -47,16 +47,10 @@
       "logo": "ucl.svg"
     },
     {
-      "degree": "Pre-University Program: Archaeology",
+      "degree": "Pre-University Programmes: Life Science & Technology; Archaeology",
       "institution": "Leiden University",
-      "years": "2014",
-      "description": "Pre-university course on archaeological sciences for high school students (1 semester)."
-    },
-    {
-      "degree": "Pre-University Program: Life Science & Technology",
-      "institution": "Leiden University",
-      "years": "2013",
-      "description": "Pre-university course on cell biology for high school students (1 semester)."
+      "years": "2013-2014",
+      "description": "Two one-semester pre-university courses for high school students: cell biology (2013) and archaeological sciences (2014)."
     }
   ]
 }

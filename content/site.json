@@ -46,22 +46,8 @@
   "footer": {
     "copyright": "© 2026 Sarai Keestra"
   },
-  "role": "Medical doctor & researcher · Amsterdam UMC",
+  "role": "Medical doctor & researcher · Amsterdam",
   "tagline": "Thyroid, iodine and women’s health, from the first thousand days of life onwards.",
-  "nav": [
-    {
-      "id": "about",
-      "label": "About"
-    },
-    {
-      "id": "writing",
-      "label": "Writing & media"
-    },
-    {
-      "id": "publications",
-      "label": "Publications"
-    }
-  ],
   "chapters": [
     {
       "id": "about",
