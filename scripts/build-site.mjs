@@ -360,10 +360,6 @@ function renderWriting(content, num) {
     ${sectionHead(num, "Writing & media", "Keeping the questions coming")}
     <div class="split split-even">
       <div class="col">
-        <figure class="video card">
-          <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
-          <figcaption>Faces of Science portrait · KNAW, De Jonge Akademie and NEMO</figcaption>
-        </figure>
         <div class="card press">
           <h3 class="mini-head">Research featured in</h3>
           <div class="press-logos"${src("scicomm")}>${logos}</div>
@@ -373,12 +369,18 @@ function renderWriting(content, num) {
           <ul class="compact-list">${media}</ul>
         </div>
       </div>
-      <div class="card col nemo"${src("scicomm")}>
+      <div class="col">
+        <figure class="video card">
+          <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
+          <figcaption>Faces of Science portrait · KNAW, De Jonge Akademie and NEMO</figcaption>
+        </figure>
+      <div class="card nemo"${src("scicomm")}>
         <div class="nemo-head">
           <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
           <p>${escapeHtml(content.nemo.description)}</p>
         </div>
         <ol class="compact-list dense">${nemo}</ol>
+      </div>
       </div>
     </div>
   </section>`;
