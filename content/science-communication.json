@@ -48,6 +48,12 @@
     "url": "https://www.nemokennislink.nl/facesofscience/profiel/sarai-keestra/",
     "links": [
       {
+        "title": "Heeft de mens een gen voor kou?",
+        "titleEn": "Do humans have a gene for the cold?",
+        "year": 2026,
+        "url": "https://www.nemokennislink.nl/publicaties/heeft-de-mens-een-gen-voor-kou/"
+      },
+      {
         "title": "De mysterieuze Denisovamens ontrafeld",
         "titleEn": "The mystery of the Denisovans unraveled",
         "year": 2025,
@@ -136,6 +142,12 @@
   "mediaHeading": "Media appearances",
   "media": [
     {
+      "title": "Conception soon after hysterosalpingography linked to lower neurodevelopmental scores (coverage of the JCEM cohort study)",
+      "outlet": "Medical Dialogues",
+      "year": 2026,
+      "url": "https://medicaldialogues.in/obstetrics-gynaecology/news/conception-soon-after-hysterosalpingography-linked-to-lower-neurodevelopmental-scores-in-babies-study-175619"
+    },
+    {
       "title": "Food for thought: The UN Decade of Action on Nutrition at the WHO",
       "outlet": "People's Dispatch",
       "year": 2023,
@@ -176,6 +188,12 @@
       "outlet": "University World News",
       "year": 2021,
       "url": "https://www.universityworldnews.com/post.php?story=20210519190234497"
+    },
+    {
+      "title": "More than 1,600 clinical trials run by UK universities violate reporting rules",
+      "outlet": "TranspariMED",
+      "year": 2019,
+      "url": "https://www.transparimed.org/single-post/2019/01/24/More-than-1600-clinical-trials-run-by-UK-universities-violate-reporting-rules"
     }
   ]
 }
