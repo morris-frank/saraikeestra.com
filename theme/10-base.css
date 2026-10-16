@@ -24,13 +24,13 @@ h3 { font-size: 1.6rem; }
 p { text-wrap: pretty; }
 
 /* hover: a highlighter stroke swept in from the left */
-a {
-  color: var(--rose); text-decoration: none;
+a { color: var(--rose); text-decoration: none; }
+a, .nemo a .en {
   background: linear-gradient(100deg, transparent 0.15em, var(--rose-soft) 0.3em, color-mix(in oklab, var(--rose-soft) 80%, transparent) calc(100% - 0.3em), transparent calc(100% - 0.1em)) no-repeat 0 88% / 0 0.55em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
   transition: background-size 0.3s ease;
 }
-a:hover { background-size: 100% 0.55em; }
+a:hover, .nemo a:hover .en { background-size: 100% 0.55em; }
 @media (prefers-reduced-motion: reduce) { a { transition: none; } }
 a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
   outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px;

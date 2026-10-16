@@ -16,7 +16,7 @@
 }
 .badge-line .badge { display: inline-flex; padding: 0.35rem; color: var(--ink); }
 .badge:hover { color: var(--rose); border-color: var(--rose); }
-.badge, .chapters a, .press-logos a, .nemo-head a { background-image: none; }
+.badge, .chapters a, .press-logos a, .nemo-head a, .nemo .compact-list a { background-image: none; }
 
 /* ---------- lately (bento) ---------- */
 .bento { width: 100%; display: grid; grid-template-columns: 1.65fr 1fr; gap: 1.1rem; }
@@ -63,7 +63,7 @@
   max-height: 17rem; overflow: hidden; cursor: pointer;
   -webkit-mask-image: linear-gradient(#000 45%, transparent); mask-image: linear-gradient(#000 45%, transparent);
 }
-.prose .coronis { text-align: center; color: var(--muted); font-size: 1.4rem; line-height: 1; }
+.prose .coronis { text-align: left; color: var(--muted); font-size: 1.4rem; line-height: 1; }
 .read-more { font: 500 0.9rem var(--sans); color: var(--rose); background: none; border: 0; cursor: pointer; margin-top: 0.5rem; }
 .read-more::after { content: " ↓"; }
 .glance { position: sticky; top: 5rem; }

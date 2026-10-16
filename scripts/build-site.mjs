@@ -337,7 +337,7 @@ function renderWriting(content, num) {
   const nemo = content.nemo.links
     .map((item, i, all) => `<li class="${i && all[i - 1].year === item.year ? "same-year" : ""}"${src("scicomm")}>
       <span class="year">${i && all[i - 1].year === item.year ? "" : escapeHtml(item.year)}</span>
-      <a href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.titleEn)}<span class="nl" lang="nl">${escapeHtml(item.title)}</span></a>
+      <a href="${escapeHtml(item.url)}"${externalLinkAttrs}><span class="en">${escapeHtml(item.titleEn)}</span><span class="nl" lang="nl">${escapeHtml(item.title)}</span></a>
     </li>`)
     .join("");
   const logos = content.featuredMedia
@@ -663,8 +663,8 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <p class="fleuron" aria-hidden="true">⸙</p>
   <footer class="footer"${src("site")}>
     <p>${escapeHtml(site.footer.copyright)}</p>
-    <p>Made with <span class="heart">🎔&#xFE0E;</span> by <a href="https://maurice-frank.com/"${externalLinkAttrs}>Maurice</a> on <a href="https://github.com/${escapeHtml(site.repo.owner)}/${escapeHtml(site.repo.name)}"${externalLinkAttrs}>GitHub</a></p>
     <p><a href="#top">Back to top ↑</a></p>
+    <p>Made with <span class="heart">🎔&#xFE0E;</span> by <a href="https://maurice-frank.com/"${externalLinkAttrs}>Maurice</a> on <a href="https://github.com/${escapeHtml(site.repo.owner)}/${escapeHtml(site.repo.name)}"${externalLinkAttrs}>GitHub</a></p>
   </footer>
   ${renderPageScript(site)}
 </body>
