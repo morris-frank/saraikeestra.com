@@ -143,11 +143,11 @@ function renderSocialIcon(icon, label) {
 
   if (icon === "orcid") {
     return `<svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 256 256" aria-hidden="true">
-      <path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z" />
+      <path fill="currentColor" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z" />
       <g>
-        <path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4v48.4V186.2z" />
-        <path fill="#FFFFFF" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z" />
-        <path fill="#FFFFFF" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1C84.2,46.7,88.7,51.3,88.7,56.8z" />
+        <path fill="#fff" d="M86.3,186.2H70.9V79.1h15.4v48.4V186.2z" />
+        <path fill="#fff" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z" />
+        <path fill="#fff" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1C84.2,46.7,88.7,51.3,88.7,56.8z" />
       </g>
     </svg><span class="sr-only">${escapeHtml(label)}</span>`;
   }
@@ -182,8 +182,7 @@ function sectionHead(_num, name, _title, intro = "") {
 
 /* ---------- hero with contents strip ---------- */
 function renderHero(site) {
-  const sections = site.nav.map((item) => `<a class="badge" href="#${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`);
-  const profiles = site.socialLinks.map((link) => `<a class="badge" href="${escapeHtml(link.url)}"${externalLinkAttrs}>${escapeHtml(link.label)} ↗</a>`);
+  const profiles = site.socialLinks.map((link) => `<a class="badge" href="${escapeHtml(link.url)}"${externalLinkAttrs} title="${escapeHtml(link.label)}">${renderSocialIcon(link.icon, link.label)}</a>`);
   return `<header class="hero"${src("site")}>
     <div class="id-row">
       <img class="portrait" src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
@@ -193,12 +192,12 @@ function renderHero(site) {
       </div>
     </div>
     <p class="tagline">${escapeHtml(site.tagline)}</p>
-    <nav class="badge-line" aria-label="On this page and elsewhere">${sections.join("")}<span class="badge-sep" aria-hidden="true"></span>${profiles.join("")}</nav>
+    <nav class="badge-line" aria-label="Profiles">${profiles.join("")}</nav>
   </header>`;
 }
 
 function renderChapterMenu(site) {
-  const links = (site.chapters || site.nav).map((c) => `<a href="#${escapeHtml(c.id)}" data-spy="${escapeHtml(c.id)}">${escapeHtml(c.label)}</a>`).join("");
+  const links = site.chapters.map((c) => `<a href="#${escapeHtml(c.id)}" data-spy="${escapeHtml(c.id)}">${escapeHtml(c.label)}</a>`).join("");
   return `<nav class="chapters" aria-label="Chapters"${src("site")}>
     <a class="chapters-name" href="#top">${escapeHtml(site.name)}</a>
     <div class="chapters-links">${links}</div>
@@ -272,9 +271,13 @@ function renderAbout(home, num) {
   return `<section id="about"${src("home")}>
     ${sectionHead(num, "About", home.heading || "About")}
     <div class="split">
-      <div class="prose">
-        <p class="lead">${renderRichText(first.parts)}</p>
-        ${rest.map((p) => `<p>${renderRichText(p.parts)}</p>`).join("")}
+      <div class="about-text">
+        <div class="prose is-clamped">
+          <p class="lead">${renderRichText(first.parts)}</p>
+          ${rest.map((p) => `<p>${renderRichText(p.parts)}</p>`).join("")}
+          <p class="coronis" aria-hidden="true">⸎</p>
+        </div>
+        <button type="button" class="read-more">Read more</button>
       </div>
       <aside class="card glance" aria-label="At a glance">
         <h3>At a glance</h3>
@@ -295,7 +298,7 @@ function renderResearch(content, publications, num) {
     .map((topic, index) => {
       const slug = slugifyTopic(topic.name);
       return `<article class="card theme-card t-${index + 1}"${src("pubs")}>
-        <div class="theme-top">${glyph(topic.glyph)}<h3>${escapeHtml(topic.short || topic.name)}</h3></div>
+        <div class="theme-top"><h3>${escapeHtml(topic.short || topic.name)}</h3>${glyph(topic.glyph)}</div>
         <p>${escapeHtml(topic.summary || topic.description)}</p>
         <a class="more" href="#publications" data-filter="${escapeHtml(slug)}">${counts.get(slug) || 0} publications →</a>
       </article>`;
@@ -322,7 +325,7 @@ function renderResearch(content, publications, num) {
   return `<section id="research"${src("pubs")}>
     ${sectionHead(num, "Research", "Three connected threads")}
     <div class="grid-3">${themes}</div>
-    ${featured ? `<div class="selected"${src("pubs")}>
+    ${featured ? `<div class="card selected"${src("pubs")}>
       <h3 class="mini-head">Selected work</h3>
       <ol class="compact-list">${featured}</ol>
     </div>` : ""}
@@ -332,8 +335,8 @@ function renderResearch(content, publications, num) {
 /* ---------- writing & media ---------- */
 function renderWriting(content, num) {
   const nemo = content.nemo.links
-    .map((item) => `<li${src("scicomm")}>
-      <span class="year">${escapeHtml(item.year)}</span>
+    .map((item, i, all) => `<li class="${i && all[i - 1].year === item.year ? "same-year" : ""}"${src("scicomm")}>
+      <span class="year">${i && all[i - 1].year === item.year ? "" : escapeHtml(item.year)}</span>
       <a href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.titleEn)}<span class="nl" lang="nl">${escapeHtml(item.title)}</span></a>
     </li>`)
     .join("");
@@ -469,7 +472,7 @@ function renderPublication(entry, authorMatch, topics) {
     const keep = [...new Set([0, mi, authors.length - 1].filter((i) => i >= 0))].sort((a, b) => a - b);
     const parts = [];
     let prev = -1;
-    keep.forEach((i) => { if (i - prev > 1) parts.push("…"); parts.push(fmt(authors[i], i)); prev = i; });
+    keep.forEach((i) => { if (i - prev > 1) parts.push(`<span class="ellip">…</span>`); parts.push(fmt(authors[i], i)); prev = i; });
     authorShort = parts.join(", ");
   }
   const venue = [f.journal || f.booktitle || f.publisher || f.institution, f.volume ? `vol. ${f.volume}` : "", f.number ? `no. ${f.number}` : ""].filter(Boolean).join(" · ");
@@ -484,16 +487,17 @@ function renderPublication(entry, authorMatch, topics) {
     <span class="year">${escapeHtml(f.year || "")}</span>
     <div class="pub-body">
       <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
-      <p class="pub-meta"><span class="pub-authors">${authorShort}</span><span class="venue">${escapeHtml(venue)}</span></p>
-      ${abstract || doi ? `<details>
+      <p class="pub-meta">${authors.length > 4
+        ? `<button type="button" class="pub-authors" aria-expanded="false" title="Show all authors"><span class="a-short">${authorShort}</span><span class="a-full">${authors.map(fmt).join(", ")}</span></button>`
+        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}</span></p>
+      ${abstract || doi ? `<details name="pub">
         <summary>${abstract ? "Abstract" : "Details"}</summary>
-        ${abstract ? `<p>${escapeHtml(abstract)}</p>` : ""}
-        ${authors.length > 4 ? `<p class="small">${authors.map(fmt).join(", ")}</p>` : ""}
         ${doi ? `<div class="badges">
-          <span class="doi">doi:${escapeHtml(doi)}</span>
           <span class="__dimensions_badge_embed__" data-doi="${escapeHtml(doi)}" data-legend="hover-right" data-style="small_circle"></span>
           <div class="altmetric-embed" data-badge-type="donut" data-badge-popover="right" data-doi="${escapeHtml(doi)}" data-hide-no-mentions="true"></div>
+          <a class="doi" href="https://doi.org/${escapeHtml(doi)}"${externalLinkAttrs}>doi:${escapeHtml(doi)}</a>
         </div>` : ""}
+        ${abstract ? `<p>${escapeHtml(abstract)}</p>` : ""}
       </details>` : ""}
     </div>
   </li>`;
@@ -577,6 +581,19 @@ function renderPageScript(site) {
       spyLinks.forEach(function (l) { var t = document.getElementById(l.dataset.spy); if (t) spy.observe(t); });
     }
 
+    // about: fade the prose until clicked
+    var prose = document.querySelector(".prose.is-clamped");
+    var readMore = document.querySelector(".read-more");
+    function openProse() { prose.classList.remove("is-clamped"); readMore.hidden = true; }
+    if (prose && readMore) {
+      readMore.addEventListener("click", openProse);
+      prose.addEventListener("click", function (e) { if (!e.target.closest("a")) openProse(); });
+    }
+
+    document.querySelectorAll("button.pub-authors").forEach(function (b) {
+      b.addEventListener("click", function () { b.setAttribute("aria-expanded", b.getAttribute("aria-expanded") !== "true"); });
+    });
+
     // publications: theme chips + search
     var chips = document.querySelectorAll("#publications .chip");
     var items = document.querySelectorAll(".pub");
@@ -643,8 +660,10 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
     ${renderPath(education, experience, num("path"))}
     ${renderPublications(pubContent, publications, num("publications"))}
   </main>
+  <p class="fleuron" aria-hidden="true">⸙</p>
   <footer class="footer"${src("site")}>
     <p>${escapeHtml(site.footer.copyright)}</p>
+    <p>Made with <span class="heart">🎔&#xFE0E;</span> by <a href="https://maurice-frank.com/"${externalLinkAttrs}>Maurice</a> on <a href="https://github.com/${escapeHtml(site.repo.owner)}/${escapeHtml(site.repo.name)}"${externalLinkAttrs}>GitHub</a></p>
     <p><a href="#top">Back to top ↑</a></p>
   </footer>
   ${renderPageScript(site)}

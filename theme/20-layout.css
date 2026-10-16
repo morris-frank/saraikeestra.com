@@ -67,6 +67,9 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
 .dated-list li:last-child { border-bottom: 1px solid var(--line); }
 .dated-list .year { padding-top: 0.2rem; }
 
+.fleuron { text-align: center; color: var(--iodine); font-size: 2rem; line-height: 1; margin-bottom: 1.5rem; }
+.footer a { color: var(--ink-2); }
+.heart { color: var(--iodine); font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", var(--sans); }
 .footer {
   width: min(var(--wide), 100% - 2 * var(--gutter));
   margin: 0 auto;

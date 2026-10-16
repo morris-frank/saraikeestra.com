@@ -14,8 +14,9 @@
   font: 0.88rem var(--sans); color: var(--ink-2);
   padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff;
 }
-.badge:hover { color: var(--rose); border-color: var(--rose); text-decoration: none; }
-.badge-sep { width: 1px; height: 1rem; background: var(--line-strong); margin: 0 0.3rem; }
+.badge-line .badge { display: inline-flex; padding: 0.35rem; color: var(--ink); }
+.badge:hover { color: var(--rose); border-color: var(--rose); }
+.badge, .chapters a, .press-logos a, .nemo-head a { background-image: none; }
 
 /* ---------- lately (bento) ---------- */
 .bento { width: 100%; display: grid; grid-template-columns: 1.65fr 1fr; gap: 1.1rem; }
@@ -58,6 +59,13 @@
 .prose .lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink); }
 .prose .lead::first-letter { float: left; font-family: var(--hand); font-weight: 400; font-size: 3.6em; line-height: 0.8; padding: 0.05em 0.12em 0 0; color: var(--rose); }
 .prose p { color: var(--ink-2); font-size: 1rem; }
+.prose.is-clamped {
+  max-height: 17rem; overflow: hidden; cursor: pointer;
+  -webkit-mask-image: linear-gradient(#000 45%, transparent); mask-image: linear-gradient(#000 45%, transparent);
+}
+.prose .coronis { text-align: center; color: var(--muted); font-size: 1.4rem; line-height: 1; }
+.read-more { font: 500 0.9rem var(--sans); color: var(--rose); background: none; border: 0; cursor: pointer; margin-top: 0.5rem; }
+.read-more::after { content: " ↓"; }
 .glance { position: sticky; top: 5rem; }
 .glance h3 { font-size: 1.7rem; margin-bottom: 0.4rem; }
 .glance dl { display: flex; flex-direction: column; }
@@ -68,7 +76,7 @@
 
 /* ---------- research ---------- */
 .theme-card { display: flex; flex-direction: column; gap: 0.55rem; }
-.theme-top { display: flex; align-items: center; gap: 0.7rem; }
+.theme-top { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; }
 .theme-card p { color: var(--ink-2); font-size: 0.94rem; }
 .glyph {
   width: 1.15em; height: 1.15em; flex: none; color: var(--tc, var(--muted));
@@ -89,6 +97,7 @@
 .compact-list a { color: var(--ink); }
 .compact-list a:hover { color: var(--rose); }
 .compact-list.dense > li { padding: 0.45rem 0; font-size: 0.95rem; line-height: 1.35; }
+.compact-list > li.same-year { border-top: 0; padding-top: 0; }
 .compact-list .nl { display: block; font: italic 0.8rem var(--serif); color: var(--muted); margin-top: 0.1rem; }
 .compact-list.two-col { columns: 2 22rem; column-gap: 2.5rem; }
 .compact-list.two-col > li { break-inside: avoid; }
@@ -145,11 +154,14 @@ details[open] summary::before { content: "− "; }
 .pub-title a:hover { color: var(--rose); }
 .pub-meta { display: flex; flex-direction: column; gap: 0.05rem; margin-top: 0.2rem; }
 .pub-authors { font: 0.8rem/1.4 var(--sans); color: var(--ink-2); }
+button.pub-authors { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+button.pub-authors .ellip { color: var(--rose); }
+.pub-authors[aria-expanded="false"] .a-full, .pub-authors[aria-expanded="true"] .a-short { display: none; }
 .pub-authors strong { color: var(--ink); font-weight: 600; }
 .pub .venue { font-size: 0.78rem; }
 .pub details { margin-top: 0.3rem; }
 .pub details > p { margin-top: 0.5rem; font-size: 0.88rem; color: var(--ink-2); }
-.badges { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.6rem; flex-wrap: wrap; }
+.badges { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
 .doi { font: 0.74rem var(--sans); color: var(--muted); }
 .empty { color: var(--muted); font-style: italic; }
 
@@ -163,7 +175,6 @@ details[open] summary::before { content: "− "; }
 .inst-head img { height: 1.6rem; width: auto; max-width: 4.5rem; object-fit: contain; opacity: 0.75; }
 .inst-roles { list-style: none; }
 .inst-roles .step { border-top: 0; padding: 0.35rem 0; }
-@media (max-width: 34rem) { .badge-sep { flex-basis: 100%; height: 0; margin: 0; background: none; } }
 
 /* ---------- list separators: headings get a clear rule, items a faint one ---------- */
 .card .mini-head, .glance h3 { margin-bottom: 0.25rem; }
