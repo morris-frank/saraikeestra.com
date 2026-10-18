@@ -200,7 +200,7 @@ function renderHero(site) {
   const profiles = site.socialLinks.map((link) => `<a class="badge" href="${escapeHtml(link.url)}"${externalLinkAttrs} title="${escapeHtml(link.label)}">${renderSocialIcon(link.icon, link.label)}</a>`);
   return `<header class="hero"${src("site")}>
     <div class="id-row">
-      <img class="portrait" src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="540" height="540" />
+      <img class="portrait" src="${escapeHtml(site.assets.profileImage)}" alt="Portrait of ${escapeHtml(site.name)}" width="240" height="240" />
       <div class="id-text">
         <h1>${escapeHtml(site.name)}</h1>
         <p class="role">${escapeHtml(site.role)}</p>
@@ -247,7 +247,7 @@ function renderNews(news) {
   const featureHtml = feature
     ? `<article class="card feature"${src("news")}>
         ${feature.image ? `<figure class="feature-photo">
-          <img src="${escapeHtml(feature.image)}" alt="${escapeHtml(feature.imageAlt || "")}" loading="lazy" width="900" height="1349" />
+          <img src="${escapeHtml(feature.image)}" alt="${escapeHtml(feature.imageAlt || "")}" fetchpriority="high" width="720" height="1079" />
           ${feature.imageCredit ? `<figcaption>${escapeHtml(feature.imageCredit)}</figcaption>` : ""}
         </figure>` : ""}
         <div class="feature-body">
