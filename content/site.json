@@ -33,13 +33,23 @@
   "socialLinks": [
     {
       "label": "LinkedIn",
-      "url": "https://www.linkedin.com/in/sarai-keestra-1a8751134/",
+      "url": "https://www.linkedin.com/in/sarai-keestra-md-1a8751134/",
       "icon": "linkedin"
     },
     {
       "label": "ORCID",
       "url": "https://orcid.org/0000-0002-6368-0977",
       "icon": "orcid"
+    },
+    {
+      "label": "Scholar",
+      "url": "https://scholar.google.com/citations?user=ztITp-0AAAAJ",
+      "icon": "scholar"
+    },
+    {
+      "label": "PubMed",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Keestra+SM&cauthor_id=39972219",
+      "icon": "pubmed"
     }
   ],
   "footer": {

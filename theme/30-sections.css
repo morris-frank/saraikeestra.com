@@ -11,10 +11,10 @@
 .tagline { max-width: 34rem; font-size: 1rem; color: var(--ink-2); }
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
-  font: 0.88rem var(--sans); color: var(--ink-2);
+  font: 0.8rem var(--sans); color: var(--ink-2);
   padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff;
 }
-.badge-line .badge { display: inline-flex; padding: 0.35rem; color: var(--ink); }
+.badge-line .badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; color: var(--ink); }
 .badge:hover { color: var(--rose); border-color: var(--rose); }
 .badge, .chapters a, .press-logos a, .nemo-head a, .nemo .compact-list a { background-image: none; }
 

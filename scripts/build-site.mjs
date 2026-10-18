@@ -138,7 +138,7 @@ function renderSocialIcon(icon, label) {
       <path d="M8 8l0 .01" />
       <path d="M12 16l0 -5" />
       <path d="M16 16v-3a2 2 0 0 0 -4 0" />
-    </svg><span class="sr-only">${escapeHtml(label)}</span>`;
+    </svg><span>${escapeHtml(label)}</span>`;
   }
 
   if (icon === "orcid") {
@@ -149,7 +149,22 @@ function renderSocialIcon(icon, label) {
         <path fill="#fff" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z" />
         <path fill="#fff" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1C84.2,46.7,88.7,51.3,88.7,56.8z" />
       </g>
-    </svg><span class="sr-only">${escapeHtml(label)}</span>`;
+    </svg><span>${escapeHtml(label)}</span>`;
+  }
+
+  if (icon === "scholar") {
+    return `<svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512" aria-hidden="true">
+      <path fill="currentColor" d="M256 411.12L0 202.667 256 0z" />
+      <path fill="currentColor" fill-opacity="0.8" d="M256 411.12l256-208.453L256 0z" />
+      <circle fill="currentColor" fill-opacity="0.45" cx="256" cy="362.667" r="149.333" />
+      <path fill="currentColor" fill-opacity="0.65" d="M121.037 298.667c23.968-50.453 75.392-85.334 134.963-85.334s110.995 34.881 134.963 85.334H121.037z" />
+    </svg><span>${escapeHtml(label)}</span>`;
+  }
+
+  if (icon === "pubmed") {
+    return `<svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M8.23 7.982l.006-1.005C7.846 1.417 5.096 0 5.096 0l.048 2.291C3.73 1.056 2.6 1.444 2.6 1.444l.118 15.307s4.218-1.796 5.428 5.505C10.238 13.535 21.401 24 21.401 24V9S10.52-.18 8.231 7.982zm9.79 9.941l-1.046-5.232-1.904 4.507h-.96l-1.72-4.301-1.046 5.04H9.321l2.093-9.39h.802l2.491 5.543 2.508-5.557h.869l2.075 9.39h-2.138z" />
+    </svg><span>${escapeHtml(label)}</span>`;
   }
 
   return escapeHtml(label);
