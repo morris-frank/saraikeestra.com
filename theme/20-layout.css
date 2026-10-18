@@ -68,7 +68,8 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
 
 .fleuron { text-align: center; color: var(--iodine); font-size: 4rem; line-height: 1; margin-block: 2rem; }
 .footer a { color: var(--ink-2); }
-.heart { color: var(--iodine); margin: 0 0.1rem; font-size: 0.75rem; font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", var(--sans); }
+.heart { color: var(--iodine); margin: 0 0.1rem; font-size: 0.75rem; }
+.heart svg, .fleuron svg { display: inline-block; vertical-align: -0.1em; }
 .footer {
   width: min(var(--wide), 100% - 2 * var(--gutter));
   margin: 0 auto;
