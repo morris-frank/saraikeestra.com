@@ -62,6 +62,18 @@ function splitAuthors(value = "") {
     .filter(Boolean);
 }
 
+// A published entry names its earlier preprint (or abstract) with `preprint = {<key>}`;
+// groupPreprints folds that entry into the published one so the pair renders and counts once.
+function groupPreprints(entries) {
+  const byKey = new Map(entries.map((e) => [e.key, e]));
+  const folded = new Set();
+  for (const e of entries) {
+    const pre = byKey.get(e.fields.preprint);
+    if (pre) { e.preprint = pre; folded.add(pre.key); }
+  }
+  return entries.filter((e) => !folded.has(e.key));
+}
+
 function parseBibtex(source) {
   const entries = [];
   let index = 0;
@@ -484,6 +496,9 @@ function renderPublication(entry, authorMatch, topics) {
   const url = f.url || (doi ? `https://doi.org/${doi}` : "");
   const abstract = f.abstract && !/^N\/A$/i.test(f.abstract) ? f.abstract : "";
   const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
+  const pre = entry.preprint?.fields;
+  const preUrl = pre && (pre.url || (pre.doi ? `https://doi.org/${pre.doi}` : ""));
+  const preLink = preUrl ? ` · <a class="doi" href="${escapeHtml(preUrl)}"${externalLinkAttrs}>${entry.preprint.type === "inproceedings" ? "Abstract" : "Preprint"}: ${escapeHtml(pre.journal || pre.booktitle || pre.publisher || "")}</a>` : "";
 
   return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
     <span class="year">${escapeHtml(f.year || "")}</span>
@@ -491,7 +506,7 @@ function renderPublication(entry, authorMatch, topics) {
       <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
       <p class="pub-meta">${authors.length > 4
         ? `<button type="button" class="pub-authors" aria-expanded="false" title="Show all authors"><span class="a-short">${authorShort}</span><span class="a-full">${authors.map(fmt).join(", ")}</span></button>`
-        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}</span></p>
+        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}${preLink}</span></p>
       ${abstract || doi ? `<details name="pub">
         <summary>${abstract ? "Abstract" : "Details"}</summary>
         ${doi ? `<div class="badges">
@@ -684,7 +699,7 @@ async function main() {
     readJson("content/publications.json"),
     readText("references.bib")
   ]);
-  const publications = parseBibtex(bibSource)
+  const publications = groupPreprints(parseBibtex(bibSource))
     .map((entry) => ({ ...entry, year: Number.parseInt(entry.fields.year || "0", 10) || 0 }))
     .sort((a, b) => b.year - a.year);
 
