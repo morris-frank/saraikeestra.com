@@ -501,7 +501,7 @@ function renderPublication(entry, authorMatch, topics) {
   const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
   const versions = entry.versions.map((v) => {
     const vurl = v.fields.url || (v.fields.doi ? `https://doi.org/${v.fields.doi}` : "");
-    const label = `${v.type === "inproceedings" ? "Abstract" : "Preprint"}: ${v.fields.journal || v.fields.publisher || ""} ${v.fields.year || ""}`.trim();
+    const label = `${{ inproceedings: "Abstract", techreport: "Report" }[v.type] || "Preprint"}: ${v.fields.journal || v.fields.publisher || ""} ${v.fields.year || ""}`.trim();
     return ` · <a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
   }).join("");
 
