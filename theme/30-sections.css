@@ -12,7 +12,7 @@
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
   font: 0.8rem var(--sans); color: var(--ink-2);
-  padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff;
+  padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card);
 }
 .badge-line .badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; color: var(--ink); }
 .badge:hover { color: var(--rose); border-color: var(--rose); }
@@ -187,7 +187,7 @@ button.pub-authors .ellip { color: var(--rose); }
   position: fixed; top: 0.6rem; left: 50%; z-index: 50; transform: translateX(-50%);
   display: flex; align-items: center; gap: 0.9rem; max-width: calc(100vw - 1rem);
   padding: 0.3rem 0.35rem 0.3rem 0.9rem;
-  background: rgb(255 255 255 / 0.88); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  background: var(--card);
   border: 1px solid var(--line); border-radius: var(--radius);
   font: 0.9rem var(--sans);
   opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0s linear 0.35s;
