@@ -1,0 +1,12 @@
+[tools]
+node = "lts"
+pnpm = "latest"
+
+[tasks.build]
+run = "pnpm build"
+
+[tasks.preview]
+run = "pnpm preview"
+
+[tasks.check]
+run = "pnpm check"
