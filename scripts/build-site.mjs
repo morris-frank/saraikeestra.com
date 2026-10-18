@@ -484,6 +484,11 @@ function renderPublication(entry, authorMatch, topics) {
   const url = f.url || (doi ? `https://doi.org/${doi}` : "");
   const abstract = f.abstract && !/^N\/A$/i.test(f.abstract) ? f.abstract : "";
   const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
+  const versions = entry.versions.map((v) => {
+    const vurl = v.fields.url || (v.fields.doi ? `https://doi.org/${v.fields.doi}` : "");
+    const label = `${v.type === "inproceedings" ? "Abstract" : "Preprint"}: ${v.fields.journal || v.fields.publisher || ""} ${v.fields.year || ""}`.trim();
+    return ` · <a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
+  }).join("");
 
   return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
     <span class="year">${escapeHtml(f.year || "")}</span>
@@ -491,7 +496,7 @@ function renderPublication(entry, authorMatch, topics) {
       <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
       <p class="pub-meta">${authors.length > 4
         ? `<button type="button" class="pub-authors" aria-expanded="false" title="Show all authors"><span class="a-short">${authorShort}</span><span class="a-full">${authors.map(fmt).join(", ")}</span></button>`
-        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}</span></p>
+        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}${versions}</span></p>
       ${abstract || doi ? `<details name="pub">
         <summary>${abstract ? "Abstract" : "Details"}</summary>
         ${doi ? `<div class="badges">
@@ -684,9 +689,11 @@ async function main() {
     readJson("content/publications.json"),
     readText("references.bib")
   ]);
-  const publications = parseBibtex(bibSource)
-    .map((entry) => ({ ...entry, year: Number.parseInt(entry.fields.year || "0", 10) || 0 }))
-    .sort((a, b) => b.year - a.year);
+  const entries = parseBibtex(bibSource).map((entry) => ({ ...entry, year: Number.parseInt(entry.fields.year || "0", 10) || 0, versions: [] }));
+  // An entry with `related = {key}` is an earlier version (preprint, abstract) and is listed under that key's entry.
+  const byKey = new Map(entries.map((e) => [e.key, e]));
+  for (const e of entries) byKey.get(e.fields.related)?.versions.push(e);
+  const publications = entries.filter((e) => !byKey.has(e.fields.related)).sort((a, b) => b.year - a.year);
 
   const cssFile = await buildCss();
   const html = renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile });
