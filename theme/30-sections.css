@@ -2,7 +2,7 @@
 .hero { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding: clamp(2.5rem, 7vh, 4rem) 0 0; text-align: center; }
 .id-row { display: flex; align-items: center; justify-content: center; gap: clamp(0.9rem, 2.5vw, 1.4rem); }
 .portrait {
-  width: clamp(4.5rem, 10vw, 6rem); height: auto; aspect-ratio: 1; object-fit: cover; flex: none;
+  width: clamp(5.5rem, 12vw, 7.5rem); height: auto; aspect-ratio: 1; object-fit: cover; flex: none;
   border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--line);
 }
 .id-text { text-align: center; }

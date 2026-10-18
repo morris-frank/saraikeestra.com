@@ -12,7 +12,8 @@
 
 :root {
   /* paper & ink */
-  --paper: #fffefb;
+  --paper: #fff;
+  --card: #fdfdff;
   --paper-2: #f6f2ec;
   --ink: #2d2825;
   --ink-2: #554a44;
