@@ -381,7 +381,7 @@ function renderWriting(content, num) {
         </div>
         <div class="card appearances">
           <h3 class="mini-head">${escapeHtml(content.mediaHeading)}</h3>
-          <ul class="compact-list">${media}</ul>
+          <details class="m-reveal" open><summary>Show all</summary><ul class="compact-list">${media}</ul></details>
         </div>
       </div>
       <div class="col">
@@ -394,7 +394,7 @@ function renderWriting(content, num) {
           <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
           <p>${escapeHtml(content.nemo.description)}</p>
         </div>
-        <ol class="compact-list dense">${nemo}</ol>
+        <details class="m-reveal" open><summary>Show all</summary><ol class="compact-list dense">${nemo}</ol></details>
       </div>
       </div>
     </div>
@@ -498,14 +498,13 @@ function renderPublication(entry, authorMatch, topics) {
   const doi = f.doi || "";
   const url = f.url || (doi ? `https://doi.org/${doi}` : "");
   const abstract = f.abstract && !/^N\/A$/i.test(f.abstract) ? f.abstract : "";
-  const search = `${title} ${authors.join(" ")} ${venue} ${f.year || ""}`.toLowerCase();
   const versions = entry.versions.map((v) => {
     const vurl = v.fields.url || (v.fields.doi ? `https://doi.org/${v.fields.doi}` : "");
     const label = `${{ inproceedings: "Abstract", techreport: "Report" }[v.type] || "Preprint"}: ${v.fields.journal || v.fields.publisher || ""} ${v.fields.year || ""}`.trim();
     return ` · <a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
   }).join("");
 
-  return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}" data-search="${escapeHtml(search)}"${src("bib")}>
+  return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}"${src("bib")}>
     <span class="year">${escapeHtml(f.year || "")}</span>
     <div class="pub-body">
       <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
@@ -541,11 +540,9 @@ function renderPublications(content, publications, num) {
     ${sectionHead(num, "Publications", content.title)}
     <div class="pub-controls">
       <div class="chips" role="group" aria-label="Filter by theme">${chips}</div>
-      <label class="search"><span class="sr-only">Search publications</span><input type="search" placeholder="Search titles, co-authors, journals…" /></label>
     </div>
     ${descs}
     <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topics)).join("")}</ol>
-    <p class="empty" hidden>No publications match that search.</p>
   </section>`;
 }
 
@@ -616,31 +613,27 @@ function renderPageScript(site) {
       b.addEventListener("click", function () { b.setAttribute("aria-expanded", b.getAttribute("aria-expanded") !== "true"); });
     });
 
-    // publications: theme chips + search
+    // publications: theme chips
     var chips = document.querySelectorAll("#publications .chip");
     var items = document.querySelectorAll(".pub");
     
     var descs = document.querySelectorAll(".topic-desc");
-    var input = document.querySelector("#publications input[type=search]");
-    var empty = document.querySelector("#publications .empty");
     var current = "all";
     function apply() {
-      var q = (input && input.value || "").trim().toLowerCase();
-      var shown = 0;
       items.forEach(function (it) {
-        var ok = (current === "all" || it.dataset.topic === current) && (!q || it.dataset.search.indexOf(q) > -1);
-        it.hidden = !ok; if (ok) shown++;
+        var ok = current === "all" || it.dataset.topic === current;
+        it.hidden = !ok;
       });
       descs.forEach(function (d) { d.hidden = d.dataset.topic !== current; });
       chips.forEach(function (c) { c.classList.toggle("is-on", c.dataset.filter === current); });
-      if (empty) empty.hidden = shown > 0;
     }
     function setFilter(f) { current = f; apply(); }
     chips.forEach(function (c) { c.addEventListener("click", function () {
       if (body.classList.contains("config-edit-mode")) return;
       setFilter(c.dataset.filter === current ? "all" : c.dataset.filter);
     }); });
-    if (input) input.addEventListener("input", apply);
+    // long media lists start collapsed on phones
+    if (matchMedia("(max-width: 56rem)").matches) document.querySelectorAll("details.m-reveal").forEach(function (d) { d.open = false; });
     document.querySelectorAll("a[data-filter]").forEach(function (a) {
       a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });
     });
