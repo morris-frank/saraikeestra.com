@@ -3,10 +3,10 @@
 .id-row { display: flex; align-items: center; justify-content: center; gap: clamp(0.9rem, 2.5vw, 1.4rem); }
 .portrait {
   width: clamp(5.5rem, 12vw, 7.5rem); height: auto; aspect-ratio: 1; object-fit: cover; flex: none;
-  border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--line);
+  border-radius: 50%; border: 3px solid var(--paper); box-shadow: 0 0 0 1px var(--line);
 }
 .id-text { text-align: center; }
-.hero h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 0.95; text-shadow: -1px 2px 0 #f3efef; }
+.hero h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 0.95; text-shadow: -1px 2px 0 var(--halo); }
 .role { font: 1rem var(--sans); color: var(--muted); margin-top: 0.15rem; }
 .tagline { max-width: 34rem; font-size: 1rem; color: var(--ink-2); }
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
@@ -109,10 +109,10 @@
 .video figcaption { text-align: center; font-size: 0.78rem; color: var(--muted); padding: 0.5rem 0 0.15rem; }
 .press .mini-head { text-align: center; }
 .press-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem 1.75rem; padding: 0.25rem 0; }
-.press-logos img { height: 1.35rem; width: auto; max-width: 7rem; filter: grayscale(1); opacity: 0.6; transition: opacity 0.2s, filter 0.2s; }
-.press-logos a:hover img { filter: none; opacity: 1; }
+.press-logos img { height: 1.35rem; width: auto; max-width: 7rem; filter: var(--logo-filter) grayscale(1); opacity: 0.6; transition: opacity 0.2s, filter 0.2s; }
+.press-logos a:hover img { filter: var(--logo-filter); opacity: 1; }
 .nemo-head { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.5rem; margin-bottom: 0.5rem; }
-.nemo-head img { width: 9rem; height: auto; }
+.nemo-head img { width: 9rem; height: auto; filter: var(--logo-filter); }
 /* phones: press, video, appearances, Kennislink; long lists behind a reveal */
 .m-reveal > summary { display: none; }
 @media (max-width: 56rem) {
@@ -128,7 +128,7 @@
 .step { display: grid; grid-template-columns: 5.4rem 1fr; gap: 0.9rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
 .step .year { padding-top: 0.2rem; }
 .step-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
-.step-head img { height: 1.6rem; width: auto; max-width: 4rem; object-fit: contain; opacity: 0.75; flex: none; }
+.step-head img { height: 1.6rem; width: auto; max-width: 4rem; object-fit: contain; opacity: 0.75; flex: none; filter: var(--logo-filter); }
 .step-title { font-size: 0.98rem; line-height: 1.35; }
 .institution { font: 0.82rem var(--sans); color: var(--muted); margin-top: 0.15rem; }
 .distinction { font: 0.72rem var(--sans); color: var(--plum); background: var(--plum-soft); border-radius: var(--radius-sm); padding: 0.05rem 0.5rem; white-space: nowrap; vertical-align: 0.1em; }
@@ -173,7 +173,7 @@ button.pub-authors .ellip { color: var(--rose); }
 .inst { padding: 0.75rem 0; border-top: 1px solid var(--line); }
 .inst-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.2rem; }
 .inst-name { font-weight: 500; }
-.inst-head img { height: 1.6rem; width: auto; max-width: 4.5rem; object-fit: contain; opacity: 0.75; }
+.inst-head img { height: 1.6rem; width: auto; max-width: 4.5rem; object-fit: contain; opacity: 0.75; filter: var(--logo-filter); }
 .inst-roles { list-style: none; }
 .inst-roles .step { border-top: 0; padding: 0.35rem 0; }
 
@@ -198,7 +198,7 @@ button.pub-authors .ellip { color: var(--rose); }
 .chapters-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; }
 .chapters-links a { color: var(--ink-2); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); white-space: nowrap; transition: background 0.2s, color 0.2s; }
 .chapters-links a:hover { background: var(--paper-2); text-decoration: none; }
-.chapters-links a.is-active { background: var(--ink); color: #fff; }
+.chapters-links a.is-active { background: var(--ink); color: var(--on-ink); }
 @media (max-width: 40rem) { .chapters-name { display: none; } .chapters { padding-left: 0.35rem; } }
 @media (prefers-reduced-motion: reduce) { .chapters, .chapters.is-visible { transition: none; } }
 

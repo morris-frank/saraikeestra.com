@@ -54,5 +54,39 @@
   --radius-sm: 0.2rem 0.3rem 0.22rem 0.32rem / 0.3rem 0.2rem 0.32rem 0.22rem;
 
   --shadow: none;
+  --halo: #f3efef;   /* h1 offset shadow */
+  --on-ink: #fff;    /* text on an ink fill */
+  --logo-filter: none;
   color-scheme: light;
+}
+
+/* dark mode follows the system setting */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1c1a1d;
+    --card: #232026;
+    --paper-2: #2b272e;
+    --ink: #ece6e1;
+    --ink-2: #c9bfb8;
+    --muted: #9a8f88;
+    --line: rgb(236 230 225 / 0.14);
+    --line-strong: rgb(236 230 225 / 0.26);
+    --line-faint: rgb(236 230 225 / 0.07);
+
+    --rose: #b9a0e0;
+    --iodine: #b9a0e0;
+    --terracotta: #d98a7c;
+    --rose-soft: #3a3049;
+    --plum: #d6a4b8;
+    --plum-soft: #3f2d35;
+    --sage: #93b3a1;
+    --sage-soft: #2c3a32;
+    --t3: #8fb0cf;
+    --ochre: #d0a35e;
+
+    --halo: #000;
+    --on-ink: #1c1a1d;
+    --logo-filter: brightness(0) invert(1);  /* flatten logos to white */
+    color-scheme: dark;
+  }
 }
