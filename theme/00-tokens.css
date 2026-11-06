@@ -63,7 +63,7 @@
 /* dark mode follows the system setting */
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #1c1a1d;
+    --paper: #1b1b1b;
     --card: #232026;
     --paper-2: #2b272e;
     --ink: #ece6e1;
