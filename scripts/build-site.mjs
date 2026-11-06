@@ -371,7 +371,7 @@ function renderWriting(content, num) {
     <div class="split split-even">
       <div class="col">
         <div class="card press">
-          <h3 class="mini-head">Research featured in</h3>
+          <h3 class="mini-head">Featured in</h3>
           <div class="press-logos"${src("scicomm")}>${logos}</div>
         </div>
         <div class="card appearances">
