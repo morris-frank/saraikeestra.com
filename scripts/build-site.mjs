@@ -657,6 +657,7 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <link rel="stylesheet" href="${escapeHtml(cssFile)}" />
   <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
   <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+  <script defer src="https://analytics.maurice-frank.com/script.js" data-website-id="ef525727-3e23-4961-80db-a3783b7d36e8" data-domains="sarai-keestra.com"></script>
   <title>${escapeHtml(site.pageTitle)}</title>
 </head>
 <body id="top">
