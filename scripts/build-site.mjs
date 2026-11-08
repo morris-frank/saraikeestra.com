@@ -356,7 +356,7 @@ function renderWriting(content, num) {
     </a>`)
     .join("");
   const media = [...content.media]
-    .sort((a, b) => b.year - a.year)
+    .sort((a, b) => String(b.date ?? b.year).localeCompare(String(a.date ?? a.year)))
     .map((item) => `<li${src("scicomm")}>
       <span class="year">${escapeHtml(item.year)}</span>
       <div>
