@@ -200,6 +200,7 @@ button.pub-authors .ellip { color: var(--rose); }
 .chapters-links a { color: var(--ink-2); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); white-space: nowrap; transition: background 0.2s, color 0.2s; }
 .chapters-links a:hover { background: var(--paper-2); text-decoration: none; }
 .chapters-links a.is-active { background: var(--ink); color: var(--on-ink); }
+.chapters-links a:focus-visible { outline-offset: -2px; }  /* the strip scrolls, so an outer ring would be clipped */
 @media (max-width: 40rem) { .chapters-name { display: none; } .chapters { padding-left: 0.35rem; } }
 @media (prefers-reduced-motion: reduce) { .chapters, .chapters.is-visible { transition: none; } }
 

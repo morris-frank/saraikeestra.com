@@ -521,11 +521,11 @@ function renderPublication(entry, authorMatch, topics) {
 
 function renderPublications(content, publications, num) {
   const topics = topicMeta(content);
-  const chips = [`<button type="button" class="chip is-on" data-filter="all">All <span>${publications.length}</span></button>`]
+  const chips = [`<button type="button" class="chip is-on" aria-pressed="true" data-filter="all">All <span>${publications.length}</span></button>`]
     .concat(content.topics.map((t, i) => {
       const slug = slugifyTopic(t.name);
       const n = publications.filter((p) => slugifyTopic(p.fields.topic || "") === slug).length;
-      return `<button type="button" class="chip t-${i + 1}" data-filter="${escapeHtml(slug)}">${glyph(t.glyph)}${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
+      return `<button type="button" class="chip t-${i + 1}" aria-pressed="false" data-filter="${escapeHtml(slug)}">${glyph(t.glyph)}${escapeHtml(t.short || t.name)} <span>${n}</span></button>`;
     }))
     .join("");
   const descs = content.topics
@@ -589,7 +589,7 @@ function renderPageScript(site) {
       var spy = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (!e.isIntersecting) return;
-          spyLinks.forEach(function (l) { l.classList.toggle("is-active", l.dataset.spy === e.target.id); });
+          spyLinks.forEach(function (l) { var on = l.dataset.spy === e.target.id; l.classList.toggle("is-active", on); if (on) l.setAttribute("aria-current", "location"); else l.removeAttribute("aria-current"); });
         });
       }, { rootMargin: "-25% 0px -65% 0px" });
       spyLinks.forEach(function (l) { var t = document.getElementById(l.dataset.spy); if (t) spy.observe(t); });
@@ -598,10 +598,16 @@ function renderPageScript(site) {
     // about: fade the prose until clicked
     var prose = document.querySelector(".prose.is-clamped");
     var readMore = document.querySelector(".read-more");
-    function openProse() { prose.classList.remove("is-clamped"); readMore.hidden = true; }
+    function openProse() {
+      if (!prose.classList.contains("is-clamped")) return;
+      var hadFocus = document.activeElement === readMore;
+      prose.classList.remove("is-clamped"); readMore.hidden = true;
+      if (hadFocus) { prose.tabIndex = -1; prose.focus({ preventScroll: true }); }
+    }
     if (prose && readMore) {
       readMore.addEventListener("click", openProse);
       prose.addEventListener("click", function (e) { if (!e.target.closest("a")) openProse(); });
+      prose.addEventListener("focusin", openProse);
     }
 
     document.querySelectorAll("button.pub-authors").forEach(function (b) {
@@ -620,7 +626,7 @@ function renderPageScript(site) {
         it.hidden = !ok;
       });
       descs.forEach(function (d) { d.hidden = d.dataset.topic !== current; });
-      chips.forEach(function (c) { c.classList.toggle("is-on", c.dataset.filter === current); });
+      chips.forEach(function (c) { var on = c.dataset.filter === current; c.classList.toggle("is-on", on); c.setAttribute("aria-pressed", on); });
     }
     function setFilter(f) { current = f; apply(); }
     chips.forEach(function (c) { c.addEventListener("click", function () {
