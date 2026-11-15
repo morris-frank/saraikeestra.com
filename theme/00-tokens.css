@@ -17,7 +17,7 @@
   --paper-2: #f6f2ec;
   --ink: #2d2825;
   --ink-2: #554a44;
-  --muted: #857a72;
+  --muted: #7d726b;  /* ≥4.5:1 on paper and card */
   --line: rgb(45 40 37 / 0.12);
   --line-strong: rgb(45 40 37 / 0.22);
   --line-faint: rgb(45 40 37 / 0.06);

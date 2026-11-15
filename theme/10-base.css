@@ -31,6 +31,8 @@ a, .nemo a .en {
   transition: background-size 0.3s ease;
 }
 a:hover, .nemo a:hover .en { background-size: 100% 0.55em; }
+/* links inside running text match its colour contrast, so they also carry an underline */
+.prose a, .venue a, .footer a { text-decoration: underline 1px color-mix(in oklab, currentColor 45%, transparent); text-underline-offset: 0.18em; }
 @media (prefers-reduced-motion: reduce) { a { transition: none; } }
 a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
   outline: 2px solid var(--plum); outline-offset: 3px; border-radius: 4px;
