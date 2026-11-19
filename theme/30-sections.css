@@ -3,7 +3,7 @@
 .id-row { display: flex; align-items: center; justify-content: center; gap: clamp(0.9rem, 2.5vw, 1.4rem); }
 .portrait {
   width: clamp(5.5rem, 12vw, 7.5rem); height: auto; aspect-ratio: 1; object-fit: cover; flex: none;
-  border-radius: 50%; border: 3px solid var(--paper); box-shadow: 0 0 0 1px var(--line);
+  border-radius: 50%; corner-shape: round; border: 3px solid var(--paper); box-shadow: 0 0 0 1px var(--line);
 }
 .id-text { text-align: center; }
 .hero h1 { font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 0.95; text-shadow: -1px 2px 0 var(--halo); }
