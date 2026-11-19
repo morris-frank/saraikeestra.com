@@ -1,4 +1,4 @@
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; corner-shape: squircle; }
 * { margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
