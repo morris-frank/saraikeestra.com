@@ -182,6 +182,9 @@ const lastYear = (years = "") => {
   return Number.parseInt(all[all.length - 1], 10);
 };
 
+// "2020 - 2021" → "2020–21", so the year column stays narrow
+const shortYears = (years = "") => String(years).replace(/(\d{2})(\d{2})\s*-\s*\1(\d{2})/, "$1$2–$3").replace(/\s*-\s*/, "–");
+
 // Section headings use the plain section name so they match the contents strip.
 function sectionHead(_num, name, _title, intro = "") {
   return `<header class="section-head">
@@ -246,10 +249,10 @@ function renderNews(news) {
           ${feature.imageCredit ? `<figcaption>${escapeHtml(feature.imageCredit)}</figcaption>` : ""}
         </figure>` : ""}
         <div class="feature-body">
-          <h3>${escapeHtml(feature.title)} <span class="year">${escapeHtml(feature.year)}</span></h3>
+          <h3>${escapeHtml(feature.title)}</h3>
           <p class="feature-sub">${escapeHtml(feature.subtitle || "")}</p>
           ${feature.quote ? `<blockquote>
-            <p lang="${escapeHtml(feature.quoteLang || "en")}">“${escapeHtml(feature.quote)}”</p>
+            <p lang="${escapeHtml(feature.quoteLang || "en")}"><span class="brush">${escapeHtml(feature.quote)}</span></p>
             ${feature.quoteTranslation ? `<p class="translation">${escapeHtml(feature.quoteTranslation)}</p>` : ""}
           </blockquote>` : ""}
           <p class="feature-text">${escapeHtml(feature.text || "")}</p>
@@ -259,7 +262,7 @@ function renderNews(news) {
     : "";
   const cards = rest
     .map((item) => `<article class="card news-card${item.hand ? " hand" : ""}"${src("news")}>
-      <h3>${escapeHtml(item.title)} <span class="year">${escapeHtml(item.year)}</span></h3>
+      <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.text)}</p>
       ${item.url ? `<a class="more" href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.linkLabel || "Read more")} →</a>` : ""}
     </article>`)
@@ -304,41 +307,25 @@ function renderResearch(content, publications, num) {
     const slug = slugifyTopic(p.fields.topic || "Other");
     counts.set(slug, (counts.get(slug) || 0) + 1);
   }
+  const byKey = new Map(publications.map((p) => [p.key, p]));
+  const featured = (content.featured || []).map((key) => byKey.get(key)).filter(Boolean);
   const themes = content.topics
     .map((topic, index) => {
       const slug = slugifyTopic(topic.name);
+      const pick = featured.find((e) => slugifyTopic(e.fields.topic || "") === slug)?.fields;
+      const pickUrl = pick && (pick.url || (pick.doi ? `https://doi.org/${pick.doi}` : ""));
       return `<article class="card theme-card t-${index + 1}"${src("pubs")}>
         <div class="theme-top"><h3>${escapeHtml(topic.short || topic.name)}</h3>${glyph(topic.glyph)}</div>
         <p>${escapeHtml(topic.summary || topic.description)}</p>
+        ${pick ? `<p class="theme-pick">${pickUrl ? `<a href="${escapeHtml(pickUrl)}"${externalLinkAttrs}>${escapeHtml(pick.title)}</a>` : escapeHtml(pick.title)}<span class="venue">${escapeHtml([pick.journal || pick.booktitle || pick.publisher, pick.year].filter(Boolean).join(" · "))}</span></p>` : ""}
         <a class="more" href="#publications" data-filter="${escapeHtml(slug)}">${counts.get(slug) || 0} publications →</a>
       </article>`;
-    })
-    .join("");
-
-  const byKey = new Map(publications.map((p) => [p.key, p]));
-  const featured = (content.featured || [])
-    .map((key) => byKey.get(key))
-    .filter(Boolean)
-    .map((entry) => {
-      const f = entry.fields;
-      const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : "");
-      return `<li${src("bib")}>
-        <span class="year">${escapeHtml(f.year || "")}</span>
-        <div>
-          ${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(f.title)}</a>` : escapeHtml(f.title)}
-          <p class="venue">${escapeHtml(f.journal || f.booktitle || f.publisher || "")}</p>
-        </div>
-      </li>`;
     })
     .join("");
 
   return `<section id="research"${src("pubs")}>
     ${sectionHead(num, "Research", "Three connected threads")}
     <div class="grid-3">${themes}</div>
-    ${featured ? `<div class="card selected"${src("pubs")}>
-      <h3 class="mini-head">Selected work</h3>
-      <ol class="compact-list">${featured}</ol>
-    </div>` : ""}
   </section>`;
 }
 
@@ -370,26 +357,21 @@ function renderWriting(content, num) {
     ${sectionHead(num, "Writing & media", "Keeping the questions coming")}
     <div class="split split-even">
       <div class="col">
-        <div class="card press">
+        <div class="card press appearances">
           <h3 class="mini-head">Featured in</h3>
           <div class="press-logos"${src("scicomm")}>${logos}</div>
-        </div>
-        <div class="card appearances">
           <h3 class="mini-head">${escapeHtml(content.mediaHeading)}</h3>
-          <div class="m-reveal"><ul class="compact-list">${media}</ul><button type="button" class="m-more" aria-expanded="true">Show less</button></div>
+          <div class="m-reveal"><ul class="compact-list dense">${media}</ul><button type="button" class="m-more" aria-expanded="false" hidden>Show all</button></div>
         </div>
       </div>
       <div class="col">
-        <figure class="video card">
-          <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}"></video>
-          <figcaption>Faces of Science portrait · KNAW, De Jonge Akademie and NEMO</figcaption>
-        </figure>
       <div class="card nemo"${src("scicomm")}>
+        <video src="${escapeHtml(content.video.src)}" controls preload="none" poster="${escapeHtml(content.video.poster)}" aria-label="Faces of Science portrait · KNAW, De Jonge Akademie and NEMO"></video>
         <div class="nemo-head">
           <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
           <p>${escapeHtml(content.nemo.description)}</p>
         </div>
-        <div class="m-reveal"><ol class="compact-list dense">${nemo}</ol><button type="button" class="m-more" aria-expanded="true">Show less</button></div>
+        <div class="m-reveal"><ol class="compact-list dense">${nemo}</ol><button type="button" class="m-more" aria-expanded="false" hidden>Show all</button></div>
       </div>
       </div>
     </div>
@@ -407,7 +389,7 @@ function renderPathColumn(title, items, key) {
         item.supervisors ? `<p class="small"><em>Supervisors:</em> ${escapeHtml(item.supervisors.join("; "))}</p>` : ""
       ].join("");
       return `<li class="step"${src(key)}>
-        <span class="year">${escapeHtml(item.years)}</span>
+        <span class="year">${escapeHtml(shortYears(item.years))}</span>
         <div class="step-body">
           <div class="step-head">
             <div>
@@ -444,7 +426,7 @@ function renderPostsByInstitution(items) {
       </div>
       <ol class="inst-roles">${g.items
         .map((item) => `<li class="step">
-          <span class="year">${escapeHtml(item.years)}</span>
+          <span class="year">${escapeHtml(shortYears(item.years))}</span>
           <div class="step-body">
             <p class="step-title">${escapeHtml(item.title)}</p>
             ${item.description ? `<details><summary>More</summary><p>${escapeHtml(item.description)}</p></details>` : ""}
@@ -496,16 +478,16 @@ function renderPublication(entry, authorMatch, topics) {
   const versions = entry.versions.map((v) => {
     const vurl = v.fields.url || (v.fields.doi ? `https://doi.org/${v.fields.doi}` : "");
     const label = `${{ inproceedings: "Abstract", techreport: "Report" }[v.type] || "Preprint"}: ${v.fields.journal || v.fields.publisher || ""} ${v.fields.year || ""}`.trim();
-    return ` · <a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
-  }).join("");
+    return `<a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
+  }).join(" · ");
 
   return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}"${src("bib")}>
-    <span class="year">${escapeHtml(f.year || "")}</span>
+    <span class="year">${escapeHtml(f.year || "")}<span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span></span>
     <div class="pub-body">
-      <p class="pub-title"><span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span>${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
+      <p class="pub-title">${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
       <p class="pub-meta">${authors.length > 4
         ? `<button type="button" class="pub-authors" aria-expanded="false" title="Show all authors"><span class="a-short">${authorShort}</span><span class="a-full">${authors.map(fmt).join(", ")}</span></button>`
-        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}${versions}</span></p>
+        : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}</span>${versions ? `<span class="venue">${versions}</span>` : ""}</p>
       ${abstract || doi ? `<details name="pub">
         <summary>${abstract ? "Abstract" : "Details"}</summary>
         ${doi ? `<div class="badges">
@@ -637,10 +619,11 @@ function renderPageScript(site) {
     var phone = matchMedia("(max-width: 56rem)").matches;
     document.querySelectorAll(".m-reveal").forEach(function (r) {
       var btn = r.querySelector(".m-more"), card = r.closest(".card");
-      function set(c) { r.classList.toggle("is-collapsed", c); btn.setAttribute("aria-expanded", !c); btn.textContent = c ? "Show all" : "Show less"; }
-      if (phone) set(true);
-      btn.addEventListener("click", function (e) { e.stopPropagation(); set(!r.classList.contains("is-collapsed")); });
-      card.addEventListener("click", function (e) { if (r.classList.contains("is-collapsed") && !e.target.closest("a")) set(false); });
+      // expanding is one-way: the button goes once the list is open
+      function open() { r.classList.remove("is-collapsed"); btn.hidden = true; }
+      if (phone) { r.classList.add("is-collapsed"); btn.hidden = false; }
+      btn.addEventListener("click", function (e) { e.stopPropagation(); open(); });
+      card.addEventListener("click", function (e) { if (r.classList.contains("is-collapsed") && !e.target.closest("a, video")) open(); });
     });
     document.querySelectorAll("a[data-filter]").forEach(function (a) {
       a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });

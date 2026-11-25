@@ -80,7 +80,12 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
 }
 .footer p:last-child { justify-self: end; text-align: end; }
 .built { display: block; font-size: 0.72rem; opacity: 0.7; margin-top: 0.2rem; }
-@media (max-width: 40rem) { .footer { grid-template-columns: 1fr; justify-items: center; } .footer p:last-child { justify-self: center; text-align: center; } }
+/* phones: back to top, copyright, then the credit, close together */
+@media (max-width: 40rem) {
+  .footer { grid-template-columns: 1fr; justify-items: center; gap: 0.35rem; padding: 1.5rem 0 2rem; }
+  .footer p:nth-child(2) { order: -1; }
+  .footer p:last-child { justify-self: center; text-align: center; }
+}
 
 /* edit mode (unchanged behaviour) */
 .edit-indicator {
