@@ -28,11 +28,12 @@
 .feature h3 { font-size: 1.75rem; }
 .feature-sub { color: var(--ink-2); }
 .feature blockquote { margin: 0.3rem 0; }
-.feature blockquote p { font-style: italic; font-size: 1.05rem; line-height: 1.55; color: var(--ink); }
+.feature blockquote p { font-style: italic; font-size: 1.05rem; line-height: 1.4; color: #000; }
+@media (prefers-color-scheme: dark) { .feature blockquote p { color: #fff; } }
 /* marker-brush highlight behind each line of the quote */
 .brush {
-  --brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none' fill='%23d6c1ef'%3E%3Cpath fill-opacity='.8' d='M3 5C40 2 80 4 120 3s60 1 77-1l-1 7c2 3-1 6 1 9-40 0-80 1-118-1S20 18 2 17c-1-4 2-7 0-12z'/%3E%3Cpath fill-opacity='.45' d='M8 4c50-1 110 1 186-1l-2 3C130 6 70 5 9 7zM6 13c60 1 120 1 188 0l1 3c-70 1-130 1-189-1z'/%3E%3C/svg%3E");
-  background: var(--brush) no-repeat 0 55% / 100% 1.05em; padding: 0 0.25em;
+  --brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none' fill='%23e2d3f4'%3E%3Cpath fill-opacity='.8' d='M3 5C40 2 80 4 120 3s60 1 77-1l-1 7c2 3-1 6 1 9-40 0-80 1-118-1S20 18 2 17c-1-4 2-7 0-12z'/%3E%3Cpath fill-opacity='.45' d='M8 4c50-1 110 1 186-1l-2 3C130 6 70 5 9 7zM6 13c60 1 120 1 188 0l1 3c-70 1-130 1-189-1z'/%3E%3C/svg%3E");
+  background: var(--brush) no-repeat 0 55% / 100% 1.3em; padding: 0 0.25em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 @media (prefers-color-scheme: dark) { .brush { --brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none' fill='%234a3c5e'%3E%3Cpath fill-opacity='.8' d='M3 5C40 2 80 4 120 3s60 1 77-1l-1 7c2 3-1 6 1 9-40 0-80 1-118-1S20 18 2 17c-1-4 2-7 0-12z'/%3E%3Cpath fill-opacity='.45' d='M8 4c50-1 110 1 186-1l-2 3C130 6 70 5 9 7zM6 13c60 1 120 1 188 0l1 3c-70 1-130 1-189-1z'/%3E%3C/svg%3E"); } }
@@ -168,7 +169,8 @@ details[open] summary::before { content: "− "; }
 .pub { break-inside: avoid; display: grid; grid-template-columns: 2.3rem 1fr; gap: 0.5rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
 .pub .year { padding-top: 0.2rem; }
 .pub-title { font-size: 0.97rem; line-height: 1.38; }
-.pub-glyph { display: block; margin-top: 0.3rem; font-size: 1rem; line-height: 0; }
+.pub-glyph { display: inline-block; margin-left: 0.35em; vertical-align: -0.15em; }
+.pub-title .nowrap { white-space: nowrap; }
 .pub-title a { color: var(--ink); }
 .pub-title a:hover { color: var(--rose); }
 .pub-meta { display: flex; flex-direction: column; gap: 0.05rem; margin-top: 0.2rem; }

@@ -481,10 +481,13 @@ function renderPublication(entry, authorMatch, topics) {
     return `<a href="${escapeHtml(vurl)}"${externalLinkAttrs}>${escapeHtml(label)}</a>`;
   }).join(" · ");
 
+  // the topic glyph follows the last word and never wraps onto a line alone
+  const cut = title.lastIndexOf(" ") + 1;
+  const titleHtml = `${escapeHtml(title.slice(0, cut))}<span class="nowrap">${escapeHtml(title.slice(cut))}<span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span></span>`;
   return `<li class="pub t-${topics.get(slug)?.index || 0}" data-topic="${escapeHtml(slug)}"${src("bib")}>
-    <span class="year">${escapeHtml(f.year || "")}<span class="pub-glyph" title="${escapeHtml(topic)}">${glyph(topics.get(slug)?.glyph)}</span></span>
+    <span class="year">${escapeHtml(f.year || "")}</span>
     <div class="pub-body">
-      <p class="pub-title">${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${escapeHtml(title)}</a>` : escapeHtml(title)}</p>
+      <p class="pub-title">${url ? `<a href="${escapeHtml(url)}"${externalLinkAttrs}>${titleHtml}</a>` : titleHtml}</p>
       <p class="pub-meta">${authors.length > 4
         ? `<button type="button" class="pub-authors" aria-expanded="false" title="Show all authors"><span class="a-short">${authorShort}</span><span class="a-full">${authors.map(fmt).join(", ")}</span></button>`
         : `<span class="pub-authors">${authorShort}</span>`}<span class="venue">${escapeHtml(venue)}</span>${versions ? `<span class="venue">${versions}</span>` : ""}</p>
