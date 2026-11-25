@@ -12,9 +12,15 @@
 
 :root {
   /* paper & ink */
-  --paper: #fff;
-  --card: #fdfdff;
-  --paper-2: #f6f2ec;
+  /* surface stack: page (L94) < panel (L98) < raised white; recessed sits below the page */
+  --paper: lch(94.44 0.5 282);      /* level 0: page */
+  --panel: lch(97.94 0.5 282);      /* level 1: floating chapter menu */
+  --card: lch(100 0 282);           /* level 2: cards, pills */
+  --paper-2: lch(89.54 0.5 282);    /* recessed: hover wells, video placeholder */
+  --pill-on: lch(93.48 0.5 282);    /* active pill reads as pressed in */
+  --pill-hover: lch(95.54 0 282);
+  --card-border: lch(91.9 0 282);
+  --panel-border: lch(89.84 0 282);
   --ink: #2d2825;
   --ink-2: #554a44;
   --muted: #7d726b;  /* ≥4.5:1 on paper and card */
@@ -50,10 +56,11 @@
   --space: clamp(3.5rem, 7vw, 5.5rem);
 
   /* hand-made, slightly uneven corners */
-  --radius: 0.4rem 0.55rem 0.45rem 0.6rem / 0.55rem 0.4rem 0.6rem 0.45rem;
-  --radius-sm: 0.2rem 0.3rem 0.22rem 0.32rem / 0.3rem 0.2rem 0.32rem 0.22rem;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-panel: 12px;
 
-  --shadow: none;
+  --shadow: 0 3px 6px -2px lch(0 0 0 / 0.02), 0 1px 1px lch(0 0 0 / 0.04);
   --halo: #f3efef;   /* h1 offset shadow */
   --on-ink: #fff;    /* text on an ink fill */
   --logo-filter: none;
@@ -63,9 +70,15 @@
 /* dark mode follows the system setting */
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #1b1b1b;
-    --card: #232026;
-    --paper-2: #2b272e;
+    --paper: lch(9 0.5 282);
+    --panel: lch(12 0.5 282);
+    --card: lch(15 0.5 282);
+    --paper-2: lch(6 0.5 282);
+    --pill-on: lch(22 0.5 282);
+    --pill-hover: lch(19 0 282);
+    --card-border: lch(22 0 282);
+    --panel-border: lch(20 0 282);
+    --shadow: 0 3px 6px -2px lch(0 0 0 / 0.2), 0 1px 1px lch(0 0 0 / 0.3);
     --ink: #ece6e1;
     --ink-2: #c9bfb8;
     --muted: #9a8f88;

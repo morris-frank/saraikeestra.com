@@ -12,10 +12,10 @@
 .badge-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem; }
 .badge {
   font: 0.8rem var(--sans); color: var(--ink-2);
-  padding: 0.18rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card);
+  padding: 0.18rem 0.7rem; border: 0.5px solid transparent; border-radius: 9999px; background: var(--card);
 }
 .badge-line .badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; color: var(--ink); }
-.badge:hover { color: var(--rose); border-color: var(--rose); }
+.badge:hover { color: var(--rose); background: var(--pill-hover); }
 .badge, .chapters a, .press-logos a, .nemo-head a, .nemo .compact-list a { background-image: none; }
 
 /* ---------- lately (bento) ---------- */
@@ -160,7 +160,6 @@ details[open] summary::before { content: "− "; }
 .pub-controls { width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem 1rem; }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
 .chip .glyph { width: 1.05rem; height: 1.05rem; }
-.chip.is-on .glyph { color: var(--paper); }
 .topic-desc { max-width: var(--narrow); text-align: center; color: var(--ink-2); font-size: 0.92rem; }
 
 .pub-list { list-style: none; width: 100%; columns: 2 28rem; column-gap: 2.5rem; }
@@ -206,17 +205,17 @@ button.pub-authors .ellip { color: var(--rose); }
   position: fixed; top: 0.6rem; left: 50%; z-index: 50; transform: translateX(-50%);
   display: flex; align-items: center; gap: 0.9rem; max-width: calc(100vw - 1rem);
   padding: 0.3rem 0.35rem 0.3rem 0.9rem;
-  background: var(--card);
-  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); box-shadow: var(--shadow);
+  border: 0.5px solid var(--panel-border); border-radius: var(--radius-panel);
   font: 0.9rem var(--sans);
   opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0s linear 0.35s;
 }
 .chapters.is-visible { opacity: 1; visibility: visible; transition: opacity 0.35s ease; }
 .chapters-name { font: 400 1.35rem/1 var(--hand); color: var(--ink); white-space: nowrap; }
 .chapters-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; }
-.chapters-links a { color: var(--ink-2); padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); white-space: nowrap; transition: background 0.2s, color 0.2s; }
-.chapters-links a:hover { background: var(--paper-2); text-decoration: none; }
-.chapters-links a.is-active { background: var(--ink); color: var(--on-ink); }
+.chapters-links a { color: var(--ink-2); padding: 0.2rem 0.6rem; border-radius: 9999px; white-space: nowrap; transition: background 0.2s, color 0.2s; }
+.chapters-links a:hover { background: var(--pill-hover); text-decoration: none; }
+.chapters-links a.is-active { background: var(--pill-on); color: var(--ink); }
 .chapters-links a:focus-visible { outline-offset: -2px; }  /* the strip scrolls, so an outer ring would be clipped */
 @media (max-width: 40rem) { .chapters-name { display: none; } .chapters { padding-left: 0.35rem; } }
 @media (prefers-reduced-motion: reduce) { .chapters, .chapters.is-visible { transition: none; } }

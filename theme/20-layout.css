@@ -22,7 +22,7 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
 
 .card {
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 0.5px solid var(--card-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.25rem 1.4rem;
@@ -46,17 +46,17 @@ section { display: flex; flex-direction: column; align-items: center; gap: 1.5re
   display: inline-flex; align-items: center; gap: 0.45rem;
   font-size: 0.88rem;
   color: var(--ink-2);
-  background: color-mix(in oklab, var(--paper) 80%, transparent);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 0.5px solid transparent;
+  border-radius: 9999px;
   padding: 0.35rem 0.85rem;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 .chip span:not(.topic-dot) { color: var(--muted); font-variant-numeric: tabular-nums; }
-.chip:hover { border-color: var(--ink-2); }
-.chip.is-on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.chip.is-on span:not(.topic-dot) { color: color-mix(in oklab, var(--paper) 70%, transparent); }
+.chip:hover { background: var(--pill-hover); }
+/* chips sit on the page, so "on" uses the page-level well (like an active sidebar item) */
+.chip.is-on { background: var(--paper-2); color: var(--ink); }
 
 .dated-list { list-style: none; width: min(100%, var(--narrow)); display: flex; flex-direction: column; }
 .dated-list li {
