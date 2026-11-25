@@ -283,7 +283,7 @@ function renderAbout(home, num) {
     .join("");
   return `<section id="about"${src("home")}>
     ${sectionHead(num, "About", home.heading || "About")}
-    <div class="split">
+    <div class="card surface split">
       <div class="about-text">
         <div class="prose is-clamped">
           <p class="lead">${renderRichText(first.parts)}</p>
@@ -292,7 +292,7 @@ function renderAbout(home, num) {
         </div>
         <button type="button" class="read-more">Read more</button>
       </div>
-      <aside class="card glance" aria-label="At a glance">
+      <aside class="glance" aria-label="At a glance">
         <h3>At a glance</h3>
         <dl>${glance}</dl>
       </aside>
@@ -518,11 +518,13 @@ function renderPublications(content, publications, num) {
     .join("");
   return `<section id="publications"${src("pubs")}>
     ${sectionHead(num, "Publications", content.title)}
-    <div class="pub-controls">
-      <div class="chips" role="group" aria-label="Filter by theme">${chips}</div>
+    <div class="card surface pub-surface">
+      <div class="pub-controls">
+        <div class="chips" role="group" aria-label="Filter by theme">${chips}</div>
+      </div>
+      ${descs}
+      <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topics)).join("")}</ol>
     </div>
-    ${descs}
-    <ol class="pub-list">${publications.map((p) => renderPublication(p, content.authorMatch, topics)).join("")}</ol>
   </section>`;
 }
 
@@ -645,7 +647,7 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#f5f3f7" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#161618" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#070608" media="(prefers-color-scheme: dark)" />
   <meta name="description" content="${escapeHtml(site.description)}" />
   <meta name="keywords" content="${escapeHtml(site.keywords.join(", "))}" />
   <meta name="author" content="${escapeHtml(site.author)}" />

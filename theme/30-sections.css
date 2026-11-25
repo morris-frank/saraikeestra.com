@@ -77,7 +77,14 @@
 .prose .coronis { text-align: left; color: var(--muted); font-size: 1.4rem; line-height: 1; }
 .read-more { font: 500 0.9rem var(--sans); color: var(--rose); background: none; border: 0; cursor: pointer; margin-top: 0.5rem; }
 .read-more::after { content: " ↓"; }
-.glance { position: sticky; top: 5rem; }
+/* about and publications: one large surface each, headings stay on the page */
+.surface { width: 100%; padding: clamp(1.25rem, 3vw, 2rem); }
+.glance { position: sticky; top: 5rem; padding-left: 2rem; border-left: 0.5px solid var(--card-border); }
+.pub-surface { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+/* chips on the white surface: outlined at rest, filled well when on */
+.pub-surface .chip { background: transparent; border-color: var(--card-border); }
+.pub-surface .chip:hover { background: var(--pill-hover); }
+.pub-surface .chip.is-on { background: var(--paper-2); border-color: transparent; }
 .glance h3 { font-size: 1.7rem; margin-bottom: 0.4rem; }
 .glance dl { display: flex; flex-direction: column; }
 .glance dl > div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.75rem; padding: 0.6rem 0; border-top: 1px solid var(--line); }
