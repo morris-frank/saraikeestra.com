@@ -444,7 +444,7 @@ function renderPostsByInstitution(items) {
 function renderPath(education, experience, num) {
   const sort = (arr) => [...arr].sort((a, b) => lastYear(b.years) - lastYear(a.years));
   return `<section id="path"${src("education")}>
-    ${sectionHead(num, "Path", "From human sciences to the clinic")}
+    ${sectionHead(num, "Background", "From human sciences to the clinic")}
     <div class="split split-even">
       ${renderPathColumn(education.title, sort(education.items), "education")}
       ${renderPostsByInstitution(experience.items)}
