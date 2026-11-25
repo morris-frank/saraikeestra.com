@@ -258,7 +258,7 @@ function renderNews(news) {
       </article>`
     : "";
   const cards = rest
-    .map((item) => `<article class="card news-card"${src("news")}>
+    .map((item) => `<article class="card news-card${item.hand ? " hand" : ""}"${src("news")}>
       <h3>${escapeHtml(item.title)} <span class="year">${escapeHtml(item.year)}</span></h3>
       <p>${escapeHtml(item.text)}</p>
       ${item.url ? `<a class="more" href="${escapeHtml(item.url)}"${externalLinkAttrs}>${escapeHtml(item.linkLabel || "Read more")} →</a>` : ""}

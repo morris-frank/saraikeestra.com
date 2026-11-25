@@ -19,6 +19,7 @@
     },
     {
       "kind": "Milestone",
+      "hand": true,
       "year": "2026",
       "title": "Graduated as a medical doctor",
       "text": "Finished medical school at Amsterdam UMC in May 2026. The PhD on iodine and thyroid health in the first thousand days continues."
