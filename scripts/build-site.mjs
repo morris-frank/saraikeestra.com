@@ -376,7 +376,7 @@ function renderWriting(content, num) {
         </div>
         <div class="card appearances">
           <h3 class="mini-head">${escapeHtml(content.mediaHeading)}</h3>
-          <details class="m-reveal" open><summary>Show all</summary><ul class="compact-list">${media}</ul></details>
+          <div class="m-reveal"><ul class="compact-list">${media}</ul><button type="button" class="m-more" aria-expanded="true">Show less</button></div>
         </div>
       </div>
       <div class="col">
@@ -389,7 +389,7 @@ function renderWriting(content, num) {
           <a href="${escapeHtml(content.nemo.url)}"${externalLinkAttrs}><img src="logos/${escapeHtml(content.nemo.logo)}" alt="NEMO Kennislink" /></a>
           <p>${escapeHtml(content.nemo.description)}</p>
         </div>
-        <details class="m-reveal" open><summary>Show all</summary><ol class="compact-list dense">${nemo}</ol></details>
+        <div class="m-reveal"><ol class="compact-list dense">${nemo}</ol><button type="button" class="m-more" aria-expanded="true">Show less</button></div>
       </div>
       </div>
     </div>
@@ -633,8 +633,15 @@ function renderPageScript(site) {
       if (body.classList.contains("config-edit-mode")) return;
       setFilter(c.dataset.filter === current ? "all" : c.dataset.filter);
     }); });
-    // long media lists start collapsed on phones
-    if (matchMedia("(max-width: 56rem)").matches) document.querySelectorAll("details.m-reveal").forEach(function (d) { d.open = false; });
+    // long media lists show only their first item on phones; tapping the card reveals the rest
+    var phone = matchMedia("(max-width: 56rem)").matches;
+    document.querySelectorAll(".m-reveal").forEach(function (r) {
+      var btn = r.querySelector(".m-more"), card = r.closest(".card");
+      function set(c) { r.classList.toggle("is-collapsed", c); btn.setAttribute("aria-expanded", !c); btn.textContent = c ? "Show all" : "Show less"; }
+      if (phone) set(true);
+      btn.addEventListener("click", function (e) { e.stopPropagation(); set(!r.classList.contains("is-collapsed")); });
+      card.addEventListener("click", function (e) { if (r.classList.contains("is-collapsed") && !e.target.closest("a")) set(false); });
+    });
     document.querySelectorAll("a[data-filter]").forEach(function (a) {
       a.addEventListener("click", function () { if (!body.classList.contains("config-edit-mode")) setFilter(a.dataset.filter); });
     });
@@ -645,6 +652,7 @@ function renderPageScript(site) {
 
 function renderPage({ site, home, news, education, experience, scicomm, pubContent, publications, cssFile }) {
   const num = () => "";
+  const buildTime = new Date();
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -683,7 +691,7 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
   <footer class="footer"${src("site")}>
     <p>${escapeHtml(site.footer.copyright)}</p>
     <p><a href="#top">Back to top ↑</a></p>
-    <p>Made with <span class="heart"><svg viewBox="0 0 12 10" width="1.2em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3.42737 9.85944C3.29937 9.85944 3.19137 9.82344 3.10337 9.75144C2.93298 9.61513 2.96201 9.33041 3.04337 9.15144C3.4225 8.45635 2.65086 7.59538 2.21537 7.14744C1.42116 6.3163 0.494643 5.4989 0.151365 4.36344C-0.0733417 3.53951 -0.0656592 2.60166 0.295365 1.81944C0.495365 1.40344 0.763365 1.04344 1.09937 0.739437C1.44337 0.435437 1.82737 0.223437 2.25137 0.103437C2.83865 -0.0800899 3.534 -0.00158261 4.09937 0.199437C4.6695 0.397745 5.10699 0.764497 5.58737 1.11144C5.73137 1.21544 5.84337 1.26744 5.92337 1.26744C6.26505 1.26744 6.61988 0.854024 6.87137 0.667437C7.40954 0.257401 8.11279 0.0074371 8.79137 0.0074371C9.36736 0.0074371 9.87536 0.147437 10.3154 0.427437C10.7634 0.699437 11.1154 1.07144 11.3714 1.54344C11.6274 2.01544 11.7554 2.54744 11.7554 3.13944C11.7554 3.65144 11.6314 4.17544 11.3834 4.71144C10.411 6.78171 7.94345 8.29165 5.92337 9.17544C5.16716 9.52353 4.2789 9.85944 3.42737 9.85944Z"/></svg></span> by <a href="https://maurice-frank.com/"${externalLinkAttrs}>Maurice</a> on <a href="https://github.com/${escapeHtml(site.repo.owner)}/${escapeHtml(site.repo.name)}"${externalLinkAttrs}>GitHub</a></p>
+    <p>Made with <span class="heart"><svg viewBox="0 0 12 10" width="1.2em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3.42737 9.85944C3.29937 9.85944 3.19137 9.82344 3.10337 9.75144C2.93298 9.61513 2.96201 9.33041 3.04337 9.15144C3.4225 8.45635 2.65086 7.59538 2.21537 7.14744C1.42116 6.3163 0.494643 5.4989 0.151365 4.36344C-0.0733417 3.53951 -0.0656592 2.60166 0.295365 1.81944C0.495365 1.40344 0.763365 1.04344 1.09937 0.739437C1.44337 0.435437 1.82737 0.223437 2.25137 0.103437C2.83865 -0.0800899 3.534 -0.00158261 4.09937 0.199437C4.6695 0.397745 5.10699 0.764497 5.58737 1.11144C5.73137 1.21544 5.84337 1.26744 5.92337 1.26744C6.26505 1.26744 6.61988 0.854024 6.87137 0.667437C7.40954 0.257401 8.11279 0.0074371 8.79137 0.0074371C9.36736 0.0074371 9.87536 0.147437 10.3154 0.427437C10.7634 0.699437 11.1154 1.07144 11.3714 1.54344C11.6274 2.01544 11.7554 2.54744 11.7554 3.13944C11.7554 3.65144 11.6314 4.17544 11.3834 4.71144C10.411 6.78171 7.94345 8.29165 5.92337 9.17544C5.16716 9.52353 4.2789 9.85944 3.42737 9.85944Z"/></svg></span> by <a href="https://maurice-frank.com/"${externalLinkAttrs}>Maurice</a> on <a href="https://github.com/${escapeHtml(site.repo.owner)}/${escapeHtml(site.repo.name)}"${externalLinkAttrs}>GitHub</a><span class="built">Built <time datetime="${buildTime.toISOString()}">${escapeHtml(buildTime.toLocaleString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Amsterdam", timeZoneName: "short" }))}</time></span></p>
   </footer>
   ${renderPageScript(site)}
 </body>
