@@ -13,10 +13,10 @@
 :root {
   /* paper & ink */
   /* surface stack: page (L94) < panel (L98) < raised white; recessed sits below the page */
-  --paper: lch(94.44 0.5 282);      /* level 0: page */
-  --panel: lch(97.94 0.5 282);      /* level 1: floating chapter menu */
+  --paper: lch(96.6 1.6 305);       /* level 0: page */
+  --panel: lch(98.6 0.8 305);       /* level 1: floating chapter menu */
   --card: lch(100 0 282);           /* level 2: cards, pills */
-  --paper-2: lch(89.54 0.5 282);    /* recessed: hover wells, video placeholder */
+  --paper-2: lch(91.8 1.6 305);    /* recessed: hover wells, video placeholder */
   --pill-on: lch(93.48 0.5 282);    /* active pill reads as pressed in */
   --pill-hover: lch(95.54 0 282);
   --card-border: lch(91.9 0 282);

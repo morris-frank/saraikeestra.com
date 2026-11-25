@@ -644,7 +644,7 @@ function renderPage({ site, home, news, education, experience, scicomm, pubConte
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#ededef" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#f5f3f7" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161618" media="(prefers-color-scheme: dark)" />
   <meta name="description" content="${escapeHtml(site.description)}" />
   <meta name="keywords" content="${escapeHtml(site.keywords.join(", "))}" />
