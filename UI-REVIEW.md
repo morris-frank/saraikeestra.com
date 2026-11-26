@@ -1,83 +1,81 @@
 # UI detail review — sarai-keestra.com
 
-2026-11-15 · TypeUI UI-foundations and micro-interaction libraries · fixes applied in the same change
+2026-11-26 · re-review after the surface-stack, squircle and dark-token changes (since `1167ca3`) · review only, nothing applied
 
 ## 1. Scope and system
 
-- **Scope:** the whole site: one generated page (`scripts/build-site.mjs` → `public/index.html`) and `theme/*.css`.
-- **Stack:** a Node string-template generator, plain CSS split into four layers (tokens, base, layout, sections) and about 50 lines of inline vanilla JS. There is no framework and no component library.
-- **Design-system source:** `theme/00-tokens.css` (colour roles, the hand/sans type pair, radii, light and dark themes via `prefers-color-scheme`). No `DESIGN.md` exists.
-- **Motion:** `0.2–0.35s ease` colour, opacity and background-size transitions. `prefers-reduced-motion` turns off smooth scroll, link transitions and the chapter-menu fade.
-- **Focus convention:** a global `:focus-visible` ring, `2px solid var(--plum)`, offset 3px (`theme/10-base.css:35`).
-- **Rendered vs read:** I only read the source. Headless Chrome would not start in the sandbox, so every rendered check is listed under §7. Contrast ratios are computed from token values.
+- **Scope:** the whole site: `scripts/build-site.mjs` (generated page + ~90 lines of inline JS) and `theme/*.css`.
+- **Stack:** Node string templates, four plain CSS layers, no framework.
+- **Design system:** sparse, in `theme/00-tokens.css`. Defined: colour (incl. a new 5-step surface ladder in `lch()` for light and dark), type pair (Caveat / Alegreya Sans), radii (6 / 10 / 12 / pill), one shadow per theme, gutter/space. Undefined: type scale, spacing scale, motion durations, press state.
+- **Motion:** 0.2–0.35s `ease` colour/opacity transitions; `prefers-reduced-motion` covers smooth scroll, link transitions and the chapter-menu fade.
+- **Focus:** global `2px solid var(--plum)`, offset 3px (`theme/10-base.css:32`).
+- **Rendered vs read:** read only. Contrast ratios are computed from the token values (CSS `lch()` → sRGB, D50→D65), not sampled from a render.
 
-## 2. Inventory
+## 2. Inventory (changed or new since the last review)
 
-| Component | File(s) | Instances | Category |
+| Element | Location | Role | Match |
 | --- | --- | --- | --- |
-| Theme filter chips | `build-site.mjs:524`, `30-sections.css:45` | 5 | 03-selection-controls |
-| Chapter menu (fixed, scroll-spy) | `build-site.mjs:209`, `30-sections.css:188` | 1 menu, 6 links | 08-navigation |
-| Profile badges | `build-site.mjs:195`, `30-sections.css:13` | social links | 01-buttons (links) |
-| Read more (about clamp) | `build-site.mjs:290`, `30-sections.css:62` | 1 | 01-buttons |
-| Author-list toggle | `build-site.mjs:507` | long author lists | 01-buttons |
-| `details` reveals (More, Abstract, Show all) | `build-site.mjs:379, 419, 509` | many | 09-lists |
-| Cards (feature, news, theme, glance) | `build-site.mjs:243–341` | ~10 | 11-cards |
-| Compact and dated lists, publications | `30-sections.css:92, 151` | 6 lists | 09-lists |
-| Inline prose links | `renderRichText`, `home.json` | 6 in About, plus venue and footer links | text |
+| Surface stack: page / panel / card / well | `00-tokens.css:13–23` | page frame, cards | direct (08, 19) |
+| Theme filter chips (on the publications surface) | `build-site.mjs:509`, `30-sections.css:96–100` | chooses a state | direct |
+| Chapter menu, active pill | `30-sections.css:205–216` | moves between views | direct |
+| Phone "Show all" reveal + card tap | `build-site.mjs:364, 374, 626–631`, `30-sections.css:150–156` | expands content | direct |
+| Read more (about clamp) | `build-site.mjs:293, 588–597` | expands content | direct |
+| Footer build time | `build-site.mjs:682`, `20-layout.css:62` | text | direct |
+| Inline prose links (highlight removed in `abaea65`) | `10-base.css:29` | triggers navigation | direct |
 
-## 3. Findings (all confirmed issues fixed)
+## 3. Findings
 
-| # | Rule | Component | Evidence | Problem | Fix applied |
+| # | Rule | Component | Evidence | Problem | Smallest fix |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `book-text/recognizable-links` + WCAG 1.4.1 | About prose, publication version links, footer | `10-base.css:27` (`text-decoration: none`) | In light mode, an inline link (`--rose` #5e3a8c) against prose (`--ink-2` #554a44) is **1.00:1**. The links are readable only by hue until hover. Venue and footer links reach about 2.0:1 against `--muted`. | A thin underline (45% of the link colour) on `.prose a, .venue a, .footer a`. The highlighter hover is unchanged. |
-| 2 | `input-contrast/text-contrast` | Every `--muted` text: years, venues, meta, institution, glance labels, captions, footer, chip counts | `00-tokens.css:20` | #857a72 is **4.18:1** on paper and **4.11:1** on card, and is used for 0.68–0.85rem text, below 4.5:1. | `--muted` changed to #7d726b (**4.68 / 4.60**). Same hue, one step darker. Dark theme already passes. |
-| 3 | `focus-visible/focus-visible` (clipping) | Chapter menu links | `30-sections.css:199` (`overflow-x: auto`) | The scroll strip has no padding, so the ring (3px offset plus 2px width) is clipped at its top and bottom. | `.chapters-links a:focus-visible { outline-offset: -2px }` keeps the ring inside the link. |
-| 4 | `focus-visible` (obscured) / WCAG 2.4.11 | About prose clamp | `30-sections.css:62`, `build-site.mjs:601` | While clamped, the links below the 17rem fade can still take keyboard focus but cannot be seen. Activating Read more hides the button and drops focus to `<body>`. | Focus inside the prose opens it. When the button had focus, focus moves to the opened prose (`tabIndex=-1`, `preventScroll`). |
-| 5 | `press-feedback/chip` (accessible state) | Theme filter chips | `build-site.mjs:524, 623` | The selected chip is shown only by fill. Screen readers get no pressed state. | `aria-pressed` is rendered and kept in sync with `is-on`. |
-| 6 | `08-navigation` state | Chapter menu scroll-spy | `build-site.mjs:592` | The active chapter is shown only by the ink fill. | `aria-current="location"` is set on the active link and removed from the others. |
+| 1 | WCAG 1.4.3 text contrast | All `--muted` text on the page and in active wells | `00-tokens.css:24` vs `:15` | The tinted page (`23563f8`) dropped `--muted` from 4.68 to **4.30:1** (hero `.role`, footer). Inside the selected chip (`--paper-2`) the count is **3.80:1**. | `--muted: #71665f` → 5.12 on page, 4.53 on the chip well, 5.57 on card. Dark already passes. |
+| 2 | WCAG 1.4.3 | Footer "Built …" line | `20-layout.css:62` (`opacity: 0.7`) | 0.72rem muted text at 70% opacity is **2.56:1** light, 3.58:1 dark. | Drop the `opacity`; size already makes it secondary. |
+| 3 | WCAG 2.4.3 focus order | Phone "Show all" buttons | `build-site.mjs:628` | `open()` hides the focused button, so keyboard/switch focus falls to `<body>`. Same defect the Read-more fix closed last round. | In `open()`, move focus to the first newly shown link (`r.querySelector("li:nth-child(2) a")?.focus()`), only when the button had focus. |
+| 4 | WCAG 1.4.11 non-text / `14-*` state | Selected theme chip | `30-sections.css:99` | Selected vs unselected is fill only: `--paper-2` vs white = **1.23:1** (dark 1.11). Text goes `--ink-2`→`--ink`, also subtle. `aria-pressed` covers AT, not sighted users. | Add a non-fill cue to `.chip.is-on`, e.g. `font-weight: 500` or an inset `--line-strong` border. |
+| 5 | WCAG 1.4.11 / navigation state | Chapter menu active pill | `30-sections.css:212` | Current chapter is `--pill-on` on `--panel` = **1.14:1** (dark 1.29). | Same cue as #4 (weight 500), so the two pill controls share one "on" language. |
 
-Already working: the global focus ring (8.4:1 light, 8.1:1 dark), reduced-motion handling, `aria-expanded` on the author toggle, the hidden chapter menu using `visibility` (so it cannot take focus), and 24px targets for chips and badges (computed heights of about 34px and 28px).
+Already working: focus ring on the new surfaces (7.7:1 light page, 8.2–9.3:1 dark), `--ink-2` and `--rose` on the tinted page (7.9 / 7.8), topic `.more` colours on card (4.6–5.4 light, 6.5–7.5 dark), the clipped-ring fix on chapter links, the Read-more focus hand-off, `aria-pressed` / `aria-current` sync, reduced-motion coverage.
 
-Not fixed (deferred, one line each):
-- Sticky `:hover` highlight after a tap on touch devices. This is cosmetic, and fixing it would mean wrapping every hover rule in `@media (hover: hover)`.
-- The "More", "Abstract" and "Show all" summaries are 0.8rem text (about 20px tall). They likely pass WCAG 2.5.8 through its spacing exception. This is unverified.
+Not applicable: card-vs-page boundary (1.09:1) and outlined chip border (1.23:1). Both are decorative grouping; the label identifies the control.
+
+Deferred, one line each:
+- `.feature blockquote p` hard-codes `#000` / `#fff` (`30-sections.css:28–29`) instead of `--ink`; harmless, off-system.
+- `--on-ink` is defined but no longer used after the chip/chapter restyle.
 
 ## 4. Micro-interaction proposals
 
-None applied. Every user action on the page already gives immediate, unambiguous feedback: a chip fills, a `details` toggles its +/− sign, the chapter link fills, and the highlighter sweeps on hover. Nothing is async apart from the native `<video>` controls. Considered and rejected:
-- A press scale on chips. The system has no press language, and selection is already instant.
-- Animating the publication-list filter. This is decoration on an instant result.
+1. **Inline-link hover** (S). Since `abaea65` removed the highlighter, prose/venue/footer links have no hover change at all: colour stays `--rose`, underline stays at 45%. Hovering a link in the About text gives no sign it is live. Proposal: on `:hover` raise the underline to `currentColor` (100%) — `micro-interactions/buttons` link-hover pattern, reusing the existing 0.2s colour transition; reduced-motion already sets `transition: none`, so it becomes an instant swap.
+2. **Phone reveal hand-off** (S). Same change as finding #3; seen as feedback, the revealed list should be where focus and the eye land.
+
+Rejected (restrained register): press scale on chips and chapter pills (selection is instant and unambiguous); animating the publication filter or the list reveal (decoration on an instant result).
 
 ## 5. Contrast table (computed, not rounded up)
 
-| Element | FG | BG | Ratio | Requirement | Result |
+| Element | FG | BG | Ratio | Req. | Result |
 | --- | --- | --- | --- | --- | --- |
-| Muted text, light (before) | #857a72 | #ffffff | 4.18 | 4.5 | fail → fixed |
-| Muted text on card, light (before) | #857a72 | #fdfdff | 4.11 | 4.5 | fail → fixed |
-| Muted text, light (after) | #7d726b | #ffffff | 4.68 | 4.5 | pass |
-| Muted text on card, light (after) | #7d726b | #fdfdff | 4.60 | 4.5 | pass |
-| Body `--ink-2`, light | #554a44 | #ffffff | 8.57 | 4.5 | pass |
-| Link `--rose`, light | #5e3a8c | #ffffff | 8.54 | 4.5 | pass |
-| Link vs surrounding prose, light | #5e3a8c | #554a44 | 1.00 | 3:1 or non-colour cue | fail → underline |
-| Link vs surrounding prose, dark | #b9a0e0 | #c9bfb8 | 1.27 | 3:1 or non-colour cue | fail → underline |
-| Distinction badge, light | #6e3f52 | #eadde3 | 6.39 | 4.5 | pass |
-| Topic `.more` sage / terracotta / blue / ochre on card, light | — | #fdfdff | 4.56 / 4.60 / 5.32 / 4.88 | 4.5 | pass |
-| Muted text, dark | #9a8f88 | #1b1b1b | 5.46 | 4.5 | pass |
-| Muted text on card, dark | #9a8f88 | #232026 | 5.10 | 4.5 | pass |
-| Distinction badge, dark | #d6a4b8 | #3f2d35 | 6.02 | 4.5 | pass |
-| Active chip / chapter, dark | #1b1b1b | #ece6e1 | 13.9 | 4.5 | pass |
-| Focus ring, light / dark | plum | paper | 8.41 / 8.09 | 3:1 | pass |
-| Chip border (`--line-strong`), light | composite #d1d0cf | #ffffff | 1.54 | n/a: the label identifies the control | — |
+| Muted text on page, light | #7d726b | #f6f5f8 | 4.30 | 4.5 | **fail** |
+| Muted text on card, light | #7d726b | #ffffff | 4.68 | 4.5 | pass |
+| Muted count in selected chip, light | #7d726b | #e8e7ea | 3.80 | 4.5 | **fail** |
+| Muted in chapter active pill, light | #7d726b | #ececed | 3.97 | 4.5 | n/a (no muted text there today) |
+| Footer "Built" (muted @ 0.7), light | ≈#a19995 | #f6f5f8 | 2.56 | 4.5 | **fail** |
+| Footer "Built", dark | ≈#6f6762 | #0a090a | 3.58 | 4.5 | **fail** |
+| Proposed muted #71665f on page / well / card | #71665f | — | 5.12 / 4.53 / 5.57 | 4.5 | pass |
+| Body `--ink-2` on page, light | #554a44 | #f6f5f8 | 7.88 | 4.5 | pass |
+| Link `--rose` on page, light | #5e3a8c | #f6f5f8 | 7.84 | 4.5 | pass |
+| Focus ring on page, light / dark | plum | page | 7.73 / 9.32 | 3:1 | pass |
+| Selected vs unselected chip fill, light / dark | #e8e7ea / #242325 | #ffffff / #1a1a1b | 1.23 / 1.11 | 3:1 (state) | **fail** |
+| Active vs idle chapter pill, light / dark | #ececed / #2a292a | #fbfbfc / #121213 | 1.14 / 1.29 | 3:1 (state) | **fail** |
+| Muted on page / card / well, dark | #9a8f88 | #0a090a / #1a1a1b / #242325 | 6.30 / 5.52 / 4.97 | 4.5 | pass |
+| Topic `.more` terracotta / sage / ochre / blue on card, light | — | #ffffff | 4.68 / 4.63 / 4.96 / 5.40 | 4.5 | pass |
 
-## 6. Values the system does not define, and conflicts
+## 6. System grade and upstream values
 
-- **No press or active state token.** None was added.
-- **No underline token.** The link underline reuses `currentColor` at 45% through `color-mix`, the same mechanism the tokens already use for `--line-*`.
-- **Conflict:** the design convention of unadorned inline links meets WCAG 1.4.1. Accessibility won, using the quietest underline that still gives a non-colour cue.
+- **Grade:** sparse (colour, type families, radius, elevation defined; type scale, spacing scale, motion, press state not).
+- **Upstream values used:** none. Every proposed fix reuses an existing token or weight (`--line-strong`, font-weight 500, `currentColor`).
+- **Conflict:** the deliberately low-contrast surface ladder (fill-only "on" states) vs WCAG 1.4.11. Accessibility wins; the suggested fix adds a weight/border cue and leaves the ladder intact.
 
 ## 7. Unverified
 
-- Everything rendered: the actual underline appearance, the focus ring inside the chapter strip, and the focus behaviour of the prose clamp under real keyboard use. Headless Chrome did not start in the sandbox.
-- White figcaption text over the feature photo (`30-sections.css:26`). This depends on the image, so I could not compute it.
-- Forced-colours mode, 200% zoom, screen-reader announcement of `aria-pressed` and `aria-current`.
-- Third-party Altmetric and Dimensions badge popovers.
+- Everything rendered, incl. light/dark appearance of the new ladder and squircle corners (`corner-shape` is Chromium-only; other engines fall back to round).
+- Target size (WCAG 2.5.8): `.m-more` (~16px tall, 0.8rem, no padding), `.read-more` (~23px), chapter links (~24px). Likely pass via the spacing exception; needs a render.
+- Real keyboard pass of the phone reveal and card-tap behaviour; forced-colours (fill-only states vanish there too, which #4/#5 would also cover); 200% zoom.
+- White figcaption over the feature photo (image-dependent); third-party Altmetric/Dimensions popovers.
